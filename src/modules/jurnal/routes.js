@@ -102,4 +102,86 @@ router.post('/delete/:id', isAuthenticated, allowRoles('admin'), async (req, res
     }
 });
 
+// Rekap Jurnal
+router.get('/rekap', isAuthenticated, allowRoles('admin', 'kepala_sekolah', 'wali_kelas'), async (req, res) => {
+    try {
+        const { teacher_id, class_id, start_date, end_date } = req.query;
+
+        let params = [];
+        let conditions = [];
+
+        if (teacher_id) {
+            conditions.push('tj.teacher_id = ?');
+            params.push(teacher_id);
+        }
+        if (class_id) {
+            conditions.push('tj.class_id = ?');
+            params.push(class_id);
+        }
+        if (start_date) {
+            conditions.push('tj.teaching_date >= ?');
+            params.push(start_date);
+        }
+        if (end_date) {
+            conditions.push('tj.teaching_date <= ?');
+            params.push(end_date);
+        }
+
+        const whereClause = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
+
+        // Rekap per Guru
+        const [byTeacher] = await pool.query(
+            `SELECT t.full_name as teacher_name, COUNT(tj.id) as total,
+                    COUNT(DISTINCT tj.class_id) as total_classes,
+                    COUNT(DISTINCT tj.subject_id) as total_subjects
+             FROM teaching_journals tj
+             JOIN teachers t ON tj.teacher_id = t.id
+             ${whereClause}
+             GROUP BY tj.teacher_id, t.full_name
+             ORDER BY total DESC`,
+            params
+        );
+
+        // Rekap per Kelas
+        const [byClass] = await pool.query(
+            `SELECT c.class_name, c.grade_level, COUNT(tj.id) as total
+             FROM teaching_journals tj
+             JOIN classes c ON tj.class_id = c.id
+             ${whereClause}
+             GROUP BY tj.class_id, c.class_name, c.grade_level
+             ORDER BY c.grade_level, c.class_name`,
+            params
+        );
+
+        // Total keseluruhan
+        const [total] = await pool.query(
+            `SELECT COUNT(*) as total_jurnal,
+                    COUNT(DISTINCT teacher_id) as total_guru,
+                    COUNT(DISTINCT class_id) as total_kelas
+             FROM teaching_journals tj
+             ${whereClause}`,
+            params
+        );
+
+        const [teachers] = await pool.query('SELECT * FROM teachers');
+        const [classes] = await pool.query('SELECT * FROM classes');
+
+        res.render('jurnal/rekap', {
+            title: 'Rekap Jurnal Mengajar',
+            byTeacher,
+            byClass,
+            total: total[0],
+            teachers,
+            classes,
+            filters: { teacher_id, class_id, start_date, end_date },
+            userRole: req.session.user.role_name
+        });
+
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Gagal memuat rekap');
+        res.redirect('/jurnal');
+    }
+});
+
 module.exports = router;
