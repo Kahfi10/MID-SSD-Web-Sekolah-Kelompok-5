@@ -12,14 +12,25 @@ const upload = multer({ dest: path.join(__dirname, '../../public/uploads/') });
 
 router.get('/', isAuthenticated, allowRoles('admin', 'kepala_sekolah', 'wali_kelas'), async (req, res) => {
     try {
-        const [students] = await pool.query(
-            `SELECT s.*, c.class_name, c.grade_level 
+        const { search } = req.query;
+        let studentQuery, studentParams;
+        if (search) {
+            studentQuery = `SELECT s.*, c.class_name, c.grade_level 
              FROM students s 
              LEFT JOIN classes c ON s.class_id = c.id 
-             ORDER BY s.created_at DESC`
-        );
+             WHERE s.full_name LIKE ? OR s.nis LIKE ?
+             ORDER BY s.created_at DESC`;
+            studentParams = [`%${search}%`, `%${search}%`];
+        } else {
+            studentQuery = `SELECT s.*, c.class_name, c.grade_level 
+             FROM students s 
+             LEFT JOIN classes c ON s.class_id = c.id 
+             ORDER BY s.created_at DESC`;
+            studentParams = [];
+        }
+        const [students] = await pool.query(studentQuery, studentParams);
         const [classes] = await pool.query('SELECT * FROM classes');
-        res.render('kesiswaan/index', { title: 'Data Kesiswaan', students, classes });
+        res.render('kesiswaan/index', { title: 'Data Kesiswaan', students, classes, search });
     } catch (error) {
         console.error(error);
         req.flash('error', 'Gagal memuat data');

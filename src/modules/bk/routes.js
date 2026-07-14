@@ -7,7 +7,22 @@ const { allowRoles } = require('../../middleware/rbac');
 // Dashboard BK
 router.get('/', isAuthenticated, allowRoles('guru_bk', 'admin', 'kepala_sekolah'), async (req, res) => {
     try {
+        const { search } = req.query;
         const [bkTeacher] = await pool.query('SELECT id FROM teachers WHERE user_id = ?', [req.session.user.id]);
+
+        let caseCond = '', counselCond = '', violCond = '', achievCond = '';
+        let caseParams = [], counselParams = [], violParams = [], achievParams = [];
+
+        if (search) {
+            caseCond = 'WHERE (s.full_name LIKE ? OR bc.case_type LIKE ? OR bc.description LIKE ?)';
+            caseParams = [`%${search}%`, `%${search}%`, `%${search}%`];
+            counselCond = 'WHERE (s.full_name LIKE ? OR bcn.topic LIKE ?)';
+            counselParams = [`%${search}%`, `%${search}%`];
+            violCond = 'WHERE (s.full_name LIKE ? OR sv.violation_type LIKE ?)';
+            violParams = [`%${search}%`, `%${search}%`];
+            achievCond = 'WHERE (s.full_name LIKE ? OR sa.achievement_name LIKE ?)';
+            achievParams = [`%${search}%`, `%${search}%`];
+        }
 
         // Get cases
         const [cases] = await pool.query(
@@ -15,7 +30,8 @@ router.get('/', isAuthenticated, allowRoles('guru_bk', 'admin', 'kepala_sekolah'
              FROM bk_cases bc
              JOIN students s ON bc.student_id = s.id
              LEFT JOIN classes c ON s.class_id = c.id
-             ORDER BY bc.created_at DESC`
+             ${caseCond}
+             ORDER BY bc.created_at DESC`, caseParams
         );
 
         // Get counseling notes
@@ -23,7 +39,8 @@ router.get('/', isAuthenticated, allowRoles('guru_bk', 'admin', 'kepala_sekolah'
             `SELECT bcn.*, s.full_name as student_name, s.nis
              FROM bk_counseling_notes bcn
              JOIN students s ON bcn.student_id = s.id
-             ORDER BY bcn.created_at DESC`
+             ${counselCond}
+             ORDER BY bcn.created_at DESC`, counselParams
         );
 
         // Get violations
@@ -31,7 +48,8 @@ router.get('/', isAuthenticated, allowRoles('guru_bk', 'admin', 'kepala_sekolah'
             `SELECT sv.*, s.full_name as student_name, s.nis
              FROM student_violations sv
              JOIN students s ON sv.student_id = s.id
-             ORDER BY sv.created_at DESC`
+             ${violCond}
+             ORDER BY sv.created_at DESC`, violParams
         );
 
         // Get achievements
@@ -39,7 +57,8 @@ router.get('/', isAuthenticated, allowRoles('guru_bk', 'admin', 'kepala_sekolah'
             `SELECT sa.*, s.full_name as student_name, s.nis
              FROM student_achievements sa
              JOIN students s ON sa.student_id = s.id
-             ORDER BY sa.created_at DESC`
+             ${achievCond}
+             ORDER BY sa.created_at DESC`, achievParams
         );
 
         const [students] = await pool.query('SELECT * FROM students WHERE status = ?', ['aktif']);
@@ -51,7 +70,8 @@ router.get('/', isAuthenticated, allowRoles('guru_bk', 'admin', 'kepala_sekolah'
             violations,
             achievements,
             students,
-            bkTeacher: bkTeacher.length > 0 ? bkTeacher[0] : null
+            bkTeacher: bkTeacher.length > 0 ? bkTeacher[0] : null,
+            search
         });
 
     } catch (error) {

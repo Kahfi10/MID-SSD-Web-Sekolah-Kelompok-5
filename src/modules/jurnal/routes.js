@@ -6,32 +6,33 @@ const { allowRoles } = require('../../middleware/rbac');
 
 router.get('/', isAuthenticated, allowRoles('guru', 'admin', 'kepala_sekolah', 'wali_kelas'), async (req, res) => {
     try {
-        let query;
+        const { search } = req.query;
+        let conditions = [];
         let params = [];
 
         if (req.session.user.role_name === 'guru') {
-            // Get teacher ID for this user
             const [teacher] = await pool.query('SELECT id FROM teachers WHERE user_id = ?', [req.session.user.id]);
             if (teacher.length === 0) {
                 req.flash('error', 'Data guru tidak ditemukan');
                 return res.redirect('/dashboard');
             }
-            query = `SELECT tj.*, c.class_name, s.subject_name, t.full_name as teacher_name
-                     FROM teaching_journals tj
-                     JOIN classes c ON tj.class_id = c.id
-                     JOIN subjects s ON tj.subject_id = s.id
-                     JOIN teachers t ON tj.teacher_id = t.id
-                     WHERE tj.teacher_id = ?
-                     ORDER BY tj.teaching_date DESC`;
-            params = [teacher[0].id];
-        } else {
-            query = `SELECT tj.*, c.class_name, s.subject_name, t.full_name as teacher_name
-                     FROM teaching_journals tj
-                     JOIN classes c ON tj.class_id = c.id
-                     JOIN subjects s ON tj.subject_id = s.id
-                     JOIN teachers t ON tj.teacher_id = t.id
-                     ORDER BY tj.teaching_date DESC`;
+            conditions.push('tj.teacher_id = ?');
+            params.push(teacher[0].id);
         }
+
+        if (search) {
+            conditions.push('(tj.material LIKE ? OR c.class_name LIKE ? OR s.subject_name LIKE ? OR t.full_name LIKE ?)');
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+        }
+
+        const whereClause = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
+        const query = `SELECT tj.*, c.class_name, s.subject_name, t.full_name as teacher_name
+                 FROM teaching_journals tj
+                 JOIN classes c ON tj.class_id = c.id
+                 JOIN subjects s ON tj.subject_id = s.id
+                 JOIN teachers t ON tj.teacher_id = t.id
+                 ${whereClause}
+                 ORDER BY tj.teaching_date DESC`;
 
         const [journals] = await pool.query(query, params);
         const [classes] = await pool.query('SELECT * FROM classes');
@@ -46,7 +47,8 @@ router.get('/', isAuthenticated, allowRoles('guru', 'admin', 'kepala_sekolah', '
             subjects,
             teachers,
             semesters,
-            userRole: req.session.user.role_name
+            userRole: req.session.user.role_name,
+            search
         });
 
     } catch (error) {

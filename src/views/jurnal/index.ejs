@@ -17,6 +17,15 @@
     </div>
 </div>
 
+<form method="GET" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Cari materi, kelas, mapel, atau guru..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+        <% if (typeof search !== 'undefined' && search) { %>
+        <a href="/jurnal" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></a>
+        <% } %>
+    </div>
+</form>
 <div class="card">
     <div class="card-body p-0">
         <div class="table-responsive">

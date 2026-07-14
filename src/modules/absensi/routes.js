@@ -7,13 +7,14 @@ const { allowRoles } = require('../../middleware/rbac');
 // Daftar Absensi
 router.get('/', isAuthenticated, allowRoles('admin', 'kepala_sekolah', 'guru', 'wali_kelas'), async (req, res) => {
     try {
-        const { class_id, start_date, end_date } = req.query;
+        const { class_id, start_date, end_date, search } = req.query;
         let params = [];
         let conditions = [];
 
         if (class_id) { conditions.push('a.class_id = ?'); params.push(class_id); }
         if (start_date) { conditions.push('a.attendance_date >= ?'); params.push(start_date); }
         if (end_date) { conditions.push('a.attendance_date <= ?'); params.push(end_date); }
+        if (search) { conditions.push('(s.full_name LIKE ? OR s.nis LIKE ?)'); params.push(`%${search}%`, `%${search}%`); }
         const where = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
 
         const [attendances] = await pool.query(
@@ -47,7 +48,7 @@ router.get('/', isAuthenticated, allowRoles('admin', 'kepala_sekolah', 'guru', '
             attendances,
             classes,
             summary,
-            filters: { class_id, start_date, end_date }
+            filters: { class_id, start_date, end_date, search }
         });
     } catch (error) {
         console.error(error);

@@ -7,6 +7,15 @@
 
 <div class="card border-0 shadow-sm rounded-4">
     <div class="card-body">
+        <form method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Cari username, nama, atau email..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                <% if (typeof search !== 'undefined' && search) { %>
+                <a href="/users" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></a>
+                <% } %>
+            </div>
+        </form>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>

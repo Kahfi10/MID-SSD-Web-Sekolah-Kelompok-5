@@ -7,13 +7,23 @@ const { allowRoles } = require('../../middleware/rbac');
 
 router.get('/', isAuthenticated, allowRoles('admin'), async (req, res) => {
     try {
-        const [users] = await pool.query(
-            `SELECT u.*, r.name as role_name 
+        const { search } = req.query;
+        let userQuery, userParams;
+        if (search) {
+            userQuery = `SELECT u.*, r.name as role_name 
              FROM users u JOIN roles r ON u.role_id = r.id 
-             ORDER BY u.created_at DESC`
-        );
+             WHERE u.full_name LIKE ? OR u.username LIKE ? OR u.email LIKE ?
+             ORDER BY u.created_at DESC`;
+            userParams = [`%${search}%`, `%${search}%`, `%${search}%`];
+        } else {
+            userQuery = `SELECT u.*, r.name as role_name 
+             FROM users u JOIN roles r ON u.role_id = r.id 
+             ORDER BY u.created_at DESC`;
+            userParams = [];
+        }
+        const [users] = await pool.query(userQuery, userParams);
         const [roles] = await pool.query('SELECT * FROM roles');
-        res.render('users/index', { title: 'Manajemen Pengguna', users, roles });
+        res.render('users/index', { title: 'Manajemen Pengguna', users, roles, search });
     } catch (error) {
         console.error(error);
         req.flash('error', 'Gagal memuat data');
