@@ -115,8 +115,66 @@ async function seed() {
     // Schedules
     await connection.query("INSERT IGNORE INTO schedules (class_id, subject_id, teacher_id, day_of_week, start_time, end_time, semester_id) VALUES (1, 1, 1, 'Senin', '07:30:00', '09:00:00', 1), (1, 2, 2, 'Senin', '09:15:00', '10:45:00', 1), (1, 3, 3, 'Selasa', '07:30:00', '09:00:00', 1), (1, 4, 1, 'Rabu', '07:30:00', '09:00:00', 1), (3, 1, 1, 'Senin', '10:45:00', '12:15:00', 1), (3, 5, 4, 'Kamis', '07:30:00', '09:00:00', 1), (5, 1, 1, 'Jumat', '07:30:00', '09:00:00', 1)");
 
-    // Teaching Journals
-    await connection.query("INSERT IGNORE INTO teaching_journals (teacher_id, class_id, subject_id, teaching_date, material, method, notes, semester_id) VALUES (1, 1, 1, '2026-07-06', 'Persamaan Linear Satu Variabel', 'Ceramah dan diskusi', 'Siswa aktif bertanya', 1), (1, 3, 1, '2026-07-07', 'Fungsi Kuadrat', 'Praktik soal', 'Materi selesai tepat waktu', 1), (2, 1, 2, '2026-07-06', 'Teks Deskripsi', 'Membaca dan menganalisis', 'Siswa mampu mengidentifikasi', 1), (3, 1, 3, '2026-07-07', 'Greetings and Introductions', 'Role play', 'Siswa antusias', 1), (1, 5, 1, '2026-07-10', 'Limit Fungsi', 'Ceramah dan latihan', 'Materi dilanjutkan pertemuan berikutnya', 1)");
+    // Teaching Journals (bulk generate)
+    const journalMaterials = {
+        1: ['Persamaan Linear', 'Fungsi Kuadrat', 'Limit Fungsi', 'Turunan', 'Integral', 'Matriks', 'Logaritma', 'Trigonometri', 'Statistika', 'Peluang'],
+        2: ['Teks Deskripsi', 'Teks Narasi', 'Teks Eksposisi', 'Cerpen', 'Puisi', 'Novel', 'Drama', 'Karya Ilmiah', 'Surat Resmi', 'Laporan'],
+        3: ['Greetings', 'Tenses', 'Passive Voice', 'Report Text', 'Narrative Text', 'Descriptive Text', 'Procedure Text', 'Discussion Text', 'Grammar Review', 'Vocabulary'],
+        4: ['Gerak Lurus', 'Hukum Newton', 'Usaha dan Energi', 'Listrik Dinamis', 'Gelombang', 'Optik', 'Termodinamika', 'Medan Magnet', 'Fisika Inti', 'Relativitas'],
+        5: ['Hukum Dasar Kimia', 'Stoikiometri', 'Larutan Asam Basa', 'Termokimia', 'Laju Reaksi', 'Kesetimbangan Kimia', 'Kimia Organik', 'Koloid', 'Elektrokimia', 'Kimia Lingkungan'],
+        6: ['Sel', 'Jaringan Tumbuhan', 'Sistem Peredaran Darah', 'Sistem Pernapasan', 'Ekologi', 'Genetika', 'Evolusi', 'Bioteknologi', 'Sistem Saraf', 'Hormon'],
+        7: ['Kerajaan Hindu-Buddha', 'Kerajaan Islam', 'Kolonialisme', 'Pergerakan Nasional', 'Proklamasi', 'Orde Lama', 'Orde Baru', 'Reformasi', 'Perang Dingin', 'Sejarah Dunia'],
+        8: ['Tauhid', 'Fiqih Ibadah', 'Al-Quran Hadits', 'Akhlak', 'Sejarah Islam', 'Muamalah', 'Pernikahan', 'Warisan', 'Dakwah', 'Tasawuf'],
+        9: ['Pancasila', 'UUD 1945', 'Hak Asasi Manusia', 'Demokrasi', 'Sistem Pemerintahan', 'Bela Negara', 'Otonomi Daerah', 'Hukum', 'Globalisasi', 'Wawasan Nusantara'],
+        10: ['Bola Besar', 'Bola Kecil', 'Atletik', 'Senam', 'Renang', 'Bela Diri', 'Kebugaran', 'Pencak Silat', 'Bulu Tangkis', 'Basket']
+    };
+    const methods = ['Ceramah interaktif', 'Diskusi kelompok', 'Praktik langsung', 'Tanya jawab', 'Studi kasus', 'Demonstrasi', 'Simulasi', 'Proyek', 'Presentasi', 'Eksperimen'];
+    const notes = ['Siswa aktif berpartisipasi', 'Materi selesai tepat waktu', 'Dilanjutkan pertemuan berikutnya', 'Siswa antusias mengikuti', 'Ada beberapa siswa remedial', 'Pembelajaran efektif', 'Siswa mampu memahami materi', 'Perlu pengulangan minggu depan', 'Tugas rumah diberikan', 'Kuis diadakan di akhir sesi'];
+
+    // Map teacher_id -> subjects they teach (based on schedules + additional)
+    const teacherSubjects = {
+        1: [1, 4],       // Siti Rahmawati -> Matematika, Fisika
+        2: [2, 5],       // Bambang Suprapto -> B. Indonesia, Kimia
+        3: [3, 10],      // Dewi Sartika -> B. Inggris, Olahraga
+        4: [6, 8],       // Dian Permata -> Biologi, PAI
+        5: [7, 9],       // Rina Marlina -> Sejarah, PKN
+    };
+    const teacherClasses = {
+        1: [1, 3, 5],
+        2: [1, 4, 6],
+        3: [1, 3, 5],
+        4: [2, 4],
+        5: [1, 2, 5],
+    };
+
+    const journalValues = [];
+    const startDate = new Date('2026-07-01');
+    const endDate = new Date('2026-07-14');
+    let journalId = 1;
+
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        const day = d.getDay();
+        if (day === 0 || day === 6) continue; // skip weekend
+        const dateStr = d.toISOString().split('T')[0];
+
+        for (let tId = 1; tId <= 5; tId++) {
+            const subjects = teacherSubjects[tId] || [1];
+            const classes = teacherClasses[tId] || [1];
+            const subjId = subjects[(journalId + tId) % subjects.length];
+            const clsId = classes[(journalId + 2) % classes.length];
+            const matList = journalMaterials[subjId] || ['Materi Umum'];
+            const material = matList[(journalId + clsId) % matList.length];
+            const method = methods[(journalId + tId + clsId) % methods.length];
+            const note = notes[(journalId + clsId + subjId) % notes.length];
+            journalValues.push(`(${tId}, ${clsId}, ${subjId}, '${dateStr}', '${material}', '${method}', '${note}', 1)`);
+            journalId++;
+        }
+    }
+
+    if (journalValues.length > 0) {
+        await connection.query('INSERT IGNORE INTO teaching_journals (teacher_id, class_id, subject_id, teaching_date, material, method, notes, semester_id) VALUES ' + journalValues.join(', '));
+    }
+    console.log('Teaching journals created (' + journalValues.length + ' entries).');
 
     // Attendances (seed some sample data)
     const attendances = [
