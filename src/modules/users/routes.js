@@ -100,4 +100,24 @@ router.post('/delete/:id', isAuthenticated, allowRoles('admin'), async (req, res
     }
 });
 
+// Reset Password
+router.post('/reset-password/:id', isAuthenticated, allowRoles('admin'), async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash('password123', 10);
+        await pool.query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, req.params.id]);
+
+        await pool.query(
+            'INSERT INTO activity_logs (user_id, action, description, ip_address) VALUES (?, ?, ?, ?)',
+            [req.session.user.id, 'reset_password', `Reset password user ID ${req.params.id} ke default`, req.ip]
+        );
+
+        req.flash('success', 'Password berhasil direset ke "password123"');
+        res.redirect('/users');
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Gagal mereset password');
+        res.redirect('/users');
+    }
+});
+
 module.exports = router;

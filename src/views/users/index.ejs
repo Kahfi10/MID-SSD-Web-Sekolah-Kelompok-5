@@ -36,7 +36,10 @@
                         </td>
                         <td><small class="text-muted"><%= u.last_login || 'Belum pernah' %></small></td>
                         <td>
-                            <a href="/users/edit/<%= u.id %>" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                            <a href="/users/edit/<%= u.id %>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil"></i></a>
+                            <form action="/users/reset-password/<%= u.id %>" method="POST" class="d-inline" onsubmit="return confirm('Reset password user <%= u.username %> ke default?')">
+                                <button class="btn btn-sm btn-info" title="Reset Password"><i class="bi bi-key"></i></button>
+                            </form>
                             <form action="/users/delete/<%= u.id %>" method="POST" class="d-inline" onsubmit="return confirm('Hapus user ini?')">
                                 <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
                             </form>
