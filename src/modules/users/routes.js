@@ -140,4 +140,23 @@ router.post('/reset-password/:id', isAuthenticated, allowRoles('admin'), async (
     }
 });
 
+// Search suggestions API (JSON)
+router.get('/api/search', isAuthenticated, allowRoles('admin'), async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q || q.length < 2) return res.json([]);
+        const [users] = await pool.query(
+            `SELECT u.id, u.username, u.full_name, u.email, r.name as role_name
+             FROM users u JOIN roles r ON u.role_id = r.id
+             WHERE u.full_name LIKE ? OR u.username LIKE ? OR u.email LIKE ?
+             LIMIT 8`,
+            [`%${q}%`, `%${q}%`, `%${q}%`]
+        );
+        res.json(users);
+    } catch (error) {
+        console.error(error);
+        res.json([]);
+    }
+});
+
 module.exports = router;
