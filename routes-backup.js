@@ -200,4 +200,39 @@ router.post('/import', isAuthenticated, allowRoles('admin'), upload.single('file
         res.redirect('/kesiswaan');
     }
 });
+
+// Export Siswa CSV
+router.get('/export', isAuthenticated, allowRoles('admin', 'kepala_sekolah'), async (req, res) => {
+    try {
+        const [students] = await pool.query(
+            `SELECT s.nis, s.full_name, s.gender, s.birth_place, s.birth_date,
+                    s.address, s.phone, c.id as class_id, s.status
+             FROM students s
+             LEFT JOIN classes c ON s.class_id = c.id
+             ORDER BY s.nis`
+        );
+
+        const header = 'nis,full_name,gender,birth_place,birth_date,address,phone,class_id,status';
+        const rows = students.map(s =>
+            `"${s.nis}","${s.full_name}","${s.gender}","${s.birth_place || ''}","${s.birth_date || ''}","${(s.address || '').replace(/"/g, '""')}","${s.phone || ''}","${s.class_id || ''}","${s.status}"`
+        ).join('\n');
+
+        const csv = '\uFEFF' + header + '\n' + rows;
+
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+        res.setHeader('Content-Disposition', 'attachment; filename="data-siswa-export.csv"');
+        res.send(csv);
+
+        await pool.query(
+            'INSERT INTO activity_logs (user_id, action, description, ip_address) VALUES (?, ?, ?, ?)',
+            [req.session.user.id, 'export_students', `Export ${students.length} siswa ke CSV`, req.ip]
+        );
+
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Gagal export data');
+        res.redirect('/kesiswaan');
+    }
+});
+
 module.exports = router;
