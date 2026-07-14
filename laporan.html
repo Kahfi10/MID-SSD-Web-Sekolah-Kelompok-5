@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Laporan MID SSD - Web Sekolah Terintegrasi</title>
+<style>
+  @page { size: A4; margin: 2.5cm 2cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 12pt; line-height: 1.6; color: #1d1d1f; }
+  .page { width: 21cm; min-height: 29.7cm; padding: 2.5cm 2cm; margin: 0 auto; position: relative; }
+  .page-break { page-break-before: always; }
+  h1 { font-size: 20pt; text-align: center; margin-bottom: 6pt; }
+  h2 { font-size: 16pt; margin: 24pt 0 12pt; border-bottom: 2px solid #1d1d1f; padding-bottom: 4pt; }
+  h3 { font-size: 13pt; margin: 18pt 0 8pt; }
+  h4 { font-size: 12pt; margin: 12pt 0 6pt; }
+  p { margin-bottom: 8pt; text-align: justify; }
+  table { width: 100%; border-collapse: collapse; margin: 12pt 0; font-size: 10pt; }
+  th, td { border: 1px solid #86868b; padding: 6pt 8pt; text-align: left; }
+  th { background: #f5f5f7; font-weight: 600; }
+  ul, ol { margin: 6pt 0 6pt 24pt; }
+  li { margin-bottom: 4pt; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 27cm; text-align: center; }
+  .cover h1 { font-size: 22pt; margin-bottom: 16pt; }
+  .cover h2 { font-size: 16pt; border: none; font-weight: normal; margin-bottom: 30pt; }
+  .cover .info { margin-top: 40pt; font-size: 13pt; }
+  .cover .info p { text-align: center; margin-bottom: 4pt; }
+  .instruction { background: #fef3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 10pt 14pt; margin: 12pt 0; font-size: 10pt; }
+  .instruction strong { color: #856404; }
+  .ssd-box { background: #f5f5f7; border-left: 4px solid #1d1d1f; padding: 10pt 14pt; margin: 12pt 0; }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="page cover">
+  <h1>LAPORAN PROYEK MID SEMESTER</h1>
+  <h2>Perancangan dan Pengembangan Web Sekolah Terintegrasi<br>Berbasis Scalable System Design</h2>
+  <hr style="width:60%;border:1px solid #1d1d1f;margin:20pt auto;">
+  <div class="info">
+    <p><strong>Mata Kuliah:</strong> RPL-A Scalable System Design</p>
+    <p><strong>Dosen Pengampu:</strong> Pak Runal</p>
+    <p><strong>Kelompok 2 | TI 4A</strong></p>
+    <p style="margin-top:16pt;"><strong>Disusun Oleh:</strong></p>
+    <p>Ashabul Kahfi (105841108523)</p>
+    <p>Marhepi Rahmadani (105841109523)</p>
+    <p>Muh. Eka Andri Setiawan (105841110723)</p>
+    <p>Afra Muawiya (105841108423)</p>
+    <p>Alyah Saputri Bakri (105841107723)</p>
+  </div>
+  <p style="margin-top:40pt;font-size:11pt;color:#86868b;">Tahun Akademik 2025/2026</p>
+</div>
+
+<!-- ==================== 1-5: IDENTITAS ==================== -->
+<div class="page page-break">
+  <h2>1. Identitas Kelompok</h2>
+  <table>
+    <tr><th>No</th><th>Nama</th><th>NIM</th><th>Peran</th></tr>
+    <tr><td>1</td><td>Ashabul Kahfi</td><td>105841108523</td><td>System Analyst / Project Lead</td></tr>
+    <tr><td>2</td><td>Marhepi Rahmadani</td><td>105841109523</td><td>System Architect</td></tr>
+    <tr><td>3</td><td>Muh. Eka Andri Setiawan</td><td>105841110723</td><td>Database Designer</td></tr>
+    <tr><td>4</td><td>Afra Muawiya</td><td>105841108423</td><td>UI/UX & Documentation Designer</td></tr>
+    <tr><td>5</td><td>Alyah Saputri Bakri</td><td>105841107723</td><td>Security & Access Control Designer</td></tr>
+  </table>
+
+  <h2>2. Judul Proyek</h2>
+  <p><strong>Perancangan dan Pengembangan Web Sekolah Terintegrasi Berbasis Scalable System Design</strong></p>
+  <p>Nama Aplikasi: <strong>Web Sekolah Terintegrasi</strong></p>
+  <p>Repositori GitHub: <a href="https://github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5">https://github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5</a></p>
+
+  <h2>3. Pembagian Tugas</h2>
+  <table>
+    <tr><th>No</th><th>Peran</th><th>Tugas</th><th>PIC</th></tr>
+    <tr><td>1</td><td>System Analyst</td><td>Latar belakang, tujuan, analisis kebutuhan, alur sistem, use case</td><td>Ashabul Kahfi</td></tr>
+    <tr><td>2</td><td>System Architect</td><td>Arsitektur sistem, pembagian vCPU, load balancing, scaling strategy, monitoring, logging</td><td>Marhepi Rahmadani</td></tr>
+    <tr><td>3</td><td>Database Designer</td><td>Rancangan database, ERD, tabel, relasi, indeks, konsistensi data</td><td>Muh. Eka Andri Setiawan</td></tr>
+    <tr><td>4</td><td>UI/UX & Documentation</td><td>Rancangan tampilan, diagram pendukung, dokumentasi, laporan, video</td><td>Afra Muawiya</td></tr>
+    <tr><td>5</td><td>Security & Access Control</td><td>Role pengguna, pembatasan akses, audit log, autentikasi, mitigasi risiko</td><td>Alyah Saputri Bakri</td></tr>
+  </table>
+</div>
+
+<!-- ==================== 6-7: LATAR BELAKANG & TUJUAN ==================== -->
+<div class="page page-break">
+  <h2>4. Latar Belakang</h2>
+  <p>Banyak sekolah masih menggunakan sistem yang terpisah-pisah untuk mengelola jurnal mengajar, data siswa, data BK, absensi, dan laporan akademik. Setiap bagian menggunakan aplikasi atau catatan masing-masing tanpa integrasi data. Akibatnya sering terjadi data ganda, data tidak sinkron antar bagian, proses administrasi yang lambat, serta sulitnya membuat laporan terpadu.</p>
+  <p>Contoh nyata: data siswa yang sudah dicatat di bagian kesiswaan harus dimasukkan ulang oleh guru BK atau guru jurnal mengajar. Hal ini tidak efisien dan rawan kesalahan. Data siswa antara satu bagian dengan bagian lain bisa berbeda karena tidak ada integrasi database.</p>
+  <p>Oleh karena itu, kami merancang dan mengembangkan Web Sekolah Terintegrasi. Sistem ini menggabungkan beberapa modul penting sekolah dalam satu platform dengan satu database utama. Data siswa, guru, kelas, dan mata pelajaran cukup disimpan satu kali dan dapat digunakan bersama oleh semua modul. Sistem juga dirancang dengan prinsip <em>Scalable System Design</em> agar dapat berkembang seiring pertumbuhan jumlah siswa, guru, dan akses pengguna.</p>
+
+  <h2>5. Tujuan Proyek</h2>
+  <ol>
+    <li>Merancang dan mengembangkan web sekolah terintegrasi yang terdiri dari 5 modul utama (Manajemen Pengguna, Kesiswaan, Jurnal Mengajar, BK, Absensi).</li>
+    <li>Menerapkan satu database utama yang digunakan bersama oleh seluruh modul sehingga data konsisten dan tidak terduplikasi.</li>
+    <li>Menerapkan konsep Scalable System Design dalam arsitektur sistem, pembagian vCPU, strategi scaling, load balancing, caching, monitoring, dan logging.</li>
+    <li>Merancang hak akses pengguna berdasarkan role (Admin, Kepala Sekolah, Guru, Guru BK, Wali Kelas, Siswa, Orang Tua).</li>
+    <li>Membuat dokumentasi proyek yang sistematis dan mudah dipahami.</li>
+    <li>Mengunggah source code ke GitHub dan membuat video presentasi di YouTube.</li>
+  </ol>
+</div>
+
+<!-- ==================== 8-9: DESKRIPSI & DAFTAR MODUL ==================== -->
+<div class="page page-break">
+  <h2>6. Deskripsi Sistem</h2>
+  <p>Web Sekolah Terintegrasi adalah sistem informasi berbasis web yang dibangun menggunakan <strong>Node.js Express.js</strong> sebagai backend, <strong>MySQL</strong> sebagai database, <strong>Bootstrap 5</strong> sebagai framework frontend, dan <strong>EJS</strong> sebagai template engine. Sistem menggunakan pendekatan <em>Modular Monolith Architecture</em> di mana setiap modul memiliki router dan view sendiri tetapi berjalan dalam satu aplikasi.</p>
+  <p>Sistem mendukung 7 role pengguna dengan hak akses berbeda. Setiap modul dilindungi oleh middleware autentikasi dan RBAC (Role-Based Access Control). Semua aktivitas pengguna dicatat dalam tabel <code>activity_logs</code> untuk audit trail.</p>
+
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 1 - Tampilan Dashboard]</strong><br>
+    Buka http://localhost:3000, login sebagai admin dengan password123.<br>
+    Screenshot halaman Dashboard (tampilkan 6 kartu statistik + grafik Chart.js + log aktivitas).<br>
+    <strong>Letakkan di sini: setelah paragraf deskripsi sistem.</strong>
+  </div>
+
+  <h2>7. Daftar Modul yang Dibuat</h2>
+  <table>
+    <tr><th>No</th><th>Modul</th><th>Route Prefix</th><th>Deskripsi</th></tr>
+    <tr><td>1</td><td>Manajemen Pengguna</td><td>/users</td><td>CRUD pengguna, manajemen role, reset password, login/logout</td></tr>
+    <tr><td>2</td><td>Data Kesiswaan</td><td>/kesiswaan</td><td>CRUD siswa, kelola kelas, wali kelas, import/export CSV</td></tr>
+    <tr><td>3</td><td>Jurnal Mengajar</td><td>/jurnal</td><td>Input jurnal, pilih kelas/mapel, rekap jurnal per guru/kelas</td></tr>
+    <tr><td>4</td><td>Bimbingan Konseling</td><td>/bk</td><td>Catatan konseling, kasus, pelanggaran, prestasi, rekap BK</td></tr>
+    <tr><td>5</td><td>Absensi</td><td>/absensi</td><td>Input kehadiran per kelas/tanggal, rekap absensi per siswa</td></tr>
+  </table>
+
+  <h2>8. Fitur Setiap Modul</h2>
+
+  <h3>8.1 Modul Manajemen Pengguna</h3>
+  <ul>
+    <li>Login dan logout dengan session</li>
+    <li>Tambah, edit, hapus pengguna (admin only)</li>
+    <li>Manajemen role (7 role tersedia)</li>
+    <li>Reset password ke default</li>
+    <li>Audit log: semua aktivitas tercatat</li>
+  </ul>
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 2 - Manajemen Pengguna]</strong><br>
+    Buka /users, screenshot halaman daftar pengguna (tampilkan tabel dengan role, status, aksi).<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+
+  <h3>8.2 Modul Data Kesiswaan</h3>
+  <ul>
+    <li>Tambah, edit, hapus data siswa</li>
+    <li>Kelola data kelas</li>
+    <li>Kelola wali kelas</li>
+    <li>Filter status siswa (aktif, pindah, lulus, keluar)</li>
+    <li>Import data siswa dari CSV</li>
+    <li>Export data siswa ke CSV</li>
+  </ul>
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 3 - Data Kesiswaan]</strong><br>
+    Buka /kesiswaan, screenshot halaman daftar siswa (tampilkan tabel + tombol import/export).<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+
+  <h3>8.3 Modul Jurnal Mengajar</h3>
+  <ul>
+    <li>Input jurnal mengajar (pilih kelas, mapel, tanggal, materi, metode, catatan)</li>
+    <li>Riwayat jurnal mengajar</li>
+    <li>Rekap jurnal per guru atau per kelas dengan filter</li>
+  </ul>
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 4 - Jurnal Mengajar]</strong><br>
+    Buka /jurnal, login sebagai guru1, screenshot halaman jurnal (tampilkan tabel jurnal + tombol Input Jurnal).<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+
+  <h3>8.4 Modul BK</h3>
+  <ul>
+    <li>Input data konseling siswa</li>
+    <li>Input kasus BK</li>
+    <li>Input pelanggaran siswa</li>
+    <li>Input prestasi siswa</li>
+    <li>Rekap kasus BK per siswa/kelas</li>
+  </ul>
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 5 - BK]</strong><br>
+    Buka /bk, login sebagai guru_bk, screenshot halaman BK (tampilkan semua tab: Kasus, Konseling, Pelanggaran, Prestasi).<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+
+  <h3>8.5 Modul Absensi</h3>
+  <ul>
+    <li>Input kehadiran siswa per kelas dan tanggal</li>
+    <li>Status: Hadir, Sakit, Izin, Alpa</li>
+    <li>Filter absensi berdasarkan kelas dan rentang tanggal</li>
+    <li>Rekap absensi per siswa dengan persentase kehadiran</li>
+  </ul>
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 6 - Absensi]</strong><br>
+    Buka /absensi, screenshot halaman absensi (tampilkan summary cards + tabel detail).<br>
+    Lalu buka /absensi/rekap, screenshot halaman rekap (tampilkan progress bar persentase).<br>
+    <strong>Letakkan di sini (2 gambar).</strong>
+  </div>
+</div>
+
+<!-- ==================== 11: ARSITEKTUR ==================== -->
+<div class="page page-break">
+  <h2>9. Arsitektur Sistem</h2>
+  <p>Sistem menggunakan pendekatan <strong>Modular Monolith Architecture</strong>. Seluruh modul berjalan dalam satu aplikasi Express.js, tetapi setiap modul dipisahkan dalam direktori dan router masing-masing. Hal ini memudahkan pengembangan dan pemeliharaan, serta membuka jalan untuk pemisahan menjadi service terpisah di masa depan.</p>
+
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 7 - Diagram Arsitektur]</strong><br>
+    Buka docs/arsitektur.drawio di https://app.diagrams.net, export sebagai PNG.<br>
+    Tampilkan: 3 layer (Client → Application → Data) + 6 vCPU + alur request.<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+
+  <h3>9.1 Komponen Arsitektur</h3>
+  <table>
+    <tr><th>Layer</th><th>Komponen</th><th>Teknologi</th></tr>
+    <tr><td>Client</td><td>Browser pengguna</td><td>HTML, CSS, JS, Bootstrap 5</td></tr>
+    <tr><td>Application</td><td>Web Server + 5 Modul</td><td>Node.js, Express.js, EJS</td></tr>
+    <tr><td>Data</td><td>Database + Cache</td><td>MySQL, Redis (rencana)</td></tr>
+  </table>
+
+  <h2>10. Rancangan Pembagian vCPU</h2>
+  <table>
+    <tr><th>vCPU</th><th>Layanan</th><th>Alasan</th></tr>
+    <tr><td>vCPU 1</td><td>Web Server (Aplikasi Utama)</td><td>Menangani semua request HTTP, routing, rendering view</td></tr>
+    <tr><td>vCPU 2</td><td>Database Server (MySQL)</td><td>Penyimpanan data terpusat, performa query stabil</td></tr>
+    <tr><td>vCPU 3</td><td>Modul Jurnal Mengajar</td><td>Dipisahkan karena akses harian tinggi dari banyak guru</td></tr>
+    <tr><td>vCPU 4</td><td>Modul BK & Kesiswaan</td><td>Data sensitif dipisahkan untuk keamanan</td></tr>
+    <tr><td>vCPU 5</td><td>Load Balancer & Monitoring</td><td>Distribusi beban dan pemantauan performa</td></tr>
+    <tr><td>vCPU 6</td><td>Backup & Caching (Redis)</td><td>Cache data sering diakses, backup periodik</td></tr>
+  </table>
+  <p>Pembagian ini memungkinkan setiap modul dikembangkan, di-scale, dan di-maintain secara independen. Jika modul Jurnal Mengajar mengalami lonjakan akses, vCPU 3 dapat di-scale tanpa mengganggu modul lain.</p>
+
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 8 - Diagram vCPU]</strong><br>
+    Bisa gunakan diagram arsitektur yang sama (Gambar 7) karena di dalamnya sudah ada pembagian vCPU.<br>
+    Atau buat diagram terpisah menggunakan Canva/draw.io yang fokus pada 6 vCPU.<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+</div>
+
+<!-- ==================== 13-14: DATABASE ==================== -->
+<div class="page page-break">
+  <h2>11. Rancangan Database</h2>
+  <p>Database: <code>db_sekolah_ssd</code> (MySQL). Terdiri dari 16 tabel yang saling berelasi.</p>
+
+  <h3>11.1 Daftar Tabel</h3>
+  <table>
+    <tr><th>No</th><th>Nama Tabel</th><th>Fungsi</th></tr>
+    <tr><td>1</td><td>roles</td><td>Role pengguna (admin, kepala_sekolah, guru, guru_bk, wali_kelas, siswa, orang_tua)</td></tr>
+    <tr><td>2</td><td>users</td><td>Data akun pengguna (username, email, password hash, role_id, is_active)</td></tr>
+    <tr><td>3</td><td>academic_years</td><td>Tahun ajaran (misal: 2025/2026)</td></tr>
+    <tr><td>4</td><td>semesters</td><td>Semester (Ganjil/Genap) terhubung ke academic_years</td></tr>
+    <tr><td>5</td><td>teachers</td><td>Data guru (nip, full_name, phone, address, user_id)</td></tr>
+    <tr><td>6</td><td>classes</td><td>Data kelas (class_name, grade_level, homeroom_teacher_id)</td></tr>
+    <tr><td>7</td><td>subjects</td><td>Mata pelajaran (subject_name, subject_code)</td></tr>
+    <tr><td>8</td><td>students</td><td>Data siswa (nis, full_name, gender, class_id, status)</td></tr>
+    <tr><td>9</td><td>schedules</td><td>Jadwal pelajaran (class_id, subject_id, teacher_id, day, time)</td></tr>
+    <tr><td>10</td><td>teaching_journals</td><td>Jurnal mengajar (teacher_id, class_id, subject_id, tanggal, materi)</td></tr>
+    <tr><td>11</td><td>bk_cases</td><td>Kasus BK (student_id, teacher_id, case_type, status)</td></tr>
+    <tr><td>12</td><td>bk_counseling_notes</td><td>Catatan konseling (student_id, topic, note, follow_up)</td></tr>
+    <tr><td>13</td><td>student_violations</td><td>Pelanggaran siswa (student_id, violation_type, sanction)</td></tr>
+    <tr><td>14</td><td>student_achievements</td><td>Prestasi siswa (student_id, achievement_name, level)</td></tr>
+    <tr><td>15</td><td>attendances</td><td>Absensi (student_id, class_id, attendance_date, status)</td></tr>
+    <tr><td>16</td><td>activity_logs</td><td>Log aktivitas (user_id, action, description, ip_address)</td></tr>
+  </table>
+
+  <h3>11.2 Entity Relationship Diagram (ERD)</h3>
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 9 - ERD]</strong><br>
+    Buka docs/ERD.drawio di https://app.diagrams.net, export sebagai PNG.<br>
+    Tampilkan: 16 tabel lengkap dengan kolom kunci (PK, FK) dan relasi antar tabel.<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+
+  <h3>11.3 Relasi Utama</h3>
+  <ul>
+    <li><code>users.role_id</code> → <code>roles.id</code> (setiap user memiliki satu role)</li>
+    <li><code>students.class_id</code> → <code>classes.id</code> (siswa berada dalam satu kelas)</li>
+    <li><code>teachers.user_id</code> → <code>users.id</code> (setiap guru adalah user)</li>
+    <li><code>teaching_journals.teacher_id</code> → <code>teachers.id</code></li>
+    <li><code>bk_cases.student_id</code> → <code>students.id</code></li>
+    <li><code>attendances.student_id</code> → <code>students.id</code></li>
+    <li><code>activity_logs.user_id</code> → <code>users.id</code></li>
+  </ul>
+
+  <h3>11.4 Optimasi Database</h3>
+  <ul>
+    <li>Index pada kolom yang sering di-query: student_id, teacher_id, class_id, subject_id, attendance_date</li>
+    <li>Foreign key constraints untuk menjaga integritas referensial</li>
+    <li>Normalisasi data hingga 3NF (tidak ada duplikasi data)</li>
+    <li>Penggunaan ENUM untuk kolom dengan nilai tetap (status, gender, day_of_week)</li>
+  </ul>
+</div>
+
+<!-- ==================== 15: HAK AKSES ==================== -->
+<div class="page page-break">
+  <h2>12. Rancangan Hak Akses Pengguna (RBAC)</h2>
+  <p>Sistem menerapkan <strong>Role-Based Access Control (RBAC)</strong> melalui middleware <code>rbac.js</code>. Setiap route dilindungi oleh fungsi <code>allowRoles()</code> yang mendefinisikan role mana yang boleh mengakses.</p>
+
+  <table>
+    <tr><th>Role</th><th>Dashboard</th><th>Users</th><th>Kesiswaan</th><th>Jurnal</th><th>BK</th><th>Absensi</th></tr>
+    <tr><td>Admin</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Kepala Sekolah</td><td>✓</td><td>-</td><td>✓</td><td>✓ (rekap)</td><td>✓ (rekap)</td><td>✓ (rekap)</td></tr>
+    <tr><td>Guru</td><td>✓</td><td>-</td><td>-</td><td>✓ (input + riwayat)</td><td>-</td><td>✓</td></tr>
+    <tr><td>Guru BK</td><td>✓</td><td>-</td><td>-</td><td>-</td><td>✓</td><td>-</td></tr>
+    <tr><td>Wali Kelas</td><td>✓</td><td>-</td><td>✓</td><td>✓ (rekap)</td><td>-</td><td>✓</td></tr>
+    <tr><td>Siswa</td><td>✓</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+    <tr><td>Orang Tua</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+  </table>
+
+  <p>Implementasi RBAC menggunakan middleware <code>allowRoles()</code> yang memeriksa role pengguna dari session. Contoh: route POST /bk/cases/store hanya dapat diakses oleh guru_bk dan admin.</p>
+
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 10 - Tabel RBAC atau Screenshot RBAC]</strong><br>
+    Bisa screenshot kode middleware rbac.js dari src/middleware/rbac.js.<br>
+    Atau tampilkan tabel di atas sebagai gambar.<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+</div>
+
+<!-- ==================== 16-17: ALUR KERJA & USE CASE ==================== -->
+<div class="page page-break">
+  <h2>13. Alur Kerja Sistem</h2>
+  <ol>
+    <li><strong>Login:</strong> Pengguna membuka http://localhost:3000, memasukkan username dan password. Sistem memverifikasi kredensial dan membuat session.</li>
+    <li><strong>Dashboard:</strong> Setelah login, pengguna diarahkan ke dashboard yang menampilkan statistik, grafik, dan log aktivitas sesuai rolenya.</li>
+    <li><strong>Navigasi:</strong> Pengguna memilih modul melalui navbar. Menu yang tampil disesuaikan dengan role.</li>
+    <li><strong>Operasi Data:</strong> Pengguna dapat menambah, mengedit, menghapus data sesuai hak akses. Setiap perubahan dicatat ke activity_logs.</li>
+    <li><strong>Logout:</strong> Session dihapus, pengguna kembali ke halaman login.</li>
+  </ol>
+
+  <h2>14. Use Case Diagram</h2>
+  <div class="instruction">
+    <strong>[INSTRUKSI GAMBAR 11 - Use Case Diagram]</strong><br>
+    Buka docs/use-case.drawio di https://app.diagrams.net, export sebagai PNG.<br>
+    Tampilkan: 6 aktor + 15 use case + relasi.<br>
+    <strong>Letakkan di sini.</strong>
+  </div>
+
+  <h3>14.1 Use Case 1: Guru Mengisi Jurnal Mengajar</h3>
+  <p><strong>Aktor:</strong> Guru<br>
+  <strong>Alur:</strong> Guru login → pilih menu Jurnal → pilih kelas, mapel, tanggal, materi, metode → simpan → sistem mencatat jurnal ke database. Kepala sekolah atau wali kelas dapat melihat rekap jurnal.</p>
+
+  <h3>14.2 Use Case 2: Guru BK Mencatat Kasus Siswa</h3>
+  <p><strong>Aktor:</strong> Guru BK<br>
+  <strong>Alur:</strong> Guru BK login → pilih menu BK → cari siswa berdasarkan nama/NIS → catat kasus, konseling, pelanggaran, atau prestasi → simpan. Data hanya dapat diakses oleh guru BK, admin, dan kepala sekolah.</p>
+
+  <h3>14.3 Use Case 3: Admin Mengelola Data Siswa</h3>
+  <p><strong>Aktor:</strong> Admin<br>
+  <strong>Alur:</strong> Admin login → pilih menu Kesiswaan → tambah/edit/hapus data siswa, kelola kelas, wali kelas, status siswa → data otomatis tersedia untuk modul lain (jurnal, BK, absensi).</p>
+</div>
+
+<!-- ==================== 18: SSD ELEMENTS ==================== -->
+<div class="page page-break">
+  <h2>15. Penjelasan Unsur Scalable System Design</h2>
+
+  <div class="ssd-box">
+    <h3>15.1 Modular Architecture</h3>
+    <p>Sistem dibagi menjadi 5 modul terpisah (Pengguna, Kesiswaan, Jurnal, BK, Absensi). Setiap modul memiliki direktori, router, dan view sendiri. Jika ingin menambah modul baru (misal: modul Nilai), cukup buat folder baru di src/modules/, daftarkan route di app.js, dan tambahkan menu di navbar.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.2 Centralized Database</h3>
+    <p>Semua modul menggunakan satu database MySQL (<code>db_sekolah_ssd</code>). Data siswa cukup disimpan sekali di tabel <code>students</code> dan dapat digunakan oleh semua modul. Tidak ada duplikasi data, konsistensi terjaga.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.3 Load Balancing</h3>
+    <p>Load balancer (vCPU 5) mendistribusikan request pengguna ke server yang tepat. Jika banyak guru mengakses jurnal mengajar secara bersamaan, request dapat dibagi ke beberapa instance server.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.4 Horizontal Scaling</h3>
+    <p>Jika modul Jurnal Mengajar mengalami lonjakan akses, kita dapat menambah instance server untuk modul tersebut tanpa mengganggu modul lain. Arsitektur modular memungkinkan scaling per-modul.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.5 Vertical Scaling</h3>
+    <p>Server database dapat ditingkatkan kapasitas CPU, RAM, atau storage untuk menangani data yang semakin besar. MySQL dapat dikonfigurasi dengan buffer pool yang lebih besar untuk performa query.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.6 API-Based Integration</h3>
+    <p>Setiap modul menggunakan data bersama melalui query ke database yang sama. Di masa depan, modul dapat dipisah menjadi service mandiri yang berkomunikasi melalui REST API.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.7 Role-Based Access Control (RBAC)</h3>
+    <p>Middleware <code>allowRoles()</code> membatasi akses berdasarkan role. Guru tidak bisa mengakses data BK, siswa hanya bisa melihat dashboard, dan admin memiliki akses penuh.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.8 Database Optimization</h3>
+    <p>Index pada kolom <code>student_id</code>, <code>teacher_id</code>, <code>class_id</code>, <code>subject_id</code>, dan <code>attendance_date</code> mempercepat pencarian. Foreign key constraints menjaga integritas data. Normalisasi hingga 3NF mencegah redundansi.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.9 Caching</h3>
+    <p>Rencana implementasi Redis untuk cache data yang sering diakses: daftar kelas, guru, mapel, dan jadwal pelajaran. Cache mengurangi beban query ke database.</p>
+  </div>
+
+  <div class="ssd-box">
+    <h3>15.10 Monitoring & Logging</h3>
+    <p>Tabel <code>activity_logs</code> mencatat semua aktivitas pengguna (login, create, update, delete). Dashboard menampilkan log aktivitas terbaru. Monitoring performa server (CPU, RAM, request rate) direncanakan menggunakan tools seperti PM2 atau Grafana.</p>
+  </div>
+</div>
+
+<!-- ==================== 19: RISIKO ==================== -->
+<div class="page page-break">
+  <h2>16. Risiko Sistem dan Solusi</h2>
+  <table>
+    <tr><th>No</th><th>Risiko</th><th>Dampak</th><th>Solusi</th></tr>
+    <tr><td>1</td><td>Database menjadi bottleneck</td><td>Semua modul bergantung pada satu database, jika down semua sistem lumpuh</td><td>Implementasi read-replica, caching Redis, dan connection pooling</td></tr>
+    <tr><td>2</td><td>Data sensitif BK bocor</td><td>Pelanggaran privasi siswa</td><td>RBAC ketat, hanya guru_bk dan admin yang bisa akses modul BK</td></tr>
+    <tr><td>3</td><td>Server overload saat jam sibuk</td><td>Response lambat, timeout</td><td>Load balancing + horizontal scaling pada modul dengan beban tinggi</td></tr>
+    <tr><td>4</td><td>Kehilangan data</td><td>Data siswa, jurnal, BK hilang</td><td>Backup database periodik (vCPU 6), export data via CSV</td></tr>
+    <tr><td>5</td><td>SQL Injection</td><td>Data diretas atau diubah</td><td>Menggunakan prepared statements (parameterized queries) di semua query</td></tr>
+    <tr><td>6</td><td>Session hijacking</td><td>Akun pengguna dibajak</td><td>Session secret yang kuat, cookie maxAge terbatas, HTTPS</td></tr>
+  </table>
+</div>
+
+<!-- ==================== 20: ANALISIS ==================== -->
+<div class="page page-break">
+  <h2>17. Jawaban Pertanyaan Analisis (Bagian M)</h2>
+
+  <h3>1. Mengapa sistem web sekolah ini membutuhkan desain yang scalable?</h3>
+  <p>Karena sekolah akan terus berkembang. Jumlah siswa bertambah setiap tahun, jumlah guru bertambah, dan akses ke sistem meningkat terutama pada jam-jam sibuk (saat guru mengisi jurnal atau absensi). Tampa desain scalable, sistem akan lambat, error, atau bahkan down saat beban tinggi. Dalam proyek ini, skalabilitas diterapkan melalui pembagian vCPU, modular architecture, dan rencana caching.</p>
+
+  <h3>2. Apa masalah yang mungkin terjadi jika semua modul dibuat dalam satu aplikasi tanpa pembagian layanan?</h3>
+  <p>Masalah utama: (1) Jika satu modul error, seluruh sistem bisa terganggu. (2) Sulit melakukan scaling karena semua modul terikat dalam satu kode. (3) Deployment menjadi berat karena harus deploy seluruh aplikasi meskipun hanya mengubah satu modul. (4) Resource usage tidak efisien karena modul dengan beban rendah ikut menggunakan resource yang sama dengan modul beban tinggi.</p>
+
+  <h3>3. Bagaimana cara sistem menjaga konsistensi data jika semua modul menggunakan satu database?</h3>
+  <p>Dengan menggunakan foreign key constraints, transaction (BEGIN/COMMIT) untuk operasi multi-tabel, dan validasi data di sisi server sebelum insert/update. Contoh: saat input absensi, student_id harus valid (foreign key ke tabel students), sehingga tidak ada absensi untuk siswa yang tidak terdaftar.</p>
+
+  <h3>4. Modul mana yang paling mungkin mengalami beban akses paling tinggi? Jelaskan alasannya.</h3>
+  <p>Modul Jurnal Mengajar. Setiap hari, puluhan hingga ratusan guru login untuk mengisi jurnal pembelajaran. Intensitas akses tinggi terjadi pada jam-jam tertentu (pagi hari sebelum mengajar, siang setelah mengajar). Modul Absensi juga berpotensi tinggi karena diakses setiap hari oleh guru untuk mencatat kehadiran.</p>
+
+  <h3>5. Bagaimana strategi scaling yang tepat jika jumlah pengguna meningkat?</h3>
+  <p>Strategi <strong>horizontal scaling</strong>: menambah instance server untuk modul dengan beban tinggi (misal: Jurnal Mengajar dari 1 menjadi 2 server). <strong>Vertical scaling</strong>: meningkatkan spesifikasi server database (RAM, CPU). Kombinasi keduanya (hybrid scaling) adalah strategi paling optimal.</p>
+
+  <h3>6. Apa risiko dari penggunaan satu database terpusat?</h3>
+  <p>Risiko utama: (1) <strong>Single point of failure</strong> — jika database down, seluruh sistem lumpuh. (2) <strong>Bottleneck</strong> — semua query dari semua modul terpusat ke satu database. (3) <strong>Ukuran database membesar</strong> seiring waktu, memperlambat query. Solusi: replication (master-slave), caching, dan partitioning.</p>
+
+  <h3>7. Bagaimana cara mengurangi risiko database menjadi bottleneck?</h3>
+  <p>(1) Implementasi Redis cache untuk data yang jarang berubah (daftar kelas, guru, mapel). (2) Query optimization dengan index yang tepat. (3) Connection pooling menggunakan mysql2 pool. (4) Read-replica untuk query SELECT yang berat. (5) Database partitioning jika data sudah sangat besar.</p>
+
+  <h3>8. Bagaimana sistem membatasi akses data sensitif, terutama data BK?</h3>
+  <p>Menggunakan middleware RBAC <code>allowRoles('guru_bk', 'admin', 'kepala_sekolah')</code> pada route BK. Pengguna dengan role lain (guru biasa, siswa) akan diarahkan ke dashboard atau mendapat pesan error jika mencoba mengakses /bk. Data konseling, pelanggaran, dan prestasi hanya bisa diinput dan dilihat oleh guru BK dan admin.</p>
+
+  <h3>9. Bagaimana sistem tetap dapat dikembangkan jika sekolah ingin menambah modul baru?</h3>
+  <p>Karena menggunakan Modular Architecture, menambah modul baru sangat mudah: (1) Buat folder baru di src/modules/nama-modul/ dengan routes.js. (2) Buat folder view di src/views/nama-modul/. (3) Daftarkan route di src/app.js. (4) Tambahkan menu di navbar main.ejs. (5) Jika perlu tabel baru, tambahkan di schema.sql. Semua tanpa mengubah kode modul yang sudah ada.</p>
+
+  <h3>10. Bagaimana monitoring dan logging membantu menjaga kestabilan sistem?</h3>
+  <p>Tabel <code>activity_logs</code> mencatat setiap aktivitas pengguna (login, input data, edit, delete). Log ini berguna untuk: (1) Mendeteksi aktivitas mencurigakan (misal: banyak gagal login). (2) Audit trail untuk mengetahui siapa yang mengubah data. (3) Troubleshooting error. (4) Analisis penggunaan sistem (modul mana yang paling sering diakses). Dashboard menampilkan 10 aktivitas terbaru untuk monitoring real-time.</p>
+</div>
+
+<!-- ==================== 21-22: KESIMPULAN & LINKS ==================== -->
+<div class="page page-break">
+  <h2>18. Kesimpulan</h2>
+  <p>Proyek Web Sekolah Terintegrasi ini berhasil mengembangkan sistem informasi sekolah yang terdiri dari 5 modul utama (Manajemen Pengguna, Data Kesiswaan, Jurnal Mengajar, BK, dan Absensi) dengan satu database terpusat dan sistem hak akses berbasis role. Sistem dibangun menggunakan Node.js Express.js, MySQL, Bootstrap 5, dan EJS.</p>
+  <p>Penerapan konsep Scalable System Design terlihat pada:</p>
+  <ul>
+    <li>Modular Architecture yang memudahkan pengembangan dan scaling</li>
+    <li>Centralized Database dengan 16 tabel terelasi dan optimasi index</li>
+    <li>Pembagian 6 vCPU dengan alasan teknis yang jelas</li>
+    <li>RBAC dengan 7 role pengguna</li>
+    <li>Monitoring dan logging melalui activity_logs</li>
+    <li>Rencana implementasi caching, load balancing, dan horizontal/vertical scaling</li>
+  </ul>
+  <p>Sistem telah diunggah ke GitHub dan dapat dijalankan secara lokal. Video presentasi telah dibuat dan diunggah ke YouTube.</p>
+
+  <h2>19. Link YouTube</h2>
+  <p>Link video presentasi: <strong>[ISI LINK YOUTUBE SETELAH VIDEO DIUPLOAD]</strong></p>
+
+  <div class="instruction">
+    <strong>[INSTRUKSI]</strong><br>
+    Setelah video selesai diupload, ganti "[ISI LINK YOUTUBE SETELAH VIDEO DIUPLOAD]" dengan URL YouTube yang sebenarnya.<br>
+    Juga update README.md dengan link yang sama.
+  </div>
+
+  <h2>20. Link GitHub</h2>
+  <p>Repository GitHub: <a href="https://github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5">https://github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5</a></p>
+
+  <h2>21. Akun Login Demo</h2>
+  <table>
+    <tr><th>Role</th><th>Username</th><th>Password</th></tr>
+    <tr><td>Admin</td><td>admin</td><td>password123</td></tr>
+    <tr><td>Kepala Sekolah</td><td>kepsek</td><td>password123</td></tr>
+    <tr><td>Guru</td><td>guru1</td><td>password123</td></tr>
+    <tr><td>Guru BK</td><td>guru_bk</td><td>password123</td></tr>
+    <tr><td>Wali Kelas</td><td>walas1</td><td>password123</td></tr>
+    <tr><td>Siswa</td><td>siswa1</td><td>password123</td></tr>
+    <tr><td>Orang Tua</td><td>ortu1</td><td>password123</td></tr>
+  </table>
+
+  <h2>22. Panduan Penggunaan Laporan Ini</h2>
+  <p><strong>Cara membuat PDF:</strong></p>
+  <ol>
+    <li>Buka file <code>laporan.html</code> di browser (Chrome/Edge).</li>
+    <li>Tekan Ctrl+P → pilih "Save as PDF".</li>
+    <li>Atur margin: None / Minimal. Centang "Background graphics".</li>
+    <li>Simpan dengan nama: <code>MID_ScalableSystemDesign_Kelompok2_TI4A.pdf</code></li>
+  </ol>
+  <p><strong>Setelah itu:</strong> masukkan screenshot sesuai instruksi [INSTRUKSI GAMBAR] di atas, edit HTML untuk menyisipkan gambar, lalu print ulang ke PDF.</p>
+
+  <div class="instruction">
+    <strong>[RINGKASAN SEMUA GAMBAR YANG HARUS DIAMBIL]</strong><br>
+    1. Dashboard utama (6 kartu stat + grafik + log)<br>
+    2. Manajemen Pengguna (daftar user + role + aksi)<br>
+    3. Data Kesiswaan (daftar siswa + tombol import/export)<br>
+    4. Jurnal Mengajar (tabel jurnal + modal input)<br>
+    5. BK (tab kasus, konseling, pelanggaran, prestasi)<br>
+    6. Absensi (summary cards + tabel) & Rekap Absensi (progress bar)<br>
+    7. Diagram Arsitektur (docs/arsitektur.png)<br>
+    8. ERD (docs/ERD.png)<br>
+    9. Use Case Diagram (docs/use-case.png)<br>
+    10. Kode middleware RBAC (src/middleware/rbac.js)
+  </div>
+</div>
+
+</body>
+</html>
