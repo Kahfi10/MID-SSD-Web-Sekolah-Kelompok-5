@@ -64,8 +64,17 @@ MID-SSD-Web-Sekolah-Kelompok2/
 │   └── seed.js             # Seeder dengan password hash
 ├── docs/
 │   ├── arsitektur.png      # Diagram arsitektur sistem
+│   ├── arsitektur.drawio   # Source diagram draw.io
 │   ├── ERD.png             # Entity Relationship Diagram
-│   └── use-case.png        # Use case diagram
+│   ├── ERD.drawio          # Source ERD draw.io
+│   ├── use-case.png        # Use case diagram
+│   ├── use-case.drawio     # Source use case draw.io
+│   ├── analisis_sistem.md  # Dokumentasi System Analyst
+│   ├── arsitektur_detail.md # Dokumentasi System Architect
+│   ├── database_spesifikasi.md # Dokumentasi Database Designer
+│   ├── ui_ux_desain.md     # Dokumentasi UI/UX Designer
+│   ├── keamanan_rbac.md    # Dokumentasi Security Designer
+│   └── naskah_video.md     # Naskah presentasi YouTube
 ├── src/
 │   ├── app.js              # Entry point
 │   ├── config/
@@ -104,6 +113,13 @@ MID-SSD-Web-Sekolah-Kelompok2/
 ## Rancangan Arsitektur Sistem
 
 ![Arsitektur Sistem](docs/arsitektur.jpg)
+
+### Use Case Diagram
+
+![Use Case Diagram](docs/use-case.png)
+
+**6 Aktor:** Admin, Kepala Sekolah, Guru, Wali Kelas, Guru BK, Siswa
+**15 Use Case:** Login, Kelola User, Reset Password, Kelola Siswa, Import/Export CSV, Wali Kelas, Input Jurnal, Rekap Jurnal, Absensi, Kasus BK, Pelanggaran, Prestasi, Konseling, Rekap BK, Dashboard
 
 ### Deskripsi Arsitektur:
 - **Modular Monolith Architecture**: Sistem dibagi menjadi modul-modul terpisah (auth, users, kesiswaan, jurnal, bk, absensi) tetapi berjalan dalam satu aplikasi.
@@ -238,7 +254,11 @@ Server akan berjalan di `http://localhost:3000`.
 
 ## Link Video Presentasi YouTube
 
-(Link YouTube akan diisi setelah video diupload)
+**[ISI LINK YOUTUBE SETELAH VIDEO DIUPLOAD]**
+
+## Link Demo Online
+
+Akses aplikasi: **https://kahfi.duckdns.org**
 
 ---
 
