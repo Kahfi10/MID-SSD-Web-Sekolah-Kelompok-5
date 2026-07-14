@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0"><i class="bi bi-plus-circle"></i> Input Absensi</h4>
+    <a href="/absensi" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body">
+        <form method="GET" action="/absensi/create" class="row g-3 mb-4">
+            <div class="col-md-5">
+                <label class="form-label">Kelas</label>
+                <select name="class_id" class="form-select" required>
+                    <option value="">-- Pilih Kelas --</option>
+                    <% classes.forEach(function(c) { %>
+                    <option value="<%= c.id %>" <%= selectedClass == c.id ? 'selected' : '' %>><%= c.grade_level %> - <%= c.class_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Tanggal</label>
+                <input type="date" name="attendance_date" class="form-control" value="<%= selectedDate || '' %>" required>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Tampilkan Siswa</button>
+            </div>
+        </form>
+
+        <% if (students.length > 0) { %>
+        <hr>
+        <form action="/absensi/store" method="POST">
+            <input type="hidden" name="class_id" value="<%= selectedClass %>">
+            <input type="hidden" name="attendance_date" value="<%= selectedDate %>">
+
+            <h6 class="mb-3">Daftar Siswa - <%= selectedDate %></h6>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width:40px;">No</th>
+                            <th>NIS</th>
+                            <th>Nama Siswa</th>
+                            <th style="width:120px;">Status</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% students.forEach(function(s, i) { %>
+                        <tr>
+                            <td><%= i + 1 %></td>
+                            <td><%= s.nis %></td>
+                            <td><%= s.full_name %></td>
+                            <td>
+                                <input type="hidden" name="students[<%= i %>][id]" value="<%= s.id %>">
+                                <select name="students[<%= i %>][status]" class="form-select form-select-sm">
+                                    <option value="hadir" <%= existingMap[s.id] && existingMap[s.id].status === 'hadir' ? 'selected' : '' %>>Hadir</option>
+                                    <option value="sakit" <%= existingMap[s.id] && existingMap[s.id].status === 'sakit' ? 'selected' : '' %>>Sakit</option>
+                                    <option value="izin" <%= existingMap[s.id] && existingMap[s.id].status === 'izin' ? 'selected' : '' %>>Izin</option>
+                                    <option value="alpa" <%= existingMap[s.id] && existingMap[s.id].status === 'alpa' ? 'selected' : '' %>>Alpa</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="students[<%= i %>][notes]" class="form-control form-control-sm" placeholder="Keterangan" value="<%= existingMap[s.id] ? (existingMap[s.id].notes || '') : '' %>">
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button type="reset" class="btn btn-outline-secondary me-2">Reset</button>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan Absensi</button>
+            </div>
+        </form>
+        <% } else if (selectedClass && selectedDate) { %>
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Tidak ada siswa aktif di kelas ini.
+        </div>
+        <% } %>
+    </div>
+</div>

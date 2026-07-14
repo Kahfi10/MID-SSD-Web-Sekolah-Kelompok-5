@@ -45,6 +45,7 @@ const usersRoutes = require('./modules/users/routes');
 const kesiswaanRoutes = require('./modules/kesiswaan/routes');
 const jurnalRoutes = require('./modules/jurnal/routes');
 const bkRoutes = require('./modules/bk/routes');
+const absensiRoutes = require('./modules/absensi/routes');
 
 app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
@@ -52,6 +53,7 @@ app.use('/users', usersRoutes);
 app.use('/kesiswaan', kesiswaanRoutes);
 app.use('/jurnal', jurnalRoutes);
 app.use('/bk', bkRoutes);
+app.use('/absensi', absensiRoutes);
 
 // Home redirect
 app.get('/', (req, res) => {

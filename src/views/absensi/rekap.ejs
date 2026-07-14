@@ -1,0 +1,83 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1">Rekap Absensi</h4>
+        <p class="text-muted mb-0" style="font-size:0.85rem;">Rekapitulasi kehadiran siswa per individu</p>
+    </div>
+    <a href="/absensi" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+</div>
+
+<!-- Filter -->
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+    <div class="card-body py-3">
+        <form method="GET" class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Kelas</label>
+                <select name="class_id" class="form-select form-select-sm">
+                    <option value="">Semua Kelas</option>
+                    <% classes.forEach(function(c) { %>
+                    <option value="<%= c.id %>" <%= filters.class_id == c.id ? 'selected' : '' %>><%= c.grade_level %> - <%= c.class_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Dari Tanggal</label>
+                <input type="date" name="start_date" class="form-control form-control-sm" value="<%= filters.start_date || '' %>">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Sampai Tanggal</label>
+                <input type="date" name="end_date" class="form-control form-control-sm" value="<%= filters.end_date || '' %>">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-sm btn-primary w-100"><i class="bi bi-search"></i> Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>NIS</th>
+                        <th>Nama Siswa</th>
+                        <th>Kelas</th>
+                        <th>Total Hari</th>
+                        <th>Hadir</th>
+                        <th>Sakit</th>
+                        <th>Izin</th>
+                        <th>Alpa</th>
+                        <th>% Kehadiran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (rekap.length > 0) { %>
+                        <% rekap.forEach(function(r) { %>
+                        <tr>
+                            <td><%= r.nis %></td>
+                            <td><%= r.student_name %></td>
+                            <td><%= r.class_name || '-' %></td>
+                            <td><%= r.total_hari %></td>
+                            <td><span class="badge" style="background:#34c759;"><%= r.hadir %></span></td>
+                            <td><span class="badge" style="background:#ff9500;"><%= r.sakit %></span></td>
+                            <td><span class="badge" style="background:#007aff;"><%= r.izin %></span></td>
+                            <td><span class="badge" style="background:#ff3b30;"><%= r.alpa %></span></td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress flex-grow-1" style="height:6px;">
+                                        <div class="progress-bar <%= r.persentase >= 80 ? 'bg-success' : r.persentase >= 60 ? 'bg-warning' : 'bg-danger' %>" style="width:<%= r.persentase %>%"></div>
+                                    </div>
+                                    <small style="font-size:0.75rem;"><%= r.persentase %>%</small>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr><td colspan="9" class="text-center text-muted py-5">Belum ada data absensi</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

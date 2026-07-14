@@ -1,0 +1,128 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1">Absensi Siswa</h4>
+        <p class="text-muted mb-0" style="font-size:0.85rem;">Rekam kehadiran siswa harian</p>
+    </div>
+    <div>
+        <% if (['admin','guru','wali_kelas'].includes(user.role_name)) { %>
+        <a href="/absensi/rekap" class="btn btn-outline-secondary me-2">
+            <i class="bi bi-file-earmark-bar-graph"></i> Rekap
+        </a>
+        <a href="/absensi/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Input Absensi
+        </a>
+        <% } %>
+    </div>
+</div>
+
+<!-- Filter -->
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+    <div class="card-body py-3">
+        <form method="GET" class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Kelas</label>
+                <select name="class_id" class="form-select form-select-sm">
+                    <option value="">Semua Kelas</option>
+                    <% classes.forEach(function(c) { %>
+                    <option value="<%= c.id %>" <%= filters.class_id == c.id ? 'selected' : '' %>><%= c.grade_level %> - <%= c.class_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Dari Tanggal</label>
+                <input type="date" name="start_date" class="form-control form-control-sm" value="<%= filters.start_date || '' %>">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small text-muted">Sampai Tanggal</label>
+                <input type="date" name="end_date" class="form-control form-control-sm" value="<%= filters.end_date || '' %>">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-sm btn-primary w-100"><i class="bi bi-search"></i> Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-3 mb-4">
+    <% if (summary.length > 0) { %>
+        <% summary.forEach(function(s) { %>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0"><%= s.class_name %></h6>
+                        <small class="text-muted"><%= s.attendance_date %></small>
+                    </div>
+                    <div class="d-flex gap-3" style="font-size:0.85rem;">
+                        <span><i class="bi bi-check-circle text-success"></i> H: <%= s.hadir %></span>
+                        <span><i class="bi bi-exclamation-circle text-warning"></i> S: <%= s.sakit %></span>
+                        <span><i class="bi bi-info-circle text-info"></i> I: <%= s.izin %></span>
+                        <span><i class="bi bi-x-circle text-danger"></i> A: <%= s.alpa %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    <% } else { %>
+        <div class="col-12">
+            <p class="text-muted text-center mb-0">Belum ada data absensi</p>
+        </div>
+    <% } %>
+</div>
+
+<!-- Detail Table -->
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>NIS</th>
+                        <th>Siswa</th>
+                        <th>Kelas</th>
+                        <th>Status</th>
+                        <th>Keterangan</th>
+                        <th>Input Oleh</th>
+                        <% if (user.role_name === 'admin') { %><th class="text-end">Aksi</th><% } %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (attendances.length > 0) { %>
+                        <% attendances.forEach(function(a) { %>
+                        <tr>
+                            <td class="text-nowrap"><%= a.attendance_date %></td>
+                            <td><%= a.nis %></td>
+                            <td><%= a.student_name %></td>
+                            <td><%= a.class_name %></td>
+                            <td>
+                                <% if (a.status === 'hadir') { %>
+                                    <span class="badge" style="background:#34c759;"><i class="bi bi-check-circle"></i> Hadir</span>
+                                <% } else if (a.status === 'sakit') { %>
+                                    <span class="badge" style="background:#ff9500;"><i class="bi bi-exclamation-circle"></i> Sakit</span>
+                                <% } else if (a.status === 'izin') { %>
+                                    <span class="badge" style="background:#007aff;"><i class="bi bi-info-circle"></i> Izin</span>
+                                <% } else { %>
+                                    <span class="badge" style="background:#ff3b30;"><i class="bi bi-x-circle"></i> Alpa</span>
+                                <% } %>
+                            </td>
+                            <td><%= a.notes || '-' %></td>
+                            <td><small class="text-muted"><%= a.input_by %></small></td>
+                            <% if (user.role_name === 'admin') { %>
+                            <td class="text-end">
+                                <form action="/absensi/delete/<%= a.id %>" method="POST" class="d-inline" onsubmit="return confirm('Hapus absensi ini?')">
+                                    <button class="btn btn-sm btn-outline-secondary border-0"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                            <% } %>
+                        </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr><td colspan="<%= user.role_name === 'admin' ? 8 : 7 %>" class="text-center text-muted py-5">Belum ada data absensi</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

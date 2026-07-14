@@ -118,6 +118,33 @@ async function seed() {
     // Teaching Journals
     await connection.query("INSERT IGNORE INTO teaching_journals (teacher_id, class_id, subject_id, teaching_date, material, method, notes, semester_id) VALUES (1, 1, 1, '2026-07-06', 'Persamaan Linear Satu Variabel', 'Ceramah dan diskusi', 'Siswa aktif bertanya', 1), (1, 3, 1, '2026-07-07', 'Fungsi Kuadrat', 'Praktik soal', 'Materi selesai tepat waktu', 1), (2, 1, 2, '2026-07-06', 'Teks Deskripsi', 'Membaca dan menganalisis', 'Siswa mampu mengidentifikasi', 1), (3, 1, 3, '2026-07-07', 'Greetings and Introductions', 'Role play', 'Siswa antusias', 1), (1, 5, 1, '2026-07-10', 'Limit Fungsi', 'Ceramah dan latihan', 'Materi dilanjutkan pertemuan berikutnya', 1)");
 
+    // Attendances (seed some sample data)
+    const attendances = [
+        [1, 1, '2026-07-14', 'hadir', '', 1],
+        [2, 1, '2026-07-14', 'hadir', '', 1],
+        [3, 2, '2026-07-14', 'sakit', 'Demam', 1],
+        [4, 3, '2026-07-14', 'hadir', '', 1],
+        [5, 3, '2026-07-14', 'izin', 'Ada acara keluarga', 1],
+        [6, 4, '2026-07-14', 'alpa', '', 1],
+        [7, 5, '2026-07-14', 'hadir', '', 1],
+        [8, 5, '2026-07-14', 'hadir', '', 1],
+        [1, 1, '2026-07-13', 'hadir', '', 1],
+        [2, 1, '2026-07-13', 'hadir', '', 1],
+        [3, 2, '2026-07-13', 'hadir', '', 1],
+        [4, 3, '2026-07-13', 'sakit', 'Flu', 1],
+        [5, 3, '2026-07-13', 'hadir', '', 1],
+        [6, 4, '2026-07-13', 'hadir', '', 1],
+        [7, 5, '2026-07-13', 'izin', 'Keperluan keluarga', 1],
+        [8, 5, '2026-07-13', 'hadir', '', 1]
+    ];
+    for (const a of attendances) {
+        await connection.query(
+            'INSERT IGNORE INTO attendances (student_id, class_id, attendance_date, status, notes, created_by) VALUES (?, ?, ?, ?, ?, ?)',
+            a
+        );
+    }
+    console.log('Attendances created.');
+
     console.log('Seeding selesai!');
     console.log('Silakan jalankan aplikasi dengan: npm start');
     console.log('Login dengan: admin / password123');

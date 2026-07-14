@@ -196,6 +196,21 @@ CREATE TABLE activity_logs (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+-- 16. Tabel attendances
+CREATE TABLE attendances (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    class_id INT NOT NULL,
+    attendance_date DATE NOT NULL,
+    status ENUM('hadir','sakit','izin','alpa') NOT NULL DEFAULT 'hadir',
+    notes TEXT,
+    created_by INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (class_id) REFERENCES classes(id),
+    FOREIGN KEY (created_by) REFERENCES users(id)
+);
+
 -- Indexes untuk optimasi
 CREATE INDEX idx_students_class ON students(class_id);
 CREATE INDEX idx_students_status ON students(status);
@@ -205,3 +220,6 @@ CREATE INDEX idx_bk_cases_student ON bk_cases(student_id);
 CREATE INDEX idx_bk_cases_date ON bk_cases(case_date);
 CREATE INDEX idx_logs_user ON activity_logs(user_id);
 CREATE INDEX idx_logs_created ON activity_logs(created_at);
+CREATE INDEX idx_attendance_date ON attendances(attendance_date);
+CREATE INDEX idx_attendance_class ON attendances(class_id);
+CREATE INDEX idx_attendance_student ON attendances(student_id);

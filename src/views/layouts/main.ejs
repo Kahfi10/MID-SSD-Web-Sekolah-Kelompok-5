@@ -43,6 +43,11 @@
                         <a class="nav-link" href="/bk"><i class="bi bi-heart-pulse-fill me-1"></i> BK</a>
                     </li>
                     <% } %>
+                    <% if (['admin','guru','wali_kelas','kepala_sekolah'].includes(user.role_name)) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/absensi"><i class="bi bi-calendar-check-fill me-1"></i> Absensi</a>
+                    </li>
+                    <% } %>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
