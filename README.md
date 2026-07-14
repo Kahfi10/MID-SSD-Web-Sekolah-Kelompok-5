@@ -2,7 +2,7 @@
 
 **Web Sekolah Terintegrasi Berbasis Scalable System Design**
 
-Mata Kuliah: Scalable System Design | MID Semester | TI 4A
+Mata Kuliah: RPL-A Scalable System Design
 
 ---
 
