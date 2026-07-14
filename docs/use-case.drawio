@@ -1,55 +1,118 @@
-<mxfile host="Electron" modified="2026-07-11T10:00:00.000Z" agent="Mozilla/5.0">
+<mxfile host="Electron" modified="2026-07-14T12:00:00.000Z" agent="Mozilla/5.0">
   <diagram id="usecase" name="Use Case Diagram">
-    <mxGraphModel dx="800" dy="600" grid="1" gridSize="10">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <!-- System Boundary -->
-        <mxCell id="sys" value="Web Sekolah Terintegrasi" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;arcSize=10;fillColor=#f5f5f5;fontStyle=1;fontSize=14;" vertex="1" parent="1">
-          <mxGeometry x="200" y="40" width="400" height="300" as="geometry" />
+        <mxCell id="sys" value="Sistem Web Sekolah Terintegrasi" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;arcSize=15;fillColor=#f5f5f7;fontStyle=1;fontSize=16;fontColor=#1d1d1f;strokeColor=#86868b;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="220" y="40" width="520" height="520" as="geometry" />
         </mxCell>
         <!-- Actors -->
-        <mxCell id="guru" value="Guru" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
-          <mxGeometry x="40" y="80" width="80" height="40" as="geometry" />
+        <mxCell id="admin" value="Admin" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f7;strokeColor=#1d1d1f;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="90" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="gurubk" value="Guru BK" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
-          <mxGeometry x="40" y="180" width="80" height="40" as="geometry" />
+        <mxCell id="kepsek" value="Kepala&#10;Sekolah" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f7;strokeColor=#1d1d1f;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="180" width="90" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="admin" value="Admin" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
-          <mxGeometry x="40" y="280" width="80" height="40" as="geometry" />
+        <mxCell id="guru" value="Guru" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f7;strokeColor=#1d1d1f;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="290" width="90" height="40" as="geometry" />
         </mxCell>
-        <!-- Use Cases -->
-        <mxCell id="uc1" value="Login" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" vertex="1" parent="1">
-          <mxGeometry x="250" y="70" width="100" height="40" as="geometry" />
+        <mxCell id="walas" value="Wali Kelas" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f7;strokeColor=#1d1d1f;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="390" width="90" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="uc2" value="Mengisi Jurnal Mengajar" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" vertex="1" parent="1">
-          <mxGeometry x="400" y="130" width="120" height="40" as="geometry" />
+        <mxCell id="gurubk" value="Guru BK" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f7;strokeColor=#1d1d1f;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="490" width="90" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="uc3" value="Mencatat Kasus Siswa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" vertex="1" parent="1">
-          <mxGeometry x="400" y="210" width="120" height="40" as="geometry" />
+        <mxCell id="siswa" value="Siswa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f7;strokeColor=#1d1d1f;fontSize=12;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="290" width="90" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="uc4" value="Mengelola Data Siswa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" vertex="1" parent="1">
-          <mxGeometry x="250" y="290" width="120" height="40" as="geometry" />
+        <!-- Use Cases - Baris 1 -->
+        <mxCell id="uc1" value="Login / Logout" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="270" y="70" width="110" height="40" as="geometry" />
         </mxCell>
-        <!-- Connections -->
-        <mxCell id="l1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" source="guru" target="uc1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="uc2" value="Kelola Pengguna" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="470" y="70" width="110" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="l2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" source="guru" target="uc2">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="uc3" value="Reset Password" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="640" y="70" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="l3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" source="gurubk" target="uc1">
-          <mxGeometry relative="1" as="geometry" />
+        <!-- Baris 2 -->
+        <mxCell id="uc4" value="Mengelola Data Siswa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="250" y="160" width="130" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="l4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" source="gurubk" target="uc3">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="uc5" value="Import / Export CSV" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="450" y="160" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="l5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" source="admin" target="uc1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="uc6" value="Kelola Wali Kelas" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="630" y="160" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="l6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" source="admin" target="uc4">
-          <mxGeometry relative="1" as="geometry" />
+        <!-- Baris 3 -->
+        <mxCell id="uc7" value="Input Jurnal Mengajar" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="250" y="260" width="140" height="40" as="geometry" />
         </mxCell>
+        <mxCell id="uc8" value="Rekap Jurnal" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="460" y="260" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uc9" value="Input Absensi" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="630" y="260" width="110" height="40" as="geometry" />
+        </mxCell>
+        <!-- Baris 4 -->
+        <mxCell id="uc10" value="Catat Kasus BK" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="250" y="360" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uc11" value="Catat Pelanggaran" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="430" y="360" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uc12" value="Catat Prestasi" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="610" y="360" width="110" height="40" as="geometry" />
+        </mxCell>
+        <!-- Baris 5 -->
+        <mxCell id="uc13" value="Konseling Siswa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="250" y="460" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uc14" value="Rekap BK" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="450" y="460" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uc15" value="Lihat Dashboard" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8e8ed;strokeColor=#86868b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="620" y="460" width="120" height="40" as="geometry" />
+        </mxCell>
+        <!-- Connections Admin -->
+        <mxCell id="l1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="admin" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="admin" target="uc2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="admin" target="uc3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="admin" target="uc4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="admin" target="uc5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="admin" target="uc6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="admin" target="uc15"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Connections Kepsek -->
+        <mxCell id="l8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="kepsek" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="kepsek" target="uc4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="kepsek" target="uc8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="kepsek" target="uc14"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="kepsek" target="uc15"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Connections Guru -->
+        <mxCell id="l13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="guru" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="guru" target="uc7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="guru" target="uc9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="guru" target="uc15"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Connections Wali Kelas -->
+        <mxCell id="l17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="walas" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="walas" target="uc4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="walas" target="uc9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="walas" target="uc8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="walas" target="uc15"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Connections Guru BK -->
+        <mxCell id="l22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="gurubk" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="gurubk" target="uc10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="gurubk" target="uc11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="gurubk" target="uc12"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="gurubk" target="uc13"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="gurubk" target="uc14"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="gurubk" target="uc15"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Connections Siswa -->
+        <mxCell id="l29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="siswa" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#86868b;" edge="1" parent="1" source="siswa" target="uc15"><mxGeometry relative="1" as="geometry" /></mxCell>
       </root>
     </mxGraphModel>
   </diagram>
