@@ -116,7 +116,7 @@ MID-SSD-Web-Sekolah-Kelompok2/
 
 ### Use Case Diagram
 
-![Use Case Diagram](docs/use-case.png)
+![Use Case Diagram](docs/usecase.jpeg)
 
 **6 Aktor:** Admin, Kepala Sekolah, Guru, Wali Kelas, Guru BK, Siswa
 **15 Use Case:** Login, Kelola User, Reset Password, Kelola Siswa, Import/Export CSV, Wali Kelas, Input Jurnal, Rekap Jurnal, Absensi, Kasus BK, Pelanggaran, Prestasi, Konseling, Rekap BK, Dashboard
