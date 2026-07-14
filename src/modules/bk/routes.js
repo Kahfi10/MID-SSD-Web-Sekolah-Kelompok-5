@@ -162,4 +162,89 @@ router.post('/cases/update-status/:id', isAuthenticated, allowRoles('guru_bk', '
     }
 });
 
+// Rekap BK
+router.get('/rekap', isAuthenticated, allowRoles('guru_bk', 'admin', 'kepala_sekolah'), async (req, res) => {
+    try {
+        const { student_id, class_id, start_date, end_date } = req.query;
+
+        let params = [];
+        let conditions = [];
+
+        if (student_id) { conditions.push('bc.student_id = ?'); params.push(student_id); }
+        if (class_id) { conditions.push('s.class_id = ?'); params.push(class_id); }
+        if (start_date) { conditions.push('bc.case_date >= ?'); params.push(start_date); }
+        if (end_date) { conditions.push('bc.case_date <= ?'); params.push(end_date); }
+
+        const where = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
+
+        const [casesByStudent] = await pool.query(
+            `SELECT s.full_name as student_name, s.nis, c.class_name,
+                    COUNT(bc.id) as total_cases,
+                    SUM(CASE WHEN bc.status = 'open' THEN 1 ELSE 0 END) as open,
+                    SUM(CASE WHEN bc.status = 'proses' THEN 1 ELSE 0 END) as proses,
+                    SUM(CASE WHEN bc.status = 'selesai' THEN 1 ELSE 0 END) as selesai
+             FROM bk_cases bc
+             JOIN students s ON bc.student_id = s.id
+             LEFT JOIN classes c ON s.class_id = c.id
+             ${where}
+             GROUP BY bc.student_id, s.full_name, s.nis, c.class_name
+             ORDER BY total_cases DESC`, params
+        );
+
+        const [casesByType] = await pool.query(
+            `SELECT bc.case_type, COUNT(*) as total
+             FROM bk_cases bc
+             JOIN students s ON bc.student_id = s.id
+             ${where.replace(/bc\./g, 'bc.')}
+             GROUP BY bc.case_type ORDER BY total DESC`, params
+        );
+
+        const [total] = await pool.query(
+            `SELECT COUNT(*) as total_kasus,
+                    COUNT(DISTINCT bc.student_id) as total_siswa,
+                    COUNT(DISTINCT s.class_id) as total_kelas
+             FROM bk_cases bc
+             JOIN students s ON bc.student_id = s.id
+             ${where}`, params
+        );
+
+        // Violations recap
+        let vConditions = [];
+        let vParams = [];
+        if (student_id) { vConditions.push('sv.student_id = ?'); vParams.push(student_id); }
+        if (class_id) { vConditions.push('s.class_id = ?'); vParams.push(class_id); }
+        if (start_date) { vConditions.push('sv.violation_date >= ?'); vParams.push(start_date); }
+        if (end_date) { vConditions.push('sv.violation_date <= ?'); vParams.push(end_date); }
+        const vWhere = vConditions.length > 0 ? 'WHERE ' + vConditions.join(' AND ') : '';
+
+        const [violationsByStudent] = await pool.query(
+            `SELECT s.full_name as student_name, s.nis, COUNT(sv.id) as total_violations
+             FROM student_violations sv
+             JOIN students s ON sv.student_id = s.id
+             ${vWhere}
+             GROUP BY sv.student_id, s.full_name, s.nis
+             ORDER BY total_violations DESC`, vParams
+        );
+
+        const [students] = await pool.query('SELECT * FROM students WHERE status = ?', ['aktif']);
+        const [classes] = await pool.query('SELECT * FROM classes');
+
+        res.render('bk/rekap', {
+            title: 'Rekap BK',
+            casesByStudent,
+            casesByType,
+            violationsByStudent,
+            total: total[0],
+            students,
+            classes,
+            filters: { student_id, class_id, start_date, end_date }
+        });
+
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Gagal memuat rekap');
+        res.redirect('/bk');
+    }
+});
+
 module.exports = router;
