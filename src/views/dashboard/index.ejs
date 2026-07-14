@@ -1,267 +1,184 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0"><i class="bi bi-speedometer2 text-primary"></i> Dashboard</h4>
     <div>
-        <span class="badge bg-light text-dark border px-3 py-2">
-            <i class="bi bi-calendar3"></i> <span id="liveClock"></span>
-        </span>
+        <h4 class="mb-1">Dashboard</h4>
+        <p class="text-muted mb-0" style="font-size:0.9rem;">Selamat datang kembali, <%= user.full_name %></p>
     </div>
+    <span class="text-muted" style="font-size:0.85rem;" id="liveClock"></span>
 </div>
 
-<!-- Stat Cards -->
 <div class="row g-3 mb-4">
     <div class="col-md-4 col-lg-2">
-        <div class="card stat-card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-white-50 mb-1 small">Siswa Aktif</p>
-                        <h2 class="text-white mb-0 fw-bold counter" data-target="<%= studentCount %>">0</h2>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-people-fill text-white" style="font-size: 2rem; opacity: 0.3;"></i>
-                    </div>
-                </div>
-                <div class="mt-auto">
-                    <small class="text-white-50"><i class="bi bi-graph-up-arrow"></i> Total keseluruhan</small>
-                </div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+            <div class="stat-value counter" data-target="<%= studentCount %>">0</div>
+            <div class="stat-label text-muted">Siswa Aktif</div>
         </div>
     </div>
     <div class="col-md-4 col-lg-2">
-        <div class="card stat-card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-white-50 mb-1 small">Guru</p>
-                        <h2 class="text-white mb-0 fw-bold counter" data-target="<%= teacherCount %>">0</h2>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-person-video3 text-white" style="font-size: 2rem; opacity: 0.3;"></i>
-                    </div>
-                </div>
-                <div class="mt-auto">
-                    <small class="text-white-50"><i class="bi bi-journal-text"></i> Tenaga pendidik</small>
-                </div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-person-video3"></i></div>
+            <div class="stat-value counter" data-target="<%= teacherCount %>">0</div>
+            <div class="stat-label text-muted">Guru</div>
         </div>
     </div>
     <div class="col-md-4 col-lg-2">
-        <div class="card stat-card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-white-50 mb-1 small">Kelas</p>
-                        <h2 class="text-white mb-0 fw-bold counter" data-target="<%= classCount %>">0</h2>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-door-open-fill text-white" style="font-size: 2rem; opacity: 0.3;"></i>
-                    </div>
-                </div>
-                <div class="mt-auto">
-                    <small class="text-white-50"><i class="bi bi-building"></i> Rombel tersedia</small>
-                </div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-door-open-fill"></i></div>
+            <div class="stat-value counter" data-target="<%= classCount %>">0</div>
+            <div class="stat-label text-muted">Kelas</div>
         </div>
     </div>
     <div class="col-md-4 col-lg-2">
-        <div class="card stat-card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-white-50 mb-1 small">Jurnal</p>
-                        <h2 class="text-white mb-0 fw-bold counter" data-target="<%= journalCount %>">0</h2>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-journal-bookmark-fill text-white" style="font-size: 2rem; opacity: 0.3;"></i>
-                    </div>
-                </div>
-                <div class="mt-auto">
-                    <small class="text-white-50"><i class="bi bi-pencil"></i> Catatan mengajar</small>
-                </div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <div class="stat-value mono-blue counter" data-target="<%= journalCount %>">0</div>
+            <div class="stat-label text-muted">Jurnal</div>
         </div>
     </div>
     <div class="col-md-4 col-lg-2">
-        <div class="card stat-card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-white-50 mb-1 small">Kasus BK</p>
-                        <h2 class="text-white mb-0 fw-bold counter" data-target="<%= bkCaseCount %>">0</h2>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-exclamation-triangle-fill text-white" style="font-size: 2rem; opacity: 0.3;"></i>
-                    </div>
-                </div>
-                <div class="mt-auto">
-                    <small class="text-white-50"><i class="bi bi-clock-history"></i> Belum selesai</small>
-                </div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div class="stat-value counter" data-target="<%= bkCaseCount %>">0</div>
+            <div class="stat-label text-muted">Kasus BK Aktif</div>
         </div>
     </div>
     <div class="col-md-4 col-lg-2">
-        <div class="card stat-card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);">
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-white-50 mb-1 small">Pengguna</p>
-                        <h2 class="text-white mb-0 fw-bold counter" data-target="<%= userCount %>">0</h2>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-person-badge-fill text-white" style="font-size: 2rem; opacity: 0.3;"></i>
-                    </div>
-                </div>
-                <div class="mt-auto">
-                    <small class="text-white-50"><i class="bi bi-shield-check"></i> Akun terdaftar</small>
-                </div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-person-badge-fill"></i></div>
+            <div class="stat-value counter" data-target="<%= userCount %>">0</div>
+            <div class="stat-label text-muted">Pengguna</div>
         </div>
     </div>
 </div>
 
-<!-- Charts Row 1 -->
 <div class="row g-3 mb-4">
     <div class="col-lg-8">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 border-bottom d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="bi bi-bar-chart-fill text-primary"></i> Jurnal Mengajar per Bulan</h5>
-                <span class="badge bg-light text-muted">6 bulan terakhir</span>
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Jurnal Mengajar per Bulan</h6>
+                <span class="text-muted" style="font-size:0.8rem;">6 bulan terakhir</span>
             </div>
             <div class="card-body">
-                <canvas id="journalChart" height="100"></canvas>
+                <canvas id="journalChart"></canvas>
             </div>
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 border-bottom">
-                <h5 class="mb-0"><i class="bi bi-pie-chart-fill text-success"></i> Status Siswa</h5>
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Status Siswa</h6>
             </div>
-            <div class="card-body d-flex align-items-center">
-                <canvas id="statusChart" height="100"></canvas>
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <canvas id="statusChart"></canvas>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Charts Row 2 -->
 <div class="row g-3 mb-4">
     <div class="col-lg-5">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 border-bottom d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="bi bi-bar-chart-steps text-info"></i> Siswa per Kelas</h5>
-                <span class="badge bg-light text-muted">Aktif</span>
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Siswa per Kelas</h6>
             </div>
             <div class="card-body">
-                <canvas id="classChart" height="100"></canvas>
+                <canvas id="classChart"></canvas>
             </div>
         </div>
     </div>
     <div class="col-lg-3">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 border-bottom">
-                <h5 class="mb-0"><i class="bi bi-gender-ambiguous text-warning"></i> Gender</h5>
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Gender</h6>
             </div>
             <div class="card-body d-flex align-items-center justify-content-center">
-                <canvas id="genderChart" height="100"></canvas>
+                <canvas id="genderChart"></canvas>
             </div>
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 border-bottom">
-                <h5 class="mb-0"><i class="bi bi-exclamation-diamond text-danger"></i> Kasus BK Terbanyak</h5>
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Kasus BK Terbanyak</h6>
             </div>
             <div class="card-body">
-                <canvas id="bkChart" height="100"></canvas>
+                <canvas id="bkChart"></canvas>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Aktivity -->
-<div class="row">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm rounded-4">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 d-flex justify-content-between align-items-center border-bottom">
-                <h5 class="mb-0"><i class="bi bi-activity-log text-secondary"></i> Aktivitas Terbaru</h5>
-                <small class="text-muted"><i class="bi bi-clock"></i> Real-time</small>
-            </div>
-            <div class="card-body p-0">
-                <% if (recentLogs.length > 0) { %>
-                    <div class="list-group list-group-flush">
-                        <% recentLogs.forEach(function(log) { %>
-                        <div class="list-group-item border-0 d-flex align-items-center py-3 px-4">
-                            <div class="me-3">
-                                <div class="avatar-circle bg-<%= ['primary','success','warning','info','danger'][Math.floor(Math.random()*5)] %> text-white d-flex align-items-center justify-content-center" style="width:40px;height:40px;border-radius:50%;">
-                                    <i class="bi bi-person-fill"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1">
-                                <strong><%= log.full_name %></strong>
-                                <span class="badge bg-<%= ['info','success','warning','danger','primary'][Math.floor(Math.random()*5)] %> ms-2"><%= log.action %></span>
-                                <br>
-                                <small class="text-muted"><%= log.description %></small>
-                            </div>
-                            <small class="text-muted ms-3 text-nowrap"><%= new Date(log.created_at).toLocaleString('id-ID', {hour:'2-digit',minute:'2-digit'}) %></small>
-                        </div>
-                        <% }); %>
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">Aktivitas Terbaru</h6>
+        <span class="text-muted" style="font-size:0.8rem;"><i class="bi bi-clock"></i> Real-time</span>
+    </div>
+    <div class="card-body p-0">
+        <% if (recentLogs.length > 0) { %>
+            <div class="list-group list-group-flush">
+                <% recentLogs.forEach(function(log) { %>
+                <div class="list-group-item d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center me-3 bg-light rounded-circle" style="width:36px;height:36px;flex-shrink:0;">
+                        <i class="bi bi-person text-muted" style="font-size:0.9rem;"></i>
                     </div>
-                <% } else { %>
-                    <div class="text-center py-5 text-muted">
-                        <i class="bi bi-inbox" style="font-size: 2rem;"></i>
-                        <p class="mt-2">Belum ada aktivitas</p>
+                    <div class="flex-grow-1" style="font-size:0.9rem;">
+                        <strong><%= log.full_name %></strong>
+                        <span class="badge bg-light text-dark border ms-1"><%= log.action %></span>
+                        <br>
+                        <span class="text-muted" style="font-size:0.8rem;"><%= log.description %></span>
                     </div>
-                <% } %>
+                    <span class="text-muted" style="font-size:0.75rem;white-space:nowrap;margin-left:1rem;">
+                        <%= new Date(log.created_at).toLocaleString('id-ID', {hour:'2-digit',minute:'2-digit'}) %>
+                    </span>
+                </div>
+                <% }); %>
             </div>
-        </div>
+        <% } else { %>
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-inbox" style="font-size:2rem;"></i>
+                <p class="mt-2 mb-0">Belum ada aktivitas</p>
+            </div>
+        <% } %>
     </div>
 </div>
 
-<!-- Chart.js Script -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Counter animation
     const counters = document.querySelectorAll('.counter');
     counters.forEach(counter => {
         const target = parseInt(counter.getAttribute('data-target'));
         const duration = 1000;
-        const step = Math.ceil(target / (duration / 16));
+        const step = Math.max(1, Math.ceil(target / (duration / 16)));
         let current = 0;
         const update = () => {
             current += step;
-            if (current >= target) {
-                counter.textContent = target;
-                return;
-            }
+            if (current >= target) { counter.textContent = target; return; }
             counter.textContent = current;
             requestAnimationFrame(update);
         };
         update();
     });
 
-    // Color palette (soft, professional)
     const colors = {
-        primary: '#667eea',
-        success: '#43e97b',
-        info: '#4facfe',
-        warning: '#f093fb',
-        danger: '#f5576c',
-        purple: '#a18cd1',
-        teal: '#38f9d7',
-        pink: '#fa709a'
+        blue: '#0071e3',
+        gray: '#86868b',
+        light: '#e8e8ed',
+        dark: '#1d1d1f',
+        green: '#34c759',
+        red: '#ff3b30',
+        orange: '#ff9500',
+        teal: '#5ac8fa'
     };
 
     // 1. Journal Bar Chart
-    const journalCtx = document.getElementById('journalChart').getContext('2d');
-    new Chart(journalCtx, {
+    new Chart(document.getElementById('journalChart'), {
         type: 'bar',
         data: {
             labels: [<% journalPerMonth.forEach(function(j) { %>'<%= j.month %>',<% }); %>],
             datasets: [{
                 label: 'Jurnal',
                 data: [<% journalPerMonth.forEach(function(j) { %><%= j.total %>,<% }); %>],
-                backgroundColor: ['#667eea', '#4facfe', '#43e97b', '#fa709a', '#f093fb', '#a18cd1'],
+                backgroundColor: ['#0071e3', '#0071e3', '#0071e3', '#0071e3', '#0071e3', '#0071e3'],
                 borderRadius: 6,
                 borderSkipped: false
             }]
@@ -270,115 +187,92 @@ document.addEventListener('DOMContentLoaded', function() {
             responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-                y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
-                x: { grid: { display: false } }
+                y: { beginAtZero: true, grid: { color: '#e8e8ed' }, ticks: { color: '#86868b' } },
+                x: { grid: { display: false }, ticks: { color: '#86868b' } }
             }
         }
     });
 
-    // 2. Student Status Donut Chart
-    const statusCtx = document.getElementById('statusChart').getContext('2d');
-    new Chart(statusCtx, {
+    // 2. Status Donut
+    new Chart(document.getElementById('statusChart'), {
         type: 'doughnut',
         data: {
             labels: [<% studentStatus.forEach(function(s) { %>'<%= s.status %>',<% }); %>],
             datasets: [{
                 data: [<% studentStatus.forEach(function(s) { %><%= s.total %>,<% }); %>],
-                backgroundColor: ['#43e97b', '#4facfe', '#f093fb', '#f5576c'],
+                backgroundColor: ['#34c759', '#5ac8fa', '#ff9500', '#ff3b30'],
                 borderWidth: 0
             }]
         },
         options: {
-            responsive: true,
-            cutout: '60%',
-            plugins: {
-                legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } }
-            }
+            responsive: true, cutout: '65%',
+            plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, color: '#86868b' } } }
         }
     });
 
-    // 3. Students per Class
-    const classCtx = document.getElementById('classChart').getContext('2d');
-    new Chart(classCtx, {
+    // 3. Students per Class (horizontal bar)
+    new Chart(document.getElementById('classChart'), {
         type: 'bar',
         data: {
             labels: [<% studentsPerClass.forEach(function(c) { %>'<%= c.class_name %>',<% }); %>],
             datasets: [{
                 label: 'Siswa',
                 data: [<% studentsPerClass.forEach(function(c) { %><%= c.total %>,<% }); %>],
-                backgroundColor: '#4facfe',
+                backgroundColor: '#86868b',
                 borderRadius: 4,
                 borderSkipped: false
             }]
         },
         options: {
-            indexAxis: 'y',
-            responsive: true,
+            indexAxis: 'y', responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-                x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
-                y: { grid: { display: false } }
+                x: { beginAtZero: true, grid: { color: '#e8e8ed' }, ticks: { color: '#86868b' } },
+                y: { grid: { display: false }, ticks: { color: '#86868b' } }
             }
         }
     });
 
-    // 4. Gender Pie Chart
-    const genderCtx = document.getElementById('genderChart').getContext('2d');
-    const genderData = {
-        labels: [],
-        datasets: [{
-            data: [],
-            backgroundColor: ['#4facfe', '#fa709a'],
-            borderWidth: 0
-        }]
-    };
+    // 4. Gender
+    const gData = { labels: [], datasets: [{ data: [], backgroundColor: ['#0071e3', '#ff3b30'], borderWidth: 0 }] };
     <% genderCount.forEach(function(g) { %>
-        genderData.labels.push('<%= g.gender === "L" ? "Laki-laki" : "Perempuan" %>');
-        genderData.datasets[0].data.push(<%= g.total %>);
+        gData.labels.push('<%= g.gender === "L" ? "Laki-laki" : "Perempuan" %>');
+        gData.datasets[0].data.push(<%= g.total %>);
     <% }); %>
-    new Chart(genderCtx, {
-        type: 'doughnut',
-        data: genderData,
+    new Chart(document.getElementById('genderChart'), {
+        type: 'doughnut', data: gData,
         options: {
-            responsive: true,
-            cutout: '55%',
-            plugins: {
-                legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true } }
-            }
+            responsive: true, cutout: '60%',
+            plugins: { legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true, color: '#86868b' } } }
         }
     });
 
-    // 5. BK Cases by Type
-    const bkCtx = document.getElementById('bkChart').getContext('2d');
-    new Chart(bkCtx, {
+    // 5. BK Cases
+    new Chart(document.getElementById('bkChart'), {
         type: 'polarArea',
         data: {
             labels: [<% casesByType.forEach(function(c) { %>'<%= c.case_type %>',<% }); %>],
             datasets: [{
                 data: [<% casesByType.forEach(function(c) { %><%= c.total %>,<% }); %>],
-                backgroundColor: ['#667eea88', '#f5576c88', '#43e97b88', '#f093fb88', '#4facfe88'],
-                borderColor: ['#667eea', '#f5576c', '#43e97b', '#f093fb', '#4facfe'],
-                borderWidth: 1
+                backgroundColor: ['rgba(0,113,227,0.2)', 'rgba(255,59,48,0.2)', 'rgba(52,199,89,0.2)', 'rgba(255,149,0,0.2)', 'rgba(90,200,250,0.2)'],
+                borderColor: ['#0071e3', '#ff3b30', '#34c759', '#ff9500', '#5ac8fa'],
+                borderWidth: 1.5
             }]
         },
         options: {
             responsive: true,
-            plugins: {
-                legend: { position: 'bottom', labels: { padding: 8, usePointStyle: true, boxWidth: 10 } }
-            },
-            scales: {
-                r: { grid: { color: '#f0f0f0' }, ticks: { display: false } }
-            }
+            plugins: { legend: { position: 'bottom', labels: { padding: 8, usePointStyle: true, boxWidth: 10, color: '#86868b' } } },
+            scales: { r: { grid: { color: '#e8e8ed' }, ticks: { display: false } } }
         }
     });
 
     // Live Clock
     function updateClock() {
         const now = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        document.getElementById('liveClock').textContent = now.toLocaleDateString('id-ID', options);
+        const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('liveClock').textContent = now.toLocaleDateString('id-ID', opts);
     }
     updateClock();
-    setInterval(updateClock, 1000);
+    setInterval(updateClock, 30000);
 });
 </script>

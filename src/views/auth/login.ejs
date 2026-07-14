@@ -1,52 +1,43 @@
 <div class="container">
     <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-5">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-5">
-                    <div class="text-center mb-4">
-                        <i class="bi bi-mortarboard-fill text-primary" style="font-size: 3rem;"></i>
-                        <h3 class="fw-bold mt-2">Web Sekolah Terintegrasi</h3>
-                        <p class="text-muted">Sistem Manajemen Sekolah Berbasis SSD</p>
-                    </div>
+        <div class="col-md-5 col-lg-4">
+            <div class="text-center mb-5">
+                <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px;height:56px;background:#f5f5f7;border-radius:14px;">
+                    <i class="bi bi-mortarboard-fill" style="font-size:1.75rem;color:var(--apple-black);"></i>
+                </div>
+                <h3 class="fw-semibold mb-1" style="letter-spacing:-0.02em;">Web Sekolah</h3>
+                <p class="text-muted mb-0" style="font-size:0.9rem;">Sistem Manajemen Sekolah Terintegrasi</p>
+            </div>
 
+            <div class="card border-0 shadow-sm" style="border-radius:16px;">
+                <div class="card-body p-4">
                     <% if (error_msg.length > 0) { %>
                         <% error_msg.forEach(function(msg) { %>
-                            <div class="alert alert-danger"><%= msg %></div>
+                            <div class="alert alert-danger py-2" style="font-size:0.85rem;"><%= msg %></div>
                         <% }); %>
                     <% } %>
 
                     <form action="/auth/login" method="POST">
                         <div class="mb-3">
                             <label class="form-label">Username</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                <input type="text" name="username" class="form-control" required>
-                            </div>
+                            <input type="text" name="username" class="form-control" placeholder="Masukkan username" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                <input type="password" name="password" class="form-control" required>
-                            </div>
+                            <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
-                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                            Login
                         </button>
                     </form>
+                </div>
+            </div>
 
-                    <hr class="my-4">
-                    <div class="text-center">
-                        <small class="text-muted">Akun Demo:</small>
-                        <div class="table-responsive mt-2">
-                            <table class="table table-sm table-borderless text-start">
-                                <tr><td>Admin</td><td>:</td><td>admin / password123</td></tr>
-                                <tr><td>Guru</td><td>:</td><td>guru1 / password123</td></tr>
-                                <tr><td>Guru BK</td><td>:</td><td>guru_bk / password123</td></tr>
-                                <tr><td>Kepsek</td><td>:</td><td>kepsek / password123</td></tr>
-                            </table>
-                        </div>
-                    </div>
+            <div class="text-center mt-4">
+                <small class="text-muted" style="font-size:0.8rem;">Akun Demo</small>
+                <div style="font-size:0.8rem;color:var(--apple-gray-600);line-height:1.8;">
+                    admin / password123 &nbsp;·&nbsp; guru1 / password123<br>
+                    guru_bk / password123 &nbsp;·&nbsp; kepsek / password123
                 </div>
             </div>
         </div>

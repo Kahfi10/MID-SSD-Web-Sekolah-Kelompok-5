@@ -1,16 +1,16 @@
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4><i class="bi bi-file-earmark-bar-graph"></i> Rekap Jurnal Mengajar</h4>
-    <a href="/jurnal" class="btn btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Kembali
-    </a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1">Rekap Jurnal Mengajar</h4>
+        <p class="text-muted mb-0" style="font-size:0.85rem;">Ringkasan aktivitas pembelajaran</p>
+    </div>
+    <a href="/jurnal" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
 </div>
 
-<!-- Filter -->
-<div class="card border-0 shadow-sm rounded-4 mb-4">
+<div class="card mb-4">
     <div class="card-body">
         <form method="GET" class="row g-2 align-items-end">
             <div class="col-md-3">
-                <label class="form-label small">Guru</label>
+                <label class="form-label">Guru</label>
                 <select name="teacher_id" class="form-select">
                     <option value="">Semua Guru</option>
                     <% teachers.forEach(function(t) { %>
@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <label class="form-label small">Kelas</label>
+                <label class="form-label">Kelas</label>
                 <select name="class_id" class="form-select">
                     <option value="">Semua Kelas</option>
                     <% classes.forEach(function(c) { %>
@@ -28,55 +28,47 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <label class="form-label small">Dari Tanggal</label>
+                <label class="form-label">Dari</label>
                 <input type="date" name="start_date" class="form-control" value="<%= filters.start_date || '' %>">
             </div>
             <div class="col-md-2">
-                <label class="form-label small">Sampai Tanggal</label>
+                <label class="form-label">Sampai</label>
                 <input type="date" name="end_date" class="form-control" value="<%= filters.end_date || '' %>">
             </div>
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-primary me-1"><i class="bi bi-funnel"></i> Filter</button>
-                <a href="/jurnal/rekap" class="btn btn-outline-secondary"><i class="bi bi-x-circle"></i> Reset</a>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-fill"><i class="bi bi-funnel"></i> Filter</button>
+                <a href="/jurnal/rekap" class="btn btn-outline-secondary"><i class="bi bi-x-circle"></i></a>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Total Summary -->
 <div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-4 text-center py-3" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
-            <div class="card-body">
-                <h3 class="text-white fw-bold mb-0"><%= total.total_jurnal %></h3>
-                <small class="text-white-50">Total Jurnal</small>
-            </div>
+        <div class="stat-card text-center">
+            <div class="stat-value"><%= total.total_jurnal %></div>
+            <div class="stat-label text-muted">Total Jurnal</div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-4 text-center py-3" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
-            <div class="card-body">
-                <h3 class="text-white fw-bold mb-0"><%= total.total_guru %></h3>
-                <small class="text-white-50">Guru Mengajar</small>
-            </div>
+        <div class="stat-card text-center">
+            <div class="stat-value"><%= total.total_guru %></div>
+            <div class="stat-label text-muted">Guru Mengajar</div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-4 text-center py-3" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
-            <div class="card-body">
-                <h3 class="text-white fw-bold mb-0"><%= total.total_kelas %></h3>
-                <small class="text-white-50">Kelas Terisi</small>
-            </div>
+        <div class="stat-card text-center">
+            <div class="stat-value"><%= total.total_kelas %></div>
+            <div class="stat-label text-muted">Kelas Terisi</div>
         </div>
     </div>
 </div>
 
 <div class="row g-3">
-    <!-- Per Guru -->
     <div class="col-md-6">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 border-bottom">
-                <h5 class="mb-0"><i class="bi bi-person-video3 text-primary"></i> Rekap per Guru</h5>
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Rekap per Guru</h6>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -94,13 +86,13 @@
                                 <% byTeacher.forEach(function(t) { %>
                                 <tr>
                                     <td><%= t.teacher_name %></td>
-                                    <td class="text-center"><span class="badge bg-primary rounded-pill"><%= t.total %></span></td>
+                                    <td class="text-center"><span class="badge bg-light text-dark border"><%= t.total %></span></td>
                                     <td class="text-center"><%= t.total_classes %></td>
                                     <td class="text-center"><%= t.total_subjects %></td>
                                 </tr>
                                 <% }); %>
                             <% } else { %>
-                                <tr><td colspan="4" class="text-center text-muted py-4">Belum ada data jurnal</td></tr>
+                                <tr><td colspan="4" class="text-center text-muted py-4">Belum ada data</td></tr>
                             <% } %>
                         </tbody>
                     </table>
@@ -108,12 +100,10 @@
             </div>
         </div>
     </div>
-
-    <!-- Per Kelas -->
     <div class="col-md-6">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-            <div class="card-header bg-white rounded-4 rounded-bottom-0 py-3 border-bottom">
-                <h5 class="mb-0"><i class="bi bi-door-open text-success"></i> Rekap per Kelas</h5>
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Rekap per Kelas</h6>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -129,11 +119,11 @@
                                 <% byClass.forEach(function(c) { %>
                                 <tr>
                                     <td><%= c.grade_level %> - <%= c.class_name %></td>
-                                    <td class="text-center"><span class="badge bg-success rounded-pill"><%= c.total %></span></td>
+                                    <td class="text-center"><span class="badge bg-light text-dark border"><%= c.total %></span></td>
                                 </tr>
                                 <% }); %>
                             <% } else { %>
-                                <tr><td colspan="2" class="text-center text-muted py-4">Belum ada data jurnal</td></tr>
+                                <tr><td colspan="2" class="text-center text-muted py-4">Belum ada data</td></tr>
                             <% } %>
                         </tbody>
                     </table>
@@ -142,28 +132,3 @@
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('journalRekapChart');
-    if (ctx) {
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [<% byTeacher.forEach(function(t) { %>'<%= t.teacher_name.split(' ')[0] %>',<% }); %>],
-                datasets: [{
-                    label: 'Jurnal',
-                    data: [<% byTeacher.forEach(function(t) { %><%= t.total %>,<% }); %>],
-                    backgroundColor: '#4facfe',
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }
-            }
-        });
-    }
-});
-</script>
