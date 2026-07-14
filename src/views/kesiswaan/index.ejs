@@ -13,15 +13,18 @@
 
 <div class="card border-0 shadow-sm rounded-4">
     <div class="card-body">
-        <form method="GET" class="mb-3">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Cari NIS atau nama siswa..." value="<%= typeof search !== 'undefined' ? search : '' %>">
-                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-                <% if (typeof search !== 'undefined' && search) { %>
-                <a href="/kesiswaan" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></a>
-                <% } %>
-            </div>
-        </form>
+        <div data-search-suggest="/kesiswaan/api/search" class="mb-3 position-relative">
+            <form method="GET">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Cari NIS atau nama siswa..." value="<%= typeof search !== 'undefined' ? search : '' %>" autocomplete="off">
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                    <% if (typeof search !== 'undefined' && search) { %>
+                    <a href="/kesiswaan" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></a>
+                    <% } %>
+                </div>
+            </form>
+            <div class="search-suggest-dropdown list-group position-absolute w-100 shadow-sm rounded-3 d-none" style="z-index:1000;top:100%;left:0;"></div>
+        </div>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>

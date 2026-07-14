@@ -251,4 +251,27 @@ router.get('/export', isAuthenticated, allowRoles('admin', 'kepala_sekolah'), as
     }
 });
 
+// Search suggestions API (JSON)
+router.get('/api/search', isAuthenticated, allowRoles('admin', 'kepala_sekolah', 'wali_kelas'), async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q || q.length < 2) return res.json([]);
+        const [students] = await pool.query(
+            `SELECT s.id, s.nis, s.full_name, c.class_name
+             FROM students s LEFT JOIN classes c ON s.class_id = c.id
+             WHERE s.full_name LIKE ? OR s.nis LIKE ?
+             LIMIT 8`,
+            [`%${q}%`, `%${q}%`]
+        );
+        const results = students.map(s => ({
+            ...s,
+            _href: '/kesiswaan/edit/' + s.id
+        }));
+        res.json(results);
+    } catch (error) {
+        console.error(error);
+        res.json([]);
+    }
+});
+
 module.exports = router;
