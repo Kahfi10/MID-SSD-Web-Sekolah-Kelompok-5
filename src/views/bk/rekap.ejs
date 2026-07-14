@@ -1,0 +1,223 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1">Rekap Bimbingan Konseling</h4>
+        <p class="text-muted mb-0" style="font-size:0.85rem;">Ringkasan kasus, konseling, dan pelanggaran</p>
+    </div>
+    <a href="/bk" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label">Siswa</label>
+                <select name="student_id" class="form-select">
+                    <option value="">Semua Siswa</option>
+                    <% students.forEach(function(s) { %>
+                    <option value="<%= s.id %>" <%= filters.student_id == s.id ? 'selected' : '' %>><%= s.nis %> - <%= s.full_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Kelas</label>
+                <select name="class_id" class="form-select">
+                    <option value="">Semua Kelas</option>
+                    <% classes.forEach(function(c) { %>
+                    <option value="<%= c.id %>" <%= filters.class_id == c.id ? 'selected' : '' %>><%= c.grade_level %> - <%= c.class_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Dari</label>
+                <input type="date" name="start_date" class="form-control" value="<%= filters.start_date || '' %>">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Sampai</label>
+                <input type="date" name="end_date" class="form-control" value="<%= filters.end_date || '' %>">
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-fill"><i class="bi bi-funnel"></i> Filter</button>
+                <a href="/bk/rekap" class="btn btn-outline-secondary"><i class="bi bi-x-circle"></i></a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card text-center">
+            <div class="stat-value"><%= total.total_kasus %></div>
+            <div class="stat-label text-muted">Total Kasus</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card text-center">
+            <div class="stat-value"><%= total.total_siswa %></div>
+            <div class="stat-label text-muted">Siswa Terlibat</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card text-center">
+            <div class="stat-value"><%= total.total_kelas %></div>
+            <div class="stat-label text-muted">Kelas Terdampak</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Kasus per Siswa</h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Siswa</th>
+                                <th>NIS</th>
+                                <th>Kelas</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">Open</th>
+                                <th class="text-center">Proses</th>
+                                <th class="text-center">Selesai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (casesByStudent.length > 0) { %>
+                                <% casesByStudent.forEach(function(c) { %>
+                                <tr>
+                                    <td><%= c.student_name %></td>
+                                    <td><%= c.nis %></td>
+                                    <td><%= c.class_name || '-' %></td>
+                                    <td class="text-center"><span class="badge bg-dark"><%= c.total_cases %></span></td>
+                                    <td class="text-center"><%= c.open %></td>
+                                    <td class="text-center"><%= c.proses %></td>
+                                    <td class="text-center"><%= c.selesai %></td>
+                                </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr><td colspan="7" class="text-center text-muted py-4">Belum ada data kasus</td></tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Kasus per Jenis</h6>
+            </div>
+            <div class="card-body">
+                <canvas id="bkRekapChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Pelanggaran per Siswa</h6>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Siswa</th>
+                                <th>NIS</th>
+                                <th class="text-center">Total Pelanggaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (violationsByStudent.length > 0) { %>
+                                <% violationsByStudent.forEach(function(v) { %>
+                                <tr>
+                                    <td><%= v.student_name %></td>
+                                    <td><%= v.nis %></td>
+                                    <td class="text-center"><span class="badge bg-dark"><%= v.total_violations %></span></td>
+                                </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr><td colspan="3" class="text-center text-muted py-4">Belum ada data pelanggaran</td></tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                <h6 class="mb-0">Distribusi Kasus</h6>
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <canvas id="bkPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Cases by type bar chart
+    new Chart(document.getElementById('bkRekapChart'), {
+        type: 'bar',
+        data: {
+            labels: [<% casesByType.forEach(function(c) { %>'<%= c.case_type %>',<% }); %>],
+            datasets: [{
+                label: 'Jumlah',
+                data: [<% casesByType.forEach(function(c) { %><%= c.total %>,<% }); %>],
+                backgroundColor: '#86868b',
+                borderRadius: 4,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#e8e8ed' }, ticks: { color: '#86868b' } },
+                x: { grid: { display: false }, ticks: { color: '#86868b' } }
+            }
+        }
+    });
+
+    // Cases by type pie chart
+    const statusLabels = ['Open', 'Proses', 'Selesai'];
+    const statusData = [
+        <% 
+        let open = 0, proses = 0, selesai = 0;
+        casesByStudent.forEach(function(c) { 
+            open += c.open; proses += c.proses; selesai += c.selesai; 
+        }); 
+        %>
+        <%= open %>, <%= proses %>, <%= selesai %>
+    ];
+
+    new Chart(document.getElementById('bkPieChart'), {
+        type: 'doughnut',
+        data: {
+            labels: statusLabels,
+            datasets: [{
+                data: statusData,
+                backgroundColor: ['#ff3b30', '#ff9500', '#34c759'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true, cutout: '60%',
+            plugins: {
+                legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, color: '#86868b' } }
+            }
+        }
+    });
+});
+</script>
