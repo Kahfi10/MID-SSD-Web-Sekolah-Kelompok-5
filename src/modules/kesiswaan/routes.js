@@ -101,4 +101,43 @@ router.post('/delete/:id', isAuthenticated, allowRoles('admin'), async (req, res
     }
 });
 
+// Kelola Wali Kelas
+router.get('/kelas', isAuthenticated, allowRoles('admin'), async (req, res) => {
+    try {
+        const [classes] = await pool.query(
+            `SELECT c.*, t.full_name as homeroom_teacher_name
+             FROM classes c
+             LEFT JOIN teachers t ON c.homeroom_teacher_id = t.id
+             ORDER BY c.grade_level, c.class_name`
+        );
+        const [teachers] = await pool.query('SELECT * FROM teachers ORDER BY full_name');
+        res.render('kesiswaan/kelas', { title: 'Kelola Wali Kelas', classes, teachers });
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Gagal memuat data');
+        res.redirect('/kesiswaan');
+    }
+});
+
+router.post('/kelas/update/:id', isAuthenticated, allowRoles('admin'), async (req, res) => {
+    try {
+        const { homeroom_teacher_id } = req.body;
+        await pool.query('UPDATE classes SET homeroom_teacher_id = ? WHERE id = ?', [
+            homeroom_teacher_id || null, req.params.id
+        ]);
+
+        await pool.query(
+            'INSERT INTO activity_logs (user_id, action, description, ip_address) VALUES (?, ?, ?, ?)',
+            [req.session.user.id, 'update_walikelas', `Mengupdate wali kelas ID ${req.params.id}`, req.ip]
+        );
+
+        req.flash('success', 'Wali kelas berhasil diupdate');
+        res.redirect('/kesiswaan/kelas');
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Gagal mengupdate wali kelas');
+        res.redirect('/kesiswaan/kelas');
+    }
+});
+
 module.exports = router;

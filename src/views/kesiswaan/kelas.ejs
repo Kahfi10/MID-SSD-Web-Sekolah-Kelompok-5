@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1">Kelola Wali Kelas</h4>
+        <p class="text-muted mb-0" style="font-size:0.85rem;">Atur guru yang menjadi wali kelas untuk setiap rombel</p>
+    </div>
+    <a href="/kesiswaan" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Data Siswa</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Kelas</th>
+                        <th>Tingkat</th>
+                        <th>Wali Kelas</th>
+                        <th class="text-end">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% classes.forEach(function(c) { %>
+                    <tr>
+                        <td class="fw-medium"><%= c.class_name %></td>
+                        <td><%= c.grade_level %></td>
+                        <td>
+                            <% if (c.homeroom_teacher_name) { %>
+                                <span class="badge bg-light text-dark border"><%= c.homeroom_teacher_name %></span>
+                            <% } else { %>
+                                <span class="text-muted" style="font-size:0.85rem;">— Belum ditentukan</span>
+                            <% } %>
+                        </td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalKelas<%= c.id %>">
+                                <i class="bi bi-pencil"></i> Atur
+                            </button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<% classes.forEach(function(c) { %>
+<!-- Modal per Kelas -->
+<div class="modal fade" id="modalKelas<%= c.id %>" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title fw-semibold">Atur Wali Kelas — <%= c.grade_level %>-<%= c.class_name %></h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/kesiswaan/kelas/update/<%= c.id %>" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Pilih Guru</label>
+                        <select name="homeroom_teacher_id" class="form-select">
+                            <option value="">— Kosongkan —</option>
+                            <% teachers.forEach(function(t) { %>
+                            <option value="<%= t.id %>" <%= c.homeroom_teacher_id === t.id ? 'selected' : '' %>><%= t.full_name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<% }); %>
