@@ -300,4 +300,4 @@ Tabel `activity_logs` mencatat semua aktivitas pengguna. Dashboard menampilkan a
 
 ## Lisensi
 
-Proyek ini dibuat untuk keperluan Ujian MID Semester mata kuliah Scalable System Design.
+Proyek ini dibuat dengan hati ❤️ untuk keperluan Ujian MID Semester mata kuliah Scalable System Design.
