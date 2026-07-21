@@ -187,8 +187,8 @@ Database: `db_sekolah_ssd`
 
 1. **Clone repository**
    ```bash
-   git clone https://github.com/username/MID-SSD-Web-Sekolah-Kelompok2.git
-   cd MID-SSD-Web-Sekolah-Kelompok2
+   git clone https://github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5.git
+   cd MID-SSD-Web-Sekolah-Kelompok-5
    ```
 
 2. **Install dependencies**
@@ -254,7 +254,7 @@ Server akan berjalan di `http://localhost:3000`.
 
 ## Link Video Presentasi YouTube
 
-**[ISI LINK YOUTUBE SETELAH VIDEO DIUPLOAD]**
+**https://youtu.be/IB4w8m3ZZxg?si=7c7Yu9miWObtODnD**
 
 ## Link Demo Online
 
@@ -300,4 +300,4 @@ Tabel `activity_logs` mencatat semua aktivitas pengguna. Dashboard menampilkan a
 
 ## Lisensi
 
-Proyek ini dibuat untuk keperluan Ujian MID Semester mata kuliah Scalable System Design.
+Proyek ini dibuat dengan hati ❤️ untuk keperluan Ujian MID Semester mata kuliah Scalable System Design.
