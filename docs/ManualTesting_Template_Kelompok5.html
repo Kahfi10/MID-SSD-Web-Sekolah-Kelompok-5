@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Manual Testing - Web Sekolah Terintegrasi - Kelompok 5 RPL-A</title>
+<style>
+  @page { size: A4 landscape; margin: 1.5cm 1cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 10pt; line-height: 1.4; color: #1d1d1f; }
+  .page { width: 27cm; padding: 1.5cm 1cm; margin: 0 auto; }
+  .page-break { page-break-before: always; }
+  h1 { font-size: 16pt; margin-bottom: 6pt; text-align: center; }
+  h2 { font-size: 13pt; margin: 16pt 0 8pt; border-bottom: 2px solid #1d1d1f; padding-bottom: 3pt; }
+  p  { margin-bottom: 6pt; }
+  table { width: 100%; border-collapse: collapse; margin: 8pt 0; font-size: 9pt; }
+  th, td { border: 1px solid #86868b; padding: 4pt 6pt; text-align: left; vertical-align: top; }
+  th { background: #1d1d1f; color: white; font-weight: 600; }
+  .positif { background: #f0f7ff; }
+  .negatif { background: #fff5f5; }
+  .empty   { background: #fffbe6; color: #888; font-style: italic; }
+  .cover   { text-align: center; padding: 2cm 2cm; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 18cm; }
+  .info-box { background: #fff3cd; border: 1px solid #ffc107; border-radius: 6pt; padding: 10pt 14pt; margin: 10pt 0; font-size: 10pt; }
+</style>
+</head>
+<body>
+
+<div class="page cover">
+  <h1>TEMPLATE MANUAL TESTING</h1>
+  <div style="font-size:12pt;margin:6pt 0;color:#3a3a3c;">Web Sekolah Terintegrasi — Black Box Testing</div>
+  <hr style="width:50%;border:1px solid #1d1d1f;margin:10pt auto;">
+  <table style="width:65%;margin:14pt auto;font-size:10pt;">
+    <tr><td><strong>URL Pengujian</strong></td><td>https://web-sekolah.duckdns.org</td></tr>
+    <tr><td><strong>Metode</strong></td><td>Black Box Testing — Manual</td></tr>
+    <tr><td><strong>Platform</strong></td><td>Browser Chrome / Firefox / Edge, Resolusi 1920×1080</td></tr>
+    <tr><td><strong>Tanggal Pengujian</strong></td><td>_________________ (isi saat pelaksanaan)</td></tr>
+    <tr><td><strong>Penguji</strong></td><td>_________________ (isi nama anggota)</td></tr>
+    <tr><td><strong>Kelompok</strong></td><td>Kelompok 5 | RPL-A</td></tr>
+  </table>
+
+  <div class="info-box" style="width:70%;margin:14pt auto;text-align:left;">
+    <strong>PETUNJUK PENGISIAN:</strong><br>
+    1. Jalankan setiap test case di browser pada URL https://web-sekolah.duckdns.org<br>
+    2. Isi kolom <strong>Actual Result</strong> dengan apa yang benar-benar terjadi<br>
+    3. Isi kolom <strong>Status</strong> dengan: <strong>PASS</strong> (sesuai expected), <strong>FAIL</strong> (tidak sesuai), atau <strong>BLOCKED</strong> (tidak bisa diuji)<br>
+    4. Ambil screenshot untuk setiap test case FAIL sebagai bukti
+  </div>
+
+  <div style="margin-top:14pt;font-size:10pt;">
+    <strong>Akun Demo untuk Pengujian:</strong><br><br>
+    admin / password123 &nbsp;|&nbsp; kepsek / password123 &nbsp;|&nbsp; guru1 / password123<br>
+    guru_bk / password123 &nbsp;|&nbsp; walas1 / password123 &nbsp;|&nbsp; siswa1 / password123
+  </div>
+</div>
+
+<!-- ==================== UC01 ==================== -->
+<div class="page page-break">
+  <h2>UC01 — Autentikasi (Login & Logout)</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th>
+      <th style="width:14%">Deskripsi</th>
+      <th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th>
+      <th style="width:18%">Test Step</th>
+      <th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th>
+      <th style="width:11%">Actual Result</th>
+      <th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC01-TC01</td><td>Login dengan username dan password valid</td><td>Positif</td>
+      <td>Buka halaman /auth/login</td>
+      <td>1. Isi Username: admin<br>2. Isi Password: password123<br>3. Klik Login</td>
+      <td>Username: admin<br>Password: password123</td>
+      <td>Redirect ke /dashboard; flash "Selamat datang, Admin Sekolah"; navbar menampilkan menu admin</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC01-TC02</td><td>Login dengan password salah</td><td>Negatif</td>
+      <td>Buka halaman /auth/login</td>
+      <td>1. Isi Username: admin<br>2. Isi Password: salah123<br>3. Klik Login</td>
+      <td>Username: admin<br>Password: salah123</td>
+      <td>Tetap di /auth/login; flash error "Username atau password salah"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC01-TC03</td><td>Login dengan username tidak terdaftar</td><td>Negatif</td>
+      <td>Buka halaman /auth/login</td>
+      <td>1. Isi Username: tidakada<br>2. Isi Password: password123<br>3. Klik Login</td>
+      <td>Username: tidakada<br>Password: password123</td>
+      <td>Tetap di /auth/login; flash error "Username atau password salah"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC01-TC04</td><td>Login dengan semua field kosong</td><td>Negatif</td>
+      <td>Buka halaman /auth/login</td>
+      <td>1. Biarkan semua field kosong<br>2. Klik Login</td>
+      <td>Username: (kosong)<br>Password: (kosong)</td>
+      <td>Browser validasi HTML5 "Please fill out this field"; form tidak tersubmit</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC01-TC05</td><td>Logout menghapus session</td><td>Positif</td>
+      <td>Sudah login sebagai admin</td>
+      <td>1. Klik nama user di navbar<br>2. Klik Logout<br>3. Coba akses /dashboard</td>
+      <td>—</td>
+      <td>Session terhapus; redirect ke /auth/login; akses /dashboard kembali redirect ke login</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC01-TC06</td><td>Akses halaman terproteksi tanpa login</td><td>Negatif</td>
+      <td>Hapus cookies / buka browser baru (tanpa session)</td>
+      <td>1. Langsung akses URL /dashboard tanpa login</td>
+      <td>URL: /dashboard (tanpa session)</td>
+      <td>Redirect ke /auth/login; flash error "Silakan login terlebih dahulu"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+
+  <h2>UC02 — Manajemen Pengguna</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th><th style="width:14%">Deskripsi</th><th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th><th style="width:18%">Test Step</th><th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th><th style="width:11%">Actual Result</th><th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC02-TC01</td><td>Tambah pengguna baru valid</td><td>Positif</td>
+      <td>Login sebagai admin; di halaman /users</td>
+      <td>1. Klik "+ Tambah User"<br>2. Isi semua field<br>3. Klik Simpan</td>
+      <td>Username: testuji01<br>Nama: Test Uji Satu<br>Email: testuji01@test.com<br>Password: test123<br>Role: guru</td>
+      <td>Flash success "Pengguna berhasil ditambahkan"; user muncul di tabel</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC02-TC02</td><td>Tambah user dengan username duplikat</td><td>Negatif</td>
+      <td>Login sebagai admin; username "admin" sudah ada</td>
+      <td>1. Klik "+ Tambah User"<br>2. Username: admin<br>3. Email: baru@test.com<br>4. Klik Simpan</td>
+      <td>Username: admin (duplikat)</td>
+      <td>Flash error "Username 'admin' sudah digunakan"; data tidak tersimpan</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC02-TC03</td><td>Tambah user dengan email duplikat</td><td>Negatif</td>
+      <td>Login sebagai admin; email admin@sekolah.test sudah ada</td>
+      <td>1. Klik "+ Tambah User"<br>2. Username: userbaru99<br>3. Email: admin@sekolah.test<br>4. Klik Simpan</td>
+      <td>Email: admin@sekolah.test (duplikat)</td>
+      <td>Flash error "Email sudah terdaftar"; data tidak tersimpan</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC02-TC04</td><td>Admin hapus akun sendiri</td><td>Negatif</td>
+      <td>Login sebagai admin</td>
+      <td>1. Temukan baris akun admin di tabel<br>2. Klik ikon hapus<br>3. Konfirmasi OK</td>
+      <td>User ID: akun admin sendiri</td>
+      <td>Flash error "Tidak dapat menghapus akun sendiri"; akun tetap ada</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC02-TC05</td><td>Reset password pengguna lain</td><td>Positif</td>
+      <td>Login sebagai admin; testuji01 sudah dibuat</td>
+      <td>1. Klik ikon kunci pada testuji01<br>2. Klik OK pada konfirmasi</td>
+      <td>—</td>
+      <td>Flash success "Password berhasil direset ke 'password123'"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC02-TC06</td><td>Guru akses /users (bukan admin)</td><td>Negatif</td>
+      <td>Login sebagai guru1</td>
+      <td>1. Akses URL /users langsung</td>
+      <td>—</td>
+      <td>Redirect ke /dashboard; flash error "Anda tidak memiliki akses"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== UC03 & UC04 ==================== -->
+<div class="page page-break">
+  <h2>UC03 — Data Kesiswaan</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th><th style="width:14%">Deskripsi</th><th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th><th style="width:18%">Test Step</th><th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th><th style="width:11%">Actual Result</th><th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC03-TC01</td><td>Tambah siswa baru dengan NIS unik</td><td>Positif</td>
+      <td>Login sebagai admin; di /kesiswaan</td>
+      <td>1. Klik "+ Tambah Siswa"<br>2. Isi NIS: 2099001<br>3. Isi nama, gender, kelas<br>4. Klik Simpan</td>
+      <td>NIS: 2099001<br>Nama: Siswa Uji Coba<br>Gender: L<br>Kelas: X-A</td>
+      <td>Flash success "Data siswa berhasil ditambahkan"; muncul di tabel</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC03-TC02</td><td>Tambah siswa NIS duplikat</td><td>Negatif</td>
+      <td>Login sebagai admin; NIS 2025001 sudah ada</td>
+      <td>1. Klik "+ Tambah Siswa"<br>2. Isi NIS: 2025001<br>3. Klik Simpan</td>
+      <td>NIS: 2025001 (sudah ada)</td>
+      <td>Flash error "NIS sudah terdaftar"; data tidak tersimpan</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC03-TC03</td><td>Export data siswa ke CSV</td><td>Positif</td>
+      <td>Login sebagai admin; ada data siswa</td>
+      <td>1. Klik "Export CSV"</td>
+      <td>—</td>
+      <td>File data-siswa-export.csv terunduh; berisi header dan data siswa</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC03-TC04</td><td>Import siswa dari CSV valid</td><td>Positif</td>
+      <td>Login sebagai admin; siapkan file CSV sesuai format</td>
+      <td>1. Klik "Import CSV"<br>2. Pilih file CSV valid<br>3. Upload</td>
+      <td>File CSV berisi NIS baru yang belum terdaftar</td>
+      <td>Flash success "Import selesai: X berhasil, 0 gagal"; siswa baru muncul</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC03-TC05</td><td>Import CSV tanpa memilih file</td><td>Negatif</td>
+      <td>Login sebagai admin; di /kesiswaan</td>
+      <td>1. Klik "Import CSV"<br>2. Upload tanpa pilih file</td>
+      <td>File: (tidak dipilih)</td>
+      <td>Pesan error "Pilih file CSV terlebih dahulu"; tidak ada data diproses</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC03-TC06</td><td>Tetapkan wali kelas</td><td>Positif</td>
+      <td>Login sebagai admin; ada guru dan kelas</td>
+      <td>1. Buka /kesiswaan/kelas<br>2. Pilih guru dari dropdown untuk kelas X-B<br>3. Klik Simpan</td>
+      <td>Kelas: X-B; Guru: pilih salah satu</td>
+      <td>Flash success "Wali kelas berhasil diupdate"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+
+  <h2>UC04 — Jurnal Mengajar</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th><th style="width:14%">Deskripsi</th><th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th><th style="width:18%">Test Step</th><th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th><th style="width:11%">Actual Result</th><th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC04-TC01</td><td>Guru input jurnal mengajar</td><td>Positif</td>
+      <td>Login sebagai guru1; di /jurnal</td>
+      <td>1. Klik "Input Jurnal"<br>2. Pilih kelas, mapel, tanggal<br>3. Isi materi, metode<br>4. Klik Simpan</td>
+      <td>Kelas: X-A; Mapel: Matematika<br>Tanggal: [tanggal hari ini]<br>Materi: Persamaan Linear</td>
+      <td>Flash success "Jurnal mengajar berhasil disimpan"; muncul di tabel</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC04-TC02</td><td>Guru hanya lihat jurnal sendiri</td><td>Positif</td>
+      <td>Login sebagai guru1; ada jurnal guru1 dan guru2</td>
+      <td>1. Buka /jurnal<br>2. Periksa data yang tampil</td>
+      <td>—</td>
+      <td>Hanya jurnal milik guru1 yang tampil; tidak ada jurnal guru lain</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC04-TC03</td><td>Admin lihat semua jurnal</td><td>Positif</td>
+      <td>Login sebagai admin; ada jurnal dari berbagai guru</td>
+      <td>1. Buka /jurnal<br>2. Periksa kolom Guru di tabel</td>
+      <td>—</td>
+      <td>Semua jurnal dari semua guru tampil; kolom "Guru" terisi nama masing-masing</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC04-TC04</td><td>Rekap jurnal dengan filter</td><td>Positif</td>
+      <td>Login sebagai admin; ada data jurnal</td>
+      <td>1. Buka /jurnal/rekap<br>2. Pilih guru, isi tanggal<br>3. Klik Filter</td>
+      <td>Start: [awal bulan ini]<br>End: [hari ini]</td>
+      <td>Tabel rekap terfilter; statistik total, kelas, mapel akurat</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC04-TC05</td><td>Search suggestion jurnal real-time</td><td>Positif</td>
+      <td>Login sebagai admin; di /jurnal</td>
+      <td>1. Ketik minimal 2 karakter di search bar<br>2. Tunggu dropdown suggestion</td>
+      <td>Keyword: "Mate" (min 2 karakter)</td>
+      <td>Dropdown muncul dalam 300ms berisi jurnal yang cocok; klik item filter tabel</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== UC05 & UC06 ==================== -->
+<div class="page page-break">
+  <h2>UC05 — Bimbingan Konseling (BK)</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th><th style="width:14%">Deskripsi</th><th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th><th style="width:18%">Test Step</th><th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th><th style="width:11%">Actual Result</th><th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC05-TC01</td><td>Guru BK catat kasus baru</td><td>Positif</td>
+      <td>Login sebagai guru_bk; di /bk</td>
+      <td>1. Klik "+ Kasus"<br>2. Pilih siswa<br>3. Isi tanggal, jenis, deskripsi<br>4. Klik Simpan</td>
+      <td>Siswa: pilih dari dropdown<br>Tanggal: [hari ini]<br>Jenis: Keterlambatan<br>Deskripsi: Terlambat 3x</td>
+      <td>Flash success "Kasus BK berhasil dicatat"; kasus muncul di tabel status Open</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC05-TC02</td><td>Update status kasus Open → Proses</td><td>Positif</td>
+      <td>Login sebagai guru_bk; ada kasus status Open</td>
+      <td>1. Temukan kasus status Open<br>2. Ubah dropdown status ke "Proses"</td>
+      <td>Status: Proses</td>
+      <td>Flash success "Status kasus berhasil diupdate"; badge berubah kuning "Proses"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC05-TC03</td><td>Catat konseling siswa</td><td>Positif</td>
+      <td>Login sebagai guru_bk</td>
+      <td>1. Klik "+ Konseling"<br>2. Isi semua field<br>3. Klik Simpan</td>
+      <td>Siswa: pilih dari dropdown<br>Topik: Motivasi Belajar<br>Catatan: [isi bebas]</td>
+      <td>Flash success "Catatan konseling berhasil disimpan"; muncul di tabel Konseling</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC05-TC04</td><td>Catat pelanggaran siswa</td><td>Positif</td>
+      <td>Login sebagai guru_bk</td>
+      <td>1. Klik "+ Pelanggaran"<br>2. Isi semua field<br>3. Klik Simpan</td>
+      <td>Jenis: Bolos<br>Sanksi: Surat peringatan</td>
+      <td>Flash success "Pelanggaran berhasil dicatat"; muncul di tabel Pelanggaran</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC05-TC05</td><td>Kepala sekolah tidak melihat tombol tambah BK</td><td>Negatif</td>
+      <td>Login sebagai kepsek</td>
+      <td>1. Buka /bk<br>2. Cek apakah tombol +Kasus, +Konseling, dll. muncul</td>
+      <td>—</td>
+      <td>Tombol +Kasus, +Konseling, +Pelanggaran, +Prestasi TIDAK tampil; hanya tombol Rekap yang ada</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC05-TC06</td><td>Guru biasa tidak bisa akses /bk</td><td>Negatif</td>
+      <td>Login sebagai guru1</td>
+      <td>1. Akses URL /bk langsung</td>
+      <td>—</td>
+      <td>Redirect ke /dashboard; flash error "Anda tidak memiliki akses"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC05-TC07</td><td>Rekap BK dengan filter kelas</td><td>Positif</td>
+      <td>Login sebagai guru_bk; ada data kasus</td>
+      <td>1. Klik "Rekap"<br>2. Pilih kelas<br>3. Klik Filter</td>
+      <td>Kelas: X-A</td>
+      <td>Tabel hanya menampilkan kasus siswa kelas X-A; grafik terupdate</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+
+  <h2>UC06 — Absensi Siswa</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th><th style="width:14%">Deskripsi</th><th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th><th style="width:18%">Test Step</th><th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th><th style="width:11%">Actual Result</th><th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC06-TC01</td><td>Input absensi kelas dengan berbagai status</td><td>Positif</td>
+      <td>Login sebagai admin; ada siswa aktif di kelas X-A</td>
+      <td>1. Buka /absensi/create<br>2. Pilih kelas X-A, tanggal hari ini<br>3. Klik "Tampilkan Siswa"<br>4. Set beberapa status berbeda<br>5. Klik Simpan Absensi</td>
+      <td>Kelas: X-A<br>Tanggal: [hari ini]<br>Variasi: H, S, I, A</td>
+      <td>Flash success "Absensi berhasil disimpan"; data muncul di /absensi</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC06-TC02</td><td>Quick filter "7 Hari" otomatis isi tanggal</td><td>Positif</td>
+      <td>Login sebagai admin; di /absensi</td>
+      <td>1. Klik tombol "7 Hari"</td>
+      <td>—</td>
+      <td>Field start_date terisi (hari ini - 7 hari); end_date terisi hari ini; tabel langsung terfilter</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC06-TC03</td><td>Quick filter "30 Hari"</td><td>Positif</td>
+      <td>Login sebagai admin; di /absensi</td>
+      <td>1. Klik tombol "30 Hari"</td>
+      <td>—</td>
+      <td>Field tanggal terisi rentang 30 hari; tabel terfilter sesuai</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC06-TC04</td><td>Rekap absensi hitung persentase kehadiran</td><td>Positif</td>
+      <td>Login sebagai admin; ada data absensi</td>
+      <td>1. Buka /absensi/rekap<br>2. Pilih kelas X-A<br>3. Klik Filter</td>
+      <td>Kelas: X-A</td>
+      <td>Tabel rekap menampilkan semua siswa kelas X-A; kolom persentase terisi (hadir/total × 100%)</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC06-TC05</td><td>Input absensi tanpa pilih kelas dan tanggal</td><td>Negatif</td>
+      <td>Login sebagai admin; di /absensi/create</td>
+      <td>1. Klik "Tampilkan Siswa" tanpa memilih kelas/tanggal</td>
+      <td>Kelas: (kosong); Tanggal: (kosong)</td>
+      <td>Browser validasi required; form tidak tersubmit</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== UC07 & UC08 ==================== -->
+<div class="page page-break">
+  <h2>UC07 — Profil & Ganti Password</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th><th style="width:14%">Deskripsi</th><th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th><th style="width:18%">Test Step</th><th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th><th style="width:11%">Actual Result</th><th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC07-TC01</td><td>Update nama dan email profil</td><td>Positif</td>
+      <td>Login sebagai guru1; di /profile</td>
+      <td>1. Ubah nama ke nama baru<br>2. Ubah email ke email baru unik<br>3. Klik Simpan Profil</td>
+      <td>Nama: [nama baru unik]<br>Email: [email baru unik]</td>
+      <td>Flash success "Profil berhasil diupdate"; nama di navbar berubah</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC07-TC02</td><td>Update email dengan email milik user lain</td><td>Negatif</td>
+      <td>Login sebagai guru1; email admin@sekolah.test milik admin</td>
+      <td>1. Di /profile, isi email: admin@sekolah.test<br>2. Klik Simpan Profil</td>
+      <td>Email: admin@sekolah.test (milik user lain)</td>
+      <td>Flash error "Email sudah digunakan oleh pengguna lain"; email tidak berubah</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC07-TC03</td><td>Ganti password dengan password lama benar</td><td>Positif</td>
+      <td>Login sebagai guru1</td>
+      <td>1. Isi Password Saat Ini: password123<br>2. Password Baru: newpass321<br>3. Konfirmasi: newpass321<br>4. Klik Ganti Password</td>
+      <td>Current: password123<br>New: newpass321<br>Confirm: newpass321</td>
+      <td>Flash success "Password berhasil diubah"; login ulang dengan password baru berhasil</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC07-TC04</td><td>Ganti password dengan password lama salah</td><td>Negatif</td>
+      <td>Login sebagai guru1</td>
+      <td>1. Isi Password Saat Ini: salahbgt<br>2. Password Baru: newpass321<br>3. Klik Ganti Password</td>
+      <td>Current: salahbgt (salah)</td>
+      <td>Flash error "Password saat ini salah"; password tidak berubah</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC07-TC05</td><td>Ganti password baru kurang dari 6 karakter</td><td>Negatif</td>
+      <td>Login sebagai guru1</td>
+      <td>1. Password Saat Ini: password123<br>2. Password Baru: abc<br>3. Konfirmasi: abc<br>4. Klik Ganti</td>
+      <td>New: abc (3 karakter)</td>
+      <td>Flash error "Password baru minimal 6 karakter"; password tidak berubah</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC07-TC06</td><td>Ganti password konfirmasi tidak cocok</td><td>Negatif</td>
+      <td>Login sebagai guru1</td>
+      <td>1. Current: password123<br>2. New: newpass321<br>3. Confirm: berbeda999<br>4. Klik Ganti</td>
+      <td>Confirm: berbeda999 (tidak cocok)</td>
+      <td>Flash error "Konfirmasi password tidak cocok"; password tidak berubah</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+
+  <h2>UC08 — Dashboard Siswa</h2>
+  <table>
+    <tr>
+      <th style="width:7%">ID</th><th style="width:14%">Deskripsi</th><th style="width:6%">Tipe</th>
+      <th style="width:11%">Pre-Condition</th><th style="width:18%">Test Step</th><th style="width:12%">Test Data</th>
+      <th style="width:14%">Expected Result</th><th style="width:11%">Actual Result</th><th style="width:7%">Status</th>
+    </tr>
+    <tr class="positif">
+      <td>UC08-TC01</td><td>Siswa login otomatis ke dashboard siswa</td><td>Positif</td>
+      <td>siswa1 memiliki user_id terhubung ke tabel students</td>
+      <td>1. Login: siswa1 / password123<br>2. Perhatikan redirect</td>
+      <td>Username: siswa1<br>Password: password123</td>
+      <td>Setelah login redirect ke /siswa/dashboard; menampilkan data Ahmad Fauzi</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC08-TC02</td><td>Dashboard siswa menampilkan rekap absensi</td><td>Positif</td>
+      <td>Login sebagai siswa1; ada data absensi</td>
+      <td>1. Buka /siswa/dashboard<br>2. Cek kartu statistik Hadir/Sakit/Izin/Alpa</td>
+      <td>—</td>
+      <td>4 kartu menampilkan angka sesuai data di DB; tabel riwayat 10 absensi terbaru tampil</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="negatif">
+      <td>UC08-TC03</td><td>Role guru tidak bisa akses /siswa/dashboard</td><td>Negatif</td>
+      <td>Login sebagai guru1</td>
+      <td>1. Akses URL /siswa/dashboard langsung</td>
+      <td>—</td>
+      <td>Redirect ke /dashboard; flash error "Anda tidak memiliki akses"</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+    <tr class="positif">
+      <td>UC08-TC04</td><td>Pagination — navigasi ke halaman berikutnya</td><td>Positif</td>
+      <td>Login sebagai admin; ada lebih dari 10 data di salah satu modul</td>
+      <td>1. Buka /jurnal atau /kesiswaan<br>2. Klik nomor halaman 2</td>
+      <td>—</td>
+      <td>Halaman 2 menampilkan 10 data berikutnya; tombol halaman 2 aktif (highlighted)</td>
+      <td class="empty">[isi setelah uji]</td><td class="empty">[PASS/FAIL]</td>
+    </tr>
+  </table>
+
+  <h2 style="margin-top:20pt;">Ringkasan Hasil (isi setelah testing)</h2>
+  <table style="width:60%;">
+    <tr><th>Modul</th><th>Total TC</th><th>Pass</th><th>Fail</th><th>Blocked</th></tr>
+    <tr><td>UC01 — Autentikasi</td><td>6</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td>UC02 — Manajemen Pengguna</td><td>6</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td>UC03 — Kesiswaan</td><td>6</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td>UC04 — Jurnal Mengajar</td><td>5</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td>UC05 — BK</td><td>7</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td>UC06 — Absensi</td><td>5</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td>UC07 — Profil & Password</td><td>6</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td>UC08 — Dashboard Siswa</td><td>4</td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+    <tr><td><strong>TOTAL</strong></td><td><strong>45</strong></td><td class="empty">___</td><td class="empty">___</td><td class="empty">___</td></tr>
+  </table>
+  <p style="margin-top:6pt;font-size:9pt;color:#86868b;">Pass Rate: ___/45 = ___%</p>
+  <p style="margin-top:20pt;text-align:center;color:#86868b;font-size:9pt;">
+    — Template Manual Testing — Web Sekolah Terintegrasi | Kelompok 5 RPL-A | 2025/2026 —<br>
+    Actual Result dan Status diisi setelah testing langsung di https://web-sekolah.duckdns.org
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,866 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SRS - Web Sekolah Terintegrasi - Kelompok 5 RPL-A</title>
+<style>
+  @page { size: A4; margin: 2.5cm 2cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 12pt; line-height: 1.6; color: #1d1d1f; }
+  .page { width: 21cm; min-height: 29.7cm; padding: 2.5cm 2cm; margin: 0 auto; }
+  .page-break { page-break-before: always; }
+  h1 { font-size: 18pt; margin-bottom: 6pt; }
+  h2 { font-size: 14pt; margin: 20pt 0 10pt; border-bottom: 2px solid #1d1d1f; padding-bottom: 4pt; }
+  h3 { font-size: 12pt; margin: 14pt 0 6pt; color: #1d1d1f; }
+  h4 { font-size: 11pt; margin: 10pt 0 4pt; }
+  p  { margin-bottom: 8pt; text-align: justify; }
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 10pt; }
+  th, td { border: 1px solid #86868b; padding: 5pt 7pt; text-align: left; vertical-align: top; }
+  th { background: #f5f5f7; font-weight: 600; }
+  ul, ol { margin: 6pt 0 6pt 24pt; }
+  li { margin-bottom: 3pt; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 27cm; text-align: center; }
+  .cover h1 { font-size: 20pt; margin-bottom: 10pt; }
+  .cover .subtitle { font-size: 14pt; margin-bottom: 20pt; color: #3a3a3c; }
+  .cover table { width: 80%; margin: 30pt auto; font-size: 11pt; }
+  .cover td { padding: 6pt 10pt; }
+  .req-id { font-family: monospace; font-size: 9pt; color: #0071e3; font-weight: bold; }
+  .priority-high { color: #ff3b30; font-weight: bold; }
+  .priority-med  { color: #ff9500; font-weight: bold; }
+  .priority-low  { color: #34c759; font-weight: bold; }
+  .note { background: #f5f5f7; border-left: 3px solid #86868b; padding: 8pt 12pt; margin: 8pt 0; font-size: 10pt; }
+  .toc-item { margin: 3pt 0; }
+  .toc-sub  { margin: 2pt 0 2pt 20pt; font-size: 11pt; }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="page cover">
+  <h1>SOFTWARE REQUIREMENTS SPECIFICATION</h1>
+  <div class="subtitle">Web Sekolah Terintegrasi<br>Berbasis Scalable System Design</div>
+  <hr style="width:60%;border:1px solid #1d1d1f;margin:10pt auto;">
+  <table style="font-size:11pt;">
+    <tr><td><strong>Mata Kuliah</strong></td><td>RPL-A Scalable System Design</td></tr>
+    <tr><td><strong>Dosen Pengampu</strong></td><td>Pak Runal</td></tr>
+    <tr><td><strong>Kelompok</strong></td><td>Kelompok 5 | RPL-A</td></tr>
+    <tr><td><strong>Versi Dokumen</strong></td><td>1.0</td></tr>
+    <tr><td><strong>Tanggal</strong></td><td>Juli 2026</td></tr>
+  </table>
+  <div style="margin-top:20pt; font-size:11pt;">
+    <strong>Disusun Oleh:</strong><br><br>
+    Ashabul Kahfi (105841108523)<br>
+    Marhepi Rahmadani (105841109523)<br>
+    Muh. Eka Andri Setiawan (105841110723)<br>
+    Afra Muawiya (105841108423)<br>
+    Alyah Saputri Bakri (105841107723)
+  </div>
+  <p style="margin-top:30pt;font-size:10pt;color:#86868b;">Universitas Muhammadiyah Makassar — Tahun Akademik 2025/2026</p>
+</div>
+
+<!-- ==================== DAFTAR ISI ==================== -->
+<div class="page page-break">
+  <h2>Daftar Isi</h2>
+  <div class="toc-item">1. Pendahuluan</div>
+  <div class="toc-sub">1.1 Tujuan Dokumen</div>
+  <div class="toc-sub">1.2 Ruang Lingkup Sistem</div>
+  <div class="toc-sub">1.3 Definisi, Akronim, dan Singkatan</div>
+  <div class="toc-sub">1.4 Referensi</div>
+  <div class="toc-sub">1.5 Ikhtisar Dokumen</div>
+  <br>
+  <div class="toc-item">2. Deskripsi Umum Sistem</div>
+  <div class="toc-sub">2.1 Perspektif Produk</div>
+  <div class="toc-sub">2.2 Fungsi Utama Produk</div>
+  <div class="toc-sub">2.3 Karakteristik Pengguna</div>
+  <div class="toc-sub">2.4 Batasan Sistem</div>
+  <div class="toc-sub">2.5 Asumsi dan Ketergantungan</div>
+  <br>
+  <div class="toc-item">3. Kebutuhan Fungsional (Functional Requirements)</div>
+  <div class="toc-sub">FA — Kebutuhan Fungsional Aplikasi Web</div>
+  <div class="toc-sub">FA1 — Modul Autentikasi</div>
+  <div class="toc-sub">FA2 — Modul Manajemen Pengguna</div>
+  <div class="toc-sub">FA3 — Modul Data Kesiswaan</div>
+  <div class="toc-sub">FA4 — Modul Jurnal Mengajar</div>
+  <div class="toc-sub">FA5 — Modul Bimbingan Konseling (BK)</div>
+  <div class="toc-sub">FA6 — Modul Absensi Siswa</div>
+  <div class="toc-sub">FA7 — Fitur Lintas Modul</div>
+  <br>
+  <div class="toc-item">4. Kebutuhan Non-Fungsional (Non-Functional Requirements)</div>
+  <div class="toc-sub">NFR1 — Keamanan (Security)</div>
+  <div class="toc-sub">NFR2 — Kinerja (Performance)</div>
+  <div class="toc-sub">NFR3 — Skalabilitas (Scalability)</div>
+  <div class="toc-sub">NFR4 — Ketersediaan (Availability)</div>
+  <div class="toc-sub">NFR5 — Keandalan (Reliability)</div>
+  <div class="toc-sub">NFR6 — Kemudahan Pemeliharaan (Maintainability)</div>
+  <div class="toc-sub">NFR7 — Kompatibilitas (Compatibility)</div>
+  <br>
+  <div class="toc-item">5. Antarmuka Eksternal</div>
+  <div class="toc-sub">5.1 Antarmuka Pengguna</div>
+  <div class="toc-sub">5.2 Antarmuka Perangkat Keras</div>
+  <div class="toc-sub">5.3 Antarmuka Perangkat Lunak</div>
+  <br>
+  <div class="toc-item">6. Verifikasi Kebutuhan (Verification)</div>
+  <br>
+  <div class="toc-item">Lampiran A — Use Case Diagram</div>
+  <div class="toc-item">Lampiran B — Daftar Singkatan</div>
+</div>
+
+<!-- ==================== BAB 1: PENDAHULUAN ==================== -->
+<div class="page page-break">
+  <h2>1. Pendahuluan</h2>
+
+  <h3>1.1 Tujuan Dokumen</h3>
+  <p>Dokumen <em>Software Requirements Specification</em> (SRS) ini mendeskripsikan kebutuhan fungsional dan non-fungsional dari sistem <strong>Web Sekolah Terintegrasi</strong>. Dokumen ini ditujukan kepada tim pengembang sebagai panduan implementasi, tim penguji sebagai acuan pengujian, dan dosen pengampu sebagai evaluasi capaian proyek.</p>
+  <p>Dokumen ini mengacu pada standar IEEE 830-1998 untuk penulisan Software Requirements Specification.</p>
+
+  <h3>1.2 Ruang Lingkup Sistem</h3>
+  <p><strong>Nama Sistem:</strong> Web Sekolah Terintegrasi</p>
+  <p><strong>URL Produksi:</strong> https://web-sekolah.duckdns.org</p>
+  <p><strong>Repository:</strong> https://github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5</p>
+  <p>Sistem ini adalah aplikasi manajemen sekolah berbasis web yang mengintegrasikan 5 modul utama: Manajemen Pengguna, Data Kesiswaan, Jurnal Mengajar, Bimbingan Konseling (BK), dan Absensi Siswa. Sistem dirancang dengan prinsip <em>Scalable System Design</em> untuk mendukung pertumbuhan data dan pengguna sekolah dari waktu ke waktu.</p>
+  <p>Sistem <strong>tidak mencakup</strong>: sistem keuangan/pembayaran SPP, pengelolaan nilai akademik, sistem presensi berbasis RFID/biometrik, dan komunikasi orang tua secara langsung (dalam versi ini).</p>
+
+  <h3>1.3 Definisi, Akronim, dan Singkatan</h3>
+  <table>
+    <tr><th style="width:20%">Istilah</th><th>Definisi</th></tr>
+    <tr><td>SRS</td><td>Software Requirements Specification — Dokumen spesifikasi kebutuhan perangkat lunak</td></tr>
+    <tr><td>RBAC</td><td>Role-Based Access Control — Sistem kendali akses berdasarkan peran pengguna</td></tr>
+    <tr><td>FR</td><td>Functional Requirement — Kebutuhan fungsional sistem</td></tr>
+    <tr><td>NFR</td><td>Non-Functional Requirement — Kebutuhan non-fungsional sistem</td></tr>
+    <tr><td>BK</td><td>Bimbingan Konseling — Layanan bimbingan siswa oleh guru BK</td></tr>
+    <tr><td>NIS</td><td>Nomor Induk Siswa — Identitas unik setiap siswa</td></tr>
+    <tr><td>NIP</td><td>Nomor Induk Pegawai — Identitas unik setiap guru/pegawai</td></tr>
+    <tr><td>MVC</td><td>Model-View-Controller — Pola arsitektur perangkat lunak</td></tr>
+    <tr><td>API</td><td>Application Programming Interface — Antarmuka pemrograman aplikasi</td></tr>
+    <tr><td>CRUD</td><td>Create, Read, Update, Delete — Operasi dasar data</td></tr>
+    <tr><td>EJS</td><td>Embedded JavaScript — Template engine untuk rendering HTML di server</td></tr>
+    <tr><td>vCPU</td><td>Virtual Central Processing Unit — Unit prosesor virtual pada server cloud</td></tr>
+  </table>
+
+  <h3>1.4 Referensi</h3>
+  <ul>
+    <li>IEEE Std 830-1998, IEEE Recommended Practice for Software Requirements Specifications</li>
+    <li>Dokumentasi Express.js — https://expressjs.com</li>
+    <li>Dokumentasi MySQL 8.0 — https://dev.mysql.com/doc</li>
+    <li>Bootstrap 5 Documentation — https://getbootstrap.com/docs/5.3</li>
+    <li>Laporan Proyek MID SSD — Web Sekolah Terintegrasi, Kelompok 5 RPL-A, 2026</li>
+  </ul>
+
+  <h3>1.5 Ikhtisar Dokumen</h3>
+  <p>Dokumen ini terdiri dari 6 bab. Bab 1 berisi pendahuluan dan konteks dokumen. Bab 2 mendeskripsikan sistem secara umum. Bab 3 dan 4 mendefinisikan kebutuhan fungsional dan non-fungsional secara rinci. Bab 5 menjelaskan antarmuka eksternal. Bab 6 berisi tabel verifikasi kebutuhan.</p>
+</div>
+
+<!-- ==================== BAB 2: DESKRIPSI UMUM ==================== -->
+<div class="page page-break">
+  <h2>2. Deskripsi Umum Sistem</h2>
+
+  <h3>2.1 Perspektif Produk</h3>
+  <p>Web Sekolah Terintegrasi adalah sistem informasi manajemen sekolah yang berdiri sendiri (<em>standalone</em>) berbasis web. Sistem ini menggantikan pengelolaan data yang sebelumnya tersebar di berbagai aplikasi atau dokumen terpisah.</p>
+  <p>Arsitektur sistem menggunakan pendekatan <em>Modular Monolith</em> di mana seluruh modul berjalan dalam satu aplikasi Node.js Express.js dengan satu database MySQL terpusat. Setiap modul memiliki router dan view sendiri sehingga memudahkan pengembangan dan pemeliharaan independen.</p>
+  <p>Sistem di-deploy di Oracle Cloud dengan konfigurasi Nginx sebagai reverse proxy (port 443 → 3000), PM2 sebagai process manager, dan SSL/HTTPS via Certbot. Domain publik: <strong>https://web-sekolah.duckdns.org</strong>.</p>
+
+  <h3>2.2 Fungsi Utama Produk</h3>
+  <ul>
+    <li><strong>Manajemen Pengguna:</strong> Pengelolaan akun dengan 7 role berbeda dan sistem autentikasi berbasis session</li>
+    <li><strong>Data Kesiswaan:</strong> Pengelolaan data siswa, kelas, wali kelas, dan import/export CSV</li>
+    <li><strong>Jurnal Mengajar:</strong> Pencatatan aktivitas mengajar harian guru per kelas dan mata pelajaran</li>
+    <li><strong>Bimbingan Konseling:</strong> Pencatatan kasus, konseling, pelanggaran, dan prestasi siswa</li>
+    <li><strong>Absensi Siswa:</strong> Input kehadiran harian dan rekap persentase kehadiran per siswa</li>
+    <li><strong>Dashboard:</strong> Visualisasi statistik real-time dengan grafik Chart.js</li>
+    <li><strong>Audit Trail:</strong> Pencatatan seluruh aktivitas pengguna di tabel activity_logs</li>
+  </ul>
+
+  <h3>2.3 Karakteristik Pengguna</h3>
+  <table>
+    <tr><th>Role</th><th>Deskripsi</th><th>Hak Akses Utama</th><th>Level Teknis</th></tr>
+    <tr><td>Admin</td><td>Administrator sistem sekolah</td><td>Akses penuh ke semua modul dan CRUD</td><td>Menengah</td></tr>
+    <tr><td>Kepala Sekolah</td><td>Pimpinan sekolah</td><td>View semua data dan rekap, tanpa CRUD</td><td>Dasar</td></tr>
+    <tr><td>Guru</td><td>Tenaga pengajar</td><td>Input jurnal, input absensi kelas sendiri</td><td>Dasar</td></tr>
+    <tr><td>Guru BK</td><td>Guru Bimbingan Konseling</td><td>Kelola semua data BK siswa</td><td>Dasar</td></tr>
+    <tr><td>Wali Kelas</td><td>Guru yang menjadi wali kelas</td><td>View kesiswaan, jurnal rekap, input absensi</td><td>Dasar</td></tr>
+    <tr><td>Siswa</td><td>Peserta didik aktif</td><td>Dashboard pribadi (absensi, prestasi, pelanggaran)</td><td>Dasar</td></tr>
+    <tr><td>Orang Tua</td><td>Wali siswa</td><td>Tahap pengembangan berikutnya</td><td>Dasar</td></tr>
+  </table>
+
+  <h3>2.4 Batasan Sistem</h3>
+  <ul>
+    <li>Sistem memerlukan koneksi internet untuk akses dari luar jaringan sekolah</li>
+    <li>Browser yang didukung: Chrome v90+, Firefox v88+, Edge v90+, Safari v14+</li>
+    <li>Spesifikasi minimum server: 1 vCPU, 1 GB RAM, 20 GB storage</li>
+    <li>Database MySQL versi 5.7 atau lebih baru</li>
+    <li>Node.js versi 16 atau lebih baru</li>
+    <li>Sistem belum mendukung multiple bahasa (hanya Bahasa Indonesia)</li>
+    <li>Tidak tersedia aplikasi mobile native (hanya responsive web)</li>
+  </ul>
+
+  <h3>2.5 Asumsi dan Ketergantungan</h3>
+  <ul>
+    <li>Diasumsikan setiap pengguna memiliki akun yang telah dibuat oleh Admin sebelum dapat login</li>
+    <li>Diasumsikan data kelas, mata pelajaran, guru, dan tahun ajaran telah diinput Admin sebelum modul lain digunakan</li>
+    <li>Sistem bergantung pada ketersediaan server Oracle Cloud dan koneksi internet stabil</li>
+    <li>Setiap guru yang ingin menggunakan modul Jurnal dan BK harus terdaftar sebagai <em>teacher</em> di tabel teachers oleh Admin</li>
+    <li>Setiap siswa yang ingin menggunakan Dashboard Siswa harus memiliki user_id yang terhubung ke akun di tabel users</li>
+  </ul>
+</div>
+
+<!-- ==================== BAB 3: KEBUTUHAN FUNGSIONAL ==================== -->
+<div class="page page-break">
+  <h2>3. Kebutuhan Fungsional</h2>
+  <p>Kebutuhan fungsional diidentifikasi dengan kode <strong>FAx-Ry</strong> di mana <em>x</em> adalah nomor modul dan <em>y</em> adalah nomor kebutuhan dalam modul tersebut. Prioritas: <span class="priority-high">Tinggi</span> = wajib ada, <span class="priority-med">Sedang</span> = dibutuhkan, <span class="priority-low">Rendah</span> = opsional.</p>
+
+  <h3>FA1 — Modul Autentikasi</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:38%">Deskripsi Kebutuhan</th><th style="width:12%">Input</th><th style="width:25%">Output / Perilaku Sistem</th><th style="width:13%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">FA1-R1</td>
+      <td>Pengguna dapat login ke sistem menggunakan username dan password yang valid</td>
+      <td>Username, Password</td>
+      <td>Session dibuat, pengguna diarahkan ke Dashboard; last_login diperbarui; aktivitas dicatat di activity_logs</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA1-R2</td>
+      <td>Sistem menolak login jika username tidak ditemukan atau password salah, dan menampilkan pesan error yang sesuai</td>
+      <td>Username tidak valid atau Password salah</td>
+      <td>Session tidak dibuat; flash message error: "Username atau password salah"; redirect ke halaman login</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA1-R3</td>
+      <td>Pengguna yang statusnya nonaktif (is_active = 0) tidak dapat login ke sistem</td>
+      <td>Username akun nonaktif</td>
+      <td>Sistem tidak membuat session; menampilkan pesan error</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA1-R4</td>
+      <td>Pengguna dapat logout dari sistem dan semua data session dihapus</td>
+      <td>Klik tombol Logout</td>
+      <td>Session dihancurkan; pengguna diarahkan ke halaman login</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA1-R5</td>
+      <td>Pengguna yang belum login akan diarahkan ke halaman login jika mengakses halaman yang memerlukan autentikasi</td>
+      <td>Akses URL tanpa session aktif</td>
+      <td>Redirect ke /auth/login dengan flash message "Silakan login terlebih dahulu"</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>FA2 — Modul Manajemen Pengguna</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:38%">Deskripsi Kebutuhan</th><th style="width:12%">Input</th><th style="width:25%">Output / Perilaku Sistem</th><th style="width:13%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">FA2-R1</td>
+      <td>Admin dapat melihat daftar semua pengguna dengan informasi username, nama, email, role, status, dan waktu login terakhir</td>
+      <td>Akses halaman /users</td>
+      <td>Tabel pengguna dengan pagination 10 data/halaman</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R2</td>
+      <td>Admin dapat menambah pengguna baru dengan mengisi username, nama lengkap, email, password, dan role</td>
+      <td>Form tambah user dengan semua field terisi dan valid</td>
+      <td>Data user tersimpan di database; password di-hash bcryptjs; flash success; redirect ke /users</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R3</td>
+      <td>Sistem menolak penambahan pengguna jika username atau email sudah digunakan</td>
+      <td>Username atau email yang sudah terdaftar</td>
+      <td>Flash error dengan keterangan field yang duplikat; tidak ada data tersimpan</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R4</td>
+      <td>Admin dapat mengubah data pengguna (nama, email, role, status aktif/nonaktif)</td>
+      <td>Form edit user dengan data yang diubah</td>
+      <td>Data diperbarui di database; aktivitas dicatat; flash success</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R5</td>
+      <td>Admin dapat menghapus pengguna, kecuali akun Admin yang sedang digunakan</td>
+      <td>Klik hapus + konfirmasi</td>
+      <td>Data user dihapus; aktivitas dicatat; flash success. Sistem mencegah Admin menghapus akunnya sendiri</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R6</td>
+      <td>Admin dapat mereset password pengguna ke nilai default "password123"</td>
+      <td>Klik reset password + konfirmasi</td>
+      <td>Password di-hash ulang dan diperbarui; aktivitas dicatat; flash success</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R7</td>
+      <td>Admin dapat mencari pengguna berdasarkan nama, username, atau email menggunakan search bar dengan fitur suggestion real-time</td>
+      <td>Teks pencarian (min. 2 karakter)</td>
+      <td>Dropdown suggestion muncul real-time via AJAX; filter tabel saat form submit</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+  </table>
+</div>
+
+<div class="page page-break">
+  <h3>FA3 — Modul Data Kesiswaan</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:38%">Deskripsi Kebutuhan</th><th style="width:12%">Input</th><th style="width:25%">Output / Perilaku Sistem</th><th style="width:13%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">FA3-R1</td>
+      <td>Admin dapat menambah data siswa baru dengan mengisi NIS, nama lengkap, jenis kelamin, tempat/tanggal lahir, alamat, nomor telepon, dan kelas</td>
+      <td>Form tambah siswa dengan NIS unik</td>
+      <td>Data siswa tersimpan; flash success; redirect ke /kesiswaan. NIS duplikat ditolak dengan pesan error</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA3-R2</td>
+      <td>Admin dapat mengubah data siswa termasuk status (aktif, pindah, lulus, keluar)</td>
+      <td>Form edit siswa</td>
+      <td>Data diperbarui; aktivitas dicatat; flash success</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA3-R3</td>
+      <td>Admin dapat menghapus data siswa dari sistem</td>
+      <td>Klik hapus + konfirmasi</td>
+      <td>Data siswa dihapus dari database; aktivitas dicatat; flash success</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA3-R4</td>
+      <td>Admin dapat menetapkan guru sebagai wali kelas untuk setiap kelas yang tersedia</td>
+      <td>Pilih kelas dan pilih guru dari dropdown</td>
+      <td>homeroom_teacher_id pada tabel classes diperbarui; aktivitas dicatat</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA3-R5</td>
+      <td>Admin dapat mengimpor data siswa secara massal dari file CSV dengan format yang telah ditentukan</td>
+      <td>File CSV (kolom: nis, full_name, gender, birth_place, birth_date, address, phone, class_id)</td>
+      <td>Data siswa dimasukkan ke database; sistem menampilkan jumlah berhasil dan gagal diimpor</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA3-R6</td>
+      <td>Admin dan Kepala Sekolah dapat mengekspor seluruh data siswa ke file CSV</td>
+      <td>Klik tombol Export CSV</td>
+      <td>File CSV terunduh dengan data lengkap seluruh siswa; aktivitas dicatat</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA3-R7</td>
+      <td>Pengguna dapat mencari siswa berdasarkan nama atau NIS dengan fitur suggestion real-time</td>
+      <td>Teks pencarian (min. 2 karakter)</td>
+      <td>Dropdown suggestion nama/NIS siswa muncul real-time; filter tabel saat submit</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>FA4 — Modul Jurnal Mengajar</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:38%">Deskripsi Kebutuhan</th><th style="width:12%">Input</th><th style="width:25%">Output / Perilaku Sistem</th><th style="width:13%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">FA4-R1</td>
+      <td>Guru dapat menginput jurnal mengajar harian dengan mengisi kelas, mata pelajaran, tanggal, materi, metode pengajaran, dan catatan</td>
+      <td>Form input jurnal dengan semua field wajib terisi</td>
+      <td>Jurnal tersimpan di teaching_journals; aktivitas dicatat; flash success</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA4-R2</td>
+      <td>Guru hanya dapat melihat jurnal miliknya sendiri, sedangkan Admin dan Kepala Sekolah dapat melihat seluruh jurnal</td>
+      <td>Akses halaman /jurnal</td>
+      <td>Data jurnal difilter berdasarkan teacher_id dari session (untuk role guru)</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA4-R3</td>
+      <td>Admin dapat menghapus data jurnal</td>
+      <td>Klik hapus + konfirmasi</td>
+      <td>Data jurnal dihapus dari database; flash success</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA4-R4</td>
+      <td>Admin, Kepala Sekolah, dan Wali Kelas dapat melihat rekap jurnal dengan filter guru, kelas, dan rentang tanggal</td>
+      <td>Filter: teacher_id, class_id, start_date, end_date</td>
+      <td>Tabel rekap per guru dan per kelas ditampilkan sesuai filter; statistik total jurnal, guru, kelas</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>FA5 — Modul Bimbingan Konseling (BK)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:38%">Deskripsi Kebutuhan</th><th style="width:12%">Input</th><th style="width:25%">Output / Perilaku Sistem</th><th style="width:13%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">FA5-R1</td>
+      <td>Guru BK dapat mencatat kasus BK siswa dengan mengisi siswa, tanggal, jenis kasus, dan deskripsi</td>
+      <td>Form kasus BK; Admin wajib memilih guru BK dari dropdown</td>
+      <td>Kasus tersimpan di bk_cases dengan status default 'open'; aktivitas dicatat</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA5-R2</td>
+      <td>Guru BK dapat mengubah status kasus BK menjadi 'open', 'proses', atau 'selesai'</td>
+      <td>Pilih status dari dropdown di tabel kasus</td>
+      <td>Status kasus diperbarui di database; perubahan langsung terlihat di tabel</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA5-R3</td>
+      <td>Guru BK dapat mencatat catatan konseling, pelanggaran siswa, dan prestasi siswa</td>
+      <td>Form konseling/pelanggaran/prestasi</td>
+      <td>Data tersimpan di tabel masing-masing (bk_counseling_notes, student_violations, student_achievements)</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA5-R4</td>
+      <td>Guru BK dan Admin dapat menghapus data kasus, konseling, pelanggaran, dan prestasi</td>
+      <td>Klik hapus + konfirmasi</td>
+      <td>Data dihapus; aktivitas dicatat; flash success</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA5-R5</td>
+      <td>Pengguna BK dapat melihat rekap kasus dengan filter siswa, kelas, dan rentang tanggal; dilengkapi grafik distribusi kasus</td>
+      <td>Filter: student_id, class_id, start_date, end_date</td>
+      <td>Tabel rekap kasus per siswa, rekap pelanggaran, grafik bar kasus per jenis, grafik donat status kasus</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+  </table>
+</div>
+
+<div class="page page-break">
+  <h3>FA6 — Modul Absensi Siswa</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:38%">Deskripsi Kebutuhan</th><th style="width:12%">Input</th><th style="width:25%">Output / Perilaku Sistem</th><th style="width:13%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">FA6-R1</td>
+      <td>Guru dan Wali Kelas dapat menginput kehadiran seluruh siswa untuk kelas dan tanggal tertentu dengan status hadir, sakit, izin, atau alpa</td>
+      <td>Pilih kelas dan tanggal; isi status setiap siswa</td>
+      <td>Data absensi disimpan (overwrite jika sudah ada); aktivitas dicatat; flash success</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA6-R2</td>
+      <td>Pengguna dapat melihat daftar absensi dengan filter kelas, rentang tanggal, dan nama/NIS siswa</td>
+      <td>Filter: class_id, start_date, end_date, search</td>
+      <td>Tabel absensi difilter dengan pagination 10 data/halaman; summary card per kelas dan tanggal</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA6-R3</td>
+      <td>Pengguna dapat menggunakan tombol cepat "7 Hari", "30 Hari", "3 Bulan" untuk mengisi rentang tanggal filter secara otomatis</td>
+      <td>Klik tombol quick filter</td>
+      <td>Field start_date dan end_date terisi otomatis; form langsung disubmit</td>
+      <td><span class="priority-low">Rendah / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA6-R4</td>
+      <td>Admin dapat menghapus data absensi individual</td>
+      <td>Klik hapus + konfirmasi</td>
+      <td>Data absensi dihapus; aktivitas dicatat; flash success</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA6-R5</td>
+      <td>Admin, Kepala Sekolah, dan Wali Kelas dapat melihat rekap absensi dengan persentase kehadiran per siswa</td>
+      <td>Filter: class_id, start_date, end_date</td>
+      <td>Tabel rekap: total hari, hadir, sakit, izin, alpa, dan persentase kehadiran per siswa diurutkan per kelas</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>FA7 — Fitur Lintas Modul</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:38%">Deskripsi Kebutuhan</th><th style="width:12%">Input</th><th style="width:25%">Output / Perilaku Sistem</th><th style="width:13%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">FA7-R1</td>
+      <td>Setiap pengguna dapat mengubah nama lengkap dan email pada halaman profil</td>
+      <td>Form profil dengan nama dan email baru (email harus unik)</td>
+      <td>Data diperbarui di database dan session; flash success</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA7-R2</td>
+      <td>Setiap pengguna dapat mengubah password dengan memasukkan password lama, password baru (min. 6 karakter), dan konfirmasi password</td>
+      <td>current_password, new_password, confirm_password</td>
+      <td>Password di-hash dan diperbarui; aktivitas dicatat. Sistem menolak jika password lama salah atau password baru tidak cocok</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA7-R3</td>
+      <td>Siswa yang login dapat mengakses dashboard pribadi berisi data diri, rekap absensi, prestasi, pelanggaran, dan kasus BK miliknya</td>
+      <td>Login sebagai siswa; akses /siswa/dashboard</td>
+      <td>Dashboard dengan 4 kartu statistik absensi, tabel riwayat absensi 10 terbaru, prestasi, dan pelanggaran</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA7-R4</td>
+      <td>Setiap halaman list memiliki pagination dengan 10 data per halaman dan navigasi halaman</td>
+      <td>Parameter page di URL</td>
+      <td>Tabel menampilkan 10 data per halaman; navigasi prev/next/nomor halaman tersedia</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA7-R5</td>
+      <td>Sistem mencatat seluruh aktivitas pengguna (login, create, update, delete) ke tabel activity_logs beserta IP address dan timestamp</td>
+      <td>Setiap operasi data oleh pengguna</td>
+      <td>Record baru di activity_logs: user_id, action, description, ip_address, created_at</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">FA7-R6</td>
+      <td>Dashboard utama menampilkan 6 kartu statistik, 5 grafik Chart.js, dan 8 aktivitas terbaru secara real-time</td>
+      <td>Akses /dashboard setelah login</td>
+      <td>Kartu: siswa aktif, guru, jurnal, kasus BK aktif, kelas, pengguna. Grafik: jurnal/bulan, status siswa, siswa/kelas, gender, kasus/jenis</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== BAB 4: NON-FUNCTIONAL ==================== -->
+<div class="page page-break">
+  <h2>4. Kebutuhan Non-Fungsional</h2>
+
+  <h3>NFR1 — Keamanan (Security)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:45%">Kebutuhan</th><th style="width:25%">Kriteria Pengukuran</th><th style="width:18%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">NFR1-R1</td>
+      <td>Sistem mengimplementasikan RBAC dengan 7 role; setiap route dilindungi middleware allowRoles()</td>
+      <td>Akses role tidak sesuai menghasilkan redirect dengan flash error, bukan HTTP 403</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR1-R2</td>
+      <td>Seluruh password pengguna di-hash menggunakan bcryptjs dengan salt rounds 10 sebelum disimpan ke database</td>
+      <td>Tidak ada password plaintext di tabel users; kolom password berformat $2a$10$...</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR1-R3</td>
+      <td>Autentikasi menggunakan session berbasis cookie dengan maxAge 24 jam dan secret key dari environment variable</td>
+      <td>Session kedaluwarsa setelah 24 jam; secret key tidak tersimpan di source code</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR1-R4</td>
+      <td>Semua query database menggunakan parameterized queries (prepared statements) untuk mencegah SQL Injection</td>
+      <td>Tidak ada string concatenation langsung di query SQL; menggunakan placeholder '?'</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR1-R5</td>
+      <td>Sistem diakses melalui HTTPS dengan sertifikat SSL/TLS valid dari Let's Encrypt (Certbot)</td>
+      <td>URL produksi menggunakan https://; sertifikat tidak kedaluwarsa</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>NFR2 — Kinerja (Performance)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:45%">Kebutuhan</th><th style="width:25%">Kriteria Pengukuran</th><th style="width:18%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">NFR2-R1</td>
+      <td>Halaman utama (Dashboard, daftar data) harus dapat dimuat dalam waktu kurang dari 3 detik pada koneksi internet normal (minimal 5 Mbps)</td>
+      <td>Response time halaman ≤ 3000 ms diukur dengan browser DevTools atau JMeter</td>
+      <td><span class="priority-high">Tinggi / Sedang</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR2-R2</td>
+      <td>Fitur search suggestion AJAX merespons dalam waktu kurang dari 500 ms setelah pengguna berhenti mengetik (debounce 300 ms)</td>
+      <td>Response API /api/search ≤ 500 ms diukur di browser Network tab</td>
+      <td><span class="priority-med">Sedang / Sedang</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR2-R3</td>
+      <td>Database menggunakan indeks pada kolom yang sering di-query (student_id, teacher_id, class_id, attendance_date) untuk mengoptimalkan kecepatan query</td>
+      <td>EXPLAIN SELECT menunjukkan penggunaan index; tidak ada full table scan pada tabel besar</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>NFR3 — Skalabilitas (Scalability)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:45%">Kebutuhan</th><th style="width:25%">Kriteria Pengukuran</th><th style="width:18%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">NFR3-R1</td>
+      <td>Arsitektur Modular Monolith memungkinkan penambahan modul baru tanpa mengubah kode modul yang sudah ada</td>
+      <td>Modul baru cukup dengan tambah folder di src/modules/, daftarkan di app.js, tambah menu di navbar</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR3-R2</td>
+      <td>Sistem dirancang dengan pembagian 6 vCPU untuk mendukung horizontal dan vertical scaling</td>
+      <td>Dokumentasi arsitektur vCPU tersedia; vCPU 3 (Jurnal) dapat di-scale secara independen</td>
+      <td><span class="priority-med">Sedang / Sedang</span></td>
+    </tr>
+  </table>
+
+  <h3>NFR4 — Ketersediaan (Availability)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:45%">Kebutuhan</th><th style="width:25%">Kriteria Pengukuran</th><th style="width:18%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">NFR4-R1</td>
+      <td>Sistem harus tersedia minimal 95% waktu dalam sebulan (uptime ≥ 95%). PM2 secara otomatis merestart proses jika terjadi crash</td>
+      <td>Uptime ≥ 95% per bulan; PM2 status menunjukkan proses berjalan online</td>
+      <td><span class="priority-high">Tinggi / Sedang</span></td>
+    </tr>
+  </table>
+
+  <h3>NFR5 — Keandalan (Reliability)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:45%">Kebutuhan</th><th style="width:25%">Kriteria Pengukuran</th><th style="width:18%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">NFR5-R1</td>
+      <td>Setiap operasi database menggunakan try-catch untuk menangani error dan memberikan flash message yang informatif kepada pengguna</td>
+      <td>Tidak ada unhandled exception yang menyebabkan crash server; semua error dicatat di console</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR5-R2</td>
+      <td>Database menggunakan foreign key constraints untuk menjaga integritas referensial data</td>
+      <td>Skema DDL memiliki FOREIGN KEY untuk semua relasi; operasi yang melanggar FK ditolak database</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>NFR6 — Kemudahan Pemeliharaan (Maintainability)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:45%">Kebutuhan</th><th style="width:25%">Kriteria Pengukuran</th><th style="width:18%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">NFR6-R1</td>
+      <td>Source code tersedia secara publik di GitHub dengan riwayat commit yang terdokumentasi</td>
+      <td>Repository dapat diakses dan di-clone; commit message menggunakan conventional commits</td>
+      <td><span class="priority-med">Sedang / Stabil</span></td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR6-R2</td>
+      <td>Konfigurasi environment (DB host, password, port, session secret) disimpan di file .env, bukan di source code</td>
+      <td>File .env.example tersedia; tidak ada credential di kode yang di-commit ke GitHub</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+  </table>
+
+  <h3>NFR7 — Kompatibilitas (Compatibility)</h3>
+  <table>
+    <tr><th style="width:12%">ID</th><th style="width:45%">Kebutuhan</th><th style="width:25%">Kriteria Pengukuran</th><th style="width:18%">Prioritas / Stabilitas</th></tr>
+    <tr>
+      <td class="req-id">NFR7-R1</td>
+      <td>Aplikasi dapat digunakan di browser modern pada perangkat desktop maupun mobile (responsive design)</td>
+      <td>Tampilan tidak rusak di Chrome, Firefox, Edge pada resolusi 320px–1920px; menggunakan Bootstrap 5 responsive grid</td>
+      <td><span class="priority-high">Tinggi / Stabil</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== BAB 5: ANTARMUKA EKSTERNAL ==================== -->
+<div class="page page-break">
+  <h2>5. Antarmuka Eksternal</h2>
+
+  <h3>5.1 Antarmuka Pengguna</h3>
+  <p>Antarmuka pengguna berbasis web dengan tema Apple-inspired monochrome. Prinsip desain:</p>
+  <ul>
+    <li><strong>Warna:</strong> Background #f5f5f7, teks utama #1d1d1f, aksen biru #0071e3</li>
+    <li><strong>Komponen:</strong> Card Bootstrap 5 dengan border-radius 12px, shadow halus, header navbar fixed-top</li>
+    <li><strong>Navigasi:</strong> Sidebar/navbar horizontal; menu tampil berdasarkan role pengguna</li>
+    <li><strong>Flash Messages:</strong> Alert Bootstrap 5 yang otomatis tertutup setelah 5 detik</li>
+    <li><strong>Tabel:</strong> table-hover dengan pagination 10 data/halaman dan search bar</li>
+    <li><strong>Modal:</strong> Bootstrap modal untuk form tambah data (BK, Users)</li>
+    <li><strong>Grafik:</strong> Chart.js bar, line, doughnut, pie chart di Dashboard</li>
+  </ul>
+  <p>Halaman login menggunakan layout guest (tanpa navbar). Semua halaman lain menggunakan layout main dengan navbar dan container-fluid.</p>
+
+  <h3>5.2 Antarmuka Perangkat Keras</h3>
+  <table>
+    <tr><th>Komponen</th><th>Spesifikasi Minimum</th><th>Spesifikasi Rekomendasi</th></tr>
+    <tr><td>Prosesor Server</td><td>1 vCPU (1 core)</td><td>2+ vCPU</td></tr>
+    <tr><td>RAM Server</td><td>1 GB</td><td>2 GB</td></tr>
+    <tr><td>Storage Server</td><td>20 GB</td><td>50 GB SSD</td></tr>
+    <tr><td>Koneksi Internet</td><td>Broadband 1 Mbps</td><td>5 Mbps atau lebih</td></tr>
+    <tr><td>Perangkat Client</td><td>PC/Laptop/Smartphone dengan browser modern</td><td>Layar minimal 320px lebar</td></tr>
+  </table>
+
+  <h3>5.3 Antarmuka Perangkat Lunak</h3>
+  <table>
+    <tr><th>Komponen</th><th>Teknologi</th><th>Versi</th><th>Fungsi</th></tr>
+    <tr><td>Runtime</td><td>Node.js</td><td>v16+</td><td>Menjalankan aplikasi server-side</td></tr>
+    <tr><td>Framework Web</td><td>Express.js</td><td>v4.18+</td><td>Routing HTTP dan middleware</td></tr>
+    <tr><td>Database</td><td>MySQL</td><td>v5.7+</td><td>Penyimpanan data relasional</td></tr>
+    <tr><td>Template Engine</td><td>EJS (express-ejs-layouts)</td><td>v3+</td><td>Rendering HTML di server</td></tr>
+    <tr><td>CSS Framework</td><td>Bootstrap</td><td>v5.3</td><td>Layout dan komponen UI</td></tr>
+    <tr><td>Charting</td><td>Chart.js</td><td>v4.4.1</td><td>Visualisasi data grafik</td></tr>
+    <tr><td>Password Hashing</td><td>bcryptjs</td><td>v2.4+</td><td>Hashing password</td></tr>
+    <tr><td>Session Management</td><td>express-session</td><td>v1.17+</td><td>Manajemen sesi login</td></tr>
+    <tr><td>Flash Messages</td><td>connect-flash</td><td>v0.1.1</td><td>Pesan sementara antar request</td></tr>
+    <tr><td>CSV Parser</td><td>csv-parse</td><td>v5+</td><td>Parse file CSV untuk import</td></tr>
+    <tr><td>File Upload</td><td>multer</td><td>v1.4+</td><td>Upload file CSV</td></tr>
+    <tr><td>Web Server</td><td>Nginx</td><td>v1.18+</td><td>Reverse proxy dan SSL termination</td></tr>
+    <tr><td>Process Manager</td><td>PM2</td><td>v5+</td><td>Auto-restart dan monitoring proses</td></tr>
+    <tr><td>SSL Certificate</td><td>Let's Encrypt (Certbot)</td><td>-</td><td>HTTPS/TLS termination</td></tr>
+    <tr><td>Hosting</td><td>Oracle Cloud (VM)</td><td>-</td><td>Server produksi</td></tr>
+  </table>
+</div>
+
+<!-- ==================== BAB 6: VERIFIKASI ==================== -->
+<div class="page page-break">
+  <h2>6. Verifikasi Kebutuhan (Verification)</h2>
+  <p>Tabel berikut menjelaskan metode verifikasi dan kriteria keberhasilan untuk setiap kebutuhan fungsional dan non-fungsional yang telah ditetapkan.</p>
+
+  <table>
+    <tr><th style="width:10%">ID</th><th style="width:28%">Kebutuhan</th><th style="width:18%">Metode Verifikasi</th><th style="width:30%">Kriteria Keberhasilan</th><th style="width:14%">Tipe Pengujian</th></tr>
+    <tr>
+      <td class="req-id">FA1-R1</td>
+      <td>Login dengan kredensial valid</td>
+      <td>Black Box Testing — input username + password valid</td>
+      <td>Session terbuat; redirect ke /dashboard; last_login diperbarui</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA1-R2</td>
+      <td>Login dengan kredensial salah</td>
+      <td>Black Box Testing — input password salah</td>
+      <td>Flash error muncul; tidak ada session; tetap di halaman login</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA1-R3</td>
+      <td>Login akun nonaktif</td>
+      <td>Black Box Testing — login akun is_active=0</td>
+      <td>Login ditolak; flash error ditampilkan</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R3</td>
+      <td>Tolak username/email duplikat</td>
+      <td>Black Box — input username yang sudah ada</td>
+      <td>Flash error spesifik; data tidak tersimpan</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA2-R5</td>
+      <td>Cegah self-deletion admin</td>
+      <td>Black Box — admin hapus akun sendiri</td>
+      <td>Flash error "Tidak dapat menghapus akun sendiri"; data tidak terhapus</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA3-R5</td>
+      <td>Import CSV siswa</td>
+      <td>Black Box — upload file CSV valid</td>
+      <td>Data siswa tersimpan; pesan berhasil/gagal ditampilkan</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA5-R1</td>
+      <td>Catat kasus BK oleh Admin</td>
+      <td>Black Box — Admin isi form kasus BK dengan pilih guru BK</td>
+      <td>Kasus tersimpan dengan teacher_id yang dipilih; flash success</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA6-R1</td>
+      <td>Input absensi kelas</td>
+      <td>Black Box — pilih kelas, tanggal, isi status tiap siswa</td>
+      <td>Data absensi tersimpan untuk semua siswa; redirect ke /absensi</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA7-R2</td>
+      <td>Ganti password sendiri</td>
+      <td>Black Box — isi password lama salah, password baru tidak cocok</td>
+      <td>Sistem menolak dengan flash error spesifik; password tidak berubah</td>
+      <td>Fungsional / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">FA7-R5</td>
+      <td>Audit trail activity_logs</td>
+      <td>White Box — cek database setelah operasi CRUD</td>
+      <td>Record baru di activity_logs dengan action, user_id, ip_address, timestamp</td>
+      <td>Fungsional / DB Inspect</td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR1-R1</td>
+      <td>RBAC — akses tanpa izin ditolak</td>
+      <td>Black Box — login sebagai guru, akses /bk</td>
+      <td>Redirect ke /dashboard dengan flash error "Anda tidak memiliki akses"</td>
+      <td>Keamanan / Manual</td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR1-R4</td>
+      <td>SQL Injection prevention</td>
+      <td>White Box — review kode SQL query</td>
+      <td>Seluruh query menggunakan parameterized (?) bukan string concat</td>
+      <td>Keamanan / Code Review</td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR2-R1</td>
+      <td>Response time halaman ≤ 3 detik</td>
+      <td>Performance Testing — JMeter dengan 100 virtual users</td>
+      <td>Average response time ≤ 3000 ms; error rate ≤ 5%</td>
+      <td>Performa / JMeter</td>
+    </tr>
+    <tr>
+      <td class="req-id">NFR7-R1</td>
+      <td>Responsive di mobile</td>
+      <td>Black Box — buka di smartphone 375px lebar</td>
+      <td>Tidak ada overflow horizontal; semua elemen terbaca; navbar hamburger muncul</td>
+      <td>UI / Manual</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== LAMPIRAN ==================== -->
+<div class="page page-break">
+  <h2>Lampiran A — Use Case Diagram</h2>
+  <p>Diagram berikut menggambarkan interaksi antara 7 aktor dengan sistem Web Sekolah Terintegrasi:</p>
+  <p style="text-align:center;padding:20pt;border:1px dashed #86868b;color:#86868b;margin:10pt 0;">
+    [Gambar: Use Case Diagram Web Sekolah Terintegrasi]<br>
+    <small>Sumber: docs/usecase.jpeg di repository GitHub</small>
+  </p>
+
+  <h3>Ringkasan Use Case per Aktor</h3>
+  <table>
+    <tr><th>Aktor</th><th>Use Case</th></tr>
+    <tr><td>Admin</td><td>Kelola User, Reset Password, Kelola Siswa, Kelola Kelas, Kelola Wali Kelas, Import/Export CSV, Input Jurnal, Input Absensi, Catat BK, Rekap semua modul, Dashboard</td></tr>
+    <tr><td>Kepala Sekolah</td><td>View Dashboard, View Kesiswaan, Rekap Jurnal, Rekap BK, Rekap Absensi, Export CSV</td></tr>
+    <tr><td>Guru</td><td>Input Jurnal Mengajar, View Jurnal Sendiri, Input Absensi Kelas, View Dashboard, Kelola Profil</td></tr>
+    <tr><td>Guru BK</td><td>Catat Kasus BK, Catat Konseling, Catat Pelanggaran, Catat Prestasi, Rekap BK, Hapus Data BK, View Dashboard, Kelola Profil</td></tr>
+    <tr><td>Wali Kelas</td><td>View Kesiswaan Kelas, Rekap Jurnal Kelas, Input Absensi Kelas, View Dashboard, Kelola Profil</td></tr>
+    <tr><td>Siswa</td><td>Dashboard Pribadi (absensi, prestasi, pelanggaran, kasus BK), Kelola Profil</td></tr>
+    <tr><td>Orang Tua</td><td>Belum diimplementasikan (tahap pengembangan berikutnya)</td></tr>
+  </table>
+
+  <h2>Lampiran B — Ringkasan Identifikasi Kebutuhan</h2>
+  <table>
+    <tr><th>Modul</th><th>Jumlah FR</th><th>ID</th></tr>
+    <tr><td>Autentikasi (FA1)</td><td>5</td><td>FA1-R1 s/d FA1-R5</td></tr>
+    <tr><td>Manajemen Pengguna (FA2)</td><td>7</td><td>FA2-R1 s/d FA2-R7</td></tr>
+    <tr><td>Data Kesiswaan (FA3)</td><td>7</td><td>FA3-R1 s/d FA3-R7</td></tr>
+    <tr><td>Jurnal Mengajar (FA4)</td><td>4</td><td>FA4-R1 s/d FA4-R4</td></tr>
+    <tr><td>Bimbingan Konseling (FA5)</td><td>5</td><td>FA5-R1 s/d FA5-R5</td></tr>
+    <tr><td>Absensi Siswa (FA6)</td><td>5</td><td>FA6-R1 s/d FA6-R5</td></tr>
+    <tr><td>Fitur Lintas Modul (FA7)</td><td>6</td><td>FA7-R1 s/d FA7-R6</td></tr>
+    <tr><td><strong>Total FR</strong></td><td><strong>39</strong></td><td></td></tr>
+    <tr><td>Keamanan (NFR1)</td><td>5</td><td>NFR1-R1 s/d NFR1-R5</td></tr>
+    <tr><td>Kinerja (NFR2)</td><td>3</td><td>NFR2-R1 s/d NFR2-R3</td></tr>
+    <tr><td>Skalabilitas (NFR3)</td><td>2</td><td>NFR3-R1 s/d NFR3-R2</td></tr>
+    <tr><td>Ketersediaan (NFR4)</td><td>1</td><td>NFR4-R1</td></tr>
+    <tr><td>Keandalan (NFR5)</td><td>2</td><td>NFR5-R1 s/d NFR5-R2</td></tr>
+    <tr><td>Maintainability (NFR6)</td><td>2</td><td>NFR6-R1 s/d NFR6-R2</td></tr>
+    <tr><td>Kompatibilitas (NFR7)</td><td>1</td><td>NFR7-R1</td></tr>
+    <tr><td><strong>Total NFR</strong></td><td><strong>16</strong></td><td></td></tr>
+    <tr><td><strong>TOTAL KEBUTUHAN</strong></td><td><strong>55</strong></td><td></td></tr>
+  </table>
+
+  <p style="margin-top:30pt;text-align:center;color:#86868b;font-size:10pt;">
+    — Akhir Dokumen SRS v1.0 —<br>
+    Web Sekolah Terintegrasi | Kelompok 5 RPL-A | Universitas Muhammadiyah Makassar | 2025/2026
+  </p>
+</div>
+
+</body>
+</html>

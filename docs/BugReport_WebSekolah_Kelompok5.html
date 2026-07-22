@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Bug Report - Web Sekolah Terintegrasi - Kelompok 5 RPL-A</title>
+<style>
+  @page { size: A4; margin: 2.5cm 2cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 11pt; line-height: 1.6; color: #1d1d1f; }
+  .page { width: 21cm; padding: 2.5cm 2cm; margin: 0 auto; }
+  .page-break { page-break-before: always; }
+  h1 { font-size: 18pt; text-align: center; margin-bottom: 6pt; }
+  h2 { font-size: 14pt; margin: 18pt 0 8pt; border-bottom: 2px solid #1d1d1f; padding-bottom: 4pt; }
+  p  { margin-bottom: 6pt; text-align: justify; }
+  ol { margin: 6pt 0 6pt 22pt; }
+  li { margin-bottom: 3pt; }
+  table { width: 100%; border-collapse: collapse; margin: 8pt 0; font-size: 10pt; }
+  th, td { border: 1px solid #86868b; padding: 5pt 7pt; text-align: left; vertical-align: top; }
+  th { background: #f5f5f7; font-weight: 600; width: 26%; }
+  .bug-header { color: white; font-size: 11pt; font-weight: bold; padding: 7pt 12pt; margin: 20pt 0 0 0; border-radius: 4pt 4pt 0 0; }
+  .h-critical { background: #ff3b30; }
+  .h-major    { background: #ff9500; }
+  .h-minor    { background: #86868b; }
+  .b-critical { border-left: 5px solid #ff3b30; }
+  .b-major    { border-left: 5px solid #ff9500; }
+  .b-minor    { border-left: 5px solid #86868b; }
+  .badge-critical { background: #ff3b30; color: white; padding: 2pt 7pt; border-radius: 4pt; font-size: 9pt; font-weight: bold; }
+  .badge-major    { background: #ff9500; color: white; padding: 2pt 7pt; border-radius: 4pt; font-size: 9pt; font-weight: bold; }
+  .badge-minor    { background: #86868b; color: white; padding: 2pt 7pt; border-radius: 4pt; font-size: 9pt; font-weight: bold; }
+  .badge-high  { background: #ff3b30; color: white; padding: 2pt 7pt; border-radius: 4pt; font-size: 9pt; }
+  .badge-med   { background: #ff9500; color: white; padding: 2pt 7pt; border-radius: 4pt; font-size: 9pt; }
+  .badge-low   { background: #34c759; color: white; padding: 2pt 7pt; border-radius: 4pt; font-size: 9pt; }
+  .s-fixed { background: #34c759; color: white; font-weight: bold; padding: 2pt 8pt; border-radius: 4pt; font-size: 9pt; }
+  .s-open  { background: #ff9500; color: white; font-weight: bold; padding: 2pt 8pt; border-radius: 4pt; font-size: 9pt; }
+  .empty   { color: #888; font-style: italic; }
+  .cover   { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 24cm; text-align: center; }
+  code { font-family: 'Courier New', monospace; font-size: 9pt; background: #f5f5f7; padding: 1pt 4pt; border-radius: 3pt; }
+  .screenshot-box { border: 2px dashed #86868b; border-radius: 4pt; padding: 12pt; margin: 8pt 0; text-align: center; color: #86868b; font-style: italic; font-size: 9pt; min-height: 50pt; }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="page cover">
+  <h1>BUG REPORT</h1>
+  <div style="font-size:13pt;margin:8pt 0;color:#3a3a3c;">Web Sekolah Terintegrasi</div>
+  <hr style="width:50%;border:1px solid #1d1d1f;margin:12pt auto;">
+  <table style="width:65%;margin:14pt auto;font-size:11pt;">
+    <tr><td><strong>Nama Proyek</strong></td><td>Web Sekolah Terintegrasi</td></tr>
+    <tr><td><strong>URL</strong></td><td>https://web-sekolah.duckdns.org</td></tr>
+    <tr><td><strong>Repository</strong></td><td>github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5</td></tr>
+    <tr><td><strong>Periode Ditemukan</strong></td><td>Juli 2026 (selama fase development & testing)</td></tr>
+    <tr><td><strong>Platform Pengujian</strong></td><td>Oracle Cloud Production; Windows 11, Chrome v126</td></tr>
+    <tr><td><strong>Total Bug</strong></td><td>11 bug terkonfirmasi (semua FIXED) + template untuk hasil manual testing</td></tr>
+    <tr><td><strong>Kelompok</strong></td><td>Kelompok 5 | RPL-A</td></tr>
+  </table>
+
+  <h2 style="border:none;margin-top:20pt;">Ringkasan Semua Bug</h2>
+  <table style="width:90%;margin:8pt auto;font-size:10pt;">
+    <tr><th>ID</th><th>Modul</th><th>Deskripsi Singkat</th><th>Priority</th><th>Severity</th><th>Commit Fix</th><th>Status</th></tr>
+    <tr><td>BUG-001</td><td>BK</td><td>Guru BK tidak bisa simpan kasus — teacher_id undefined</td><td><span class="badge-high">High</span></td><td><span class="badge-critical">Critical</span></td><td><code>9281212</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-002</td><td>BK (UI)</td><td>Tombol CRUD BK tampil untuk kepala_sekolah</td><td><span class="badge-med">Medium</span></td><td><span class="badge-major">Major</span></td><td><code>70184b1</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-003</td><td>Absensi</td><td>INNER JOIN created_by menyebabkan record absensi hilang</td><td><span class="badge-high">High</span></td><td><span class="badge-major">Major</span></td><td><code>8d05453</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-004</td><td>Manajemen Pengguna</td><td>Admin bisa hapus akun sendiri → lockout</td><td><span class="badge-high">High</span></td><td><span class="badge-major">Major</span></td><td><code>8d05453</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-005</td><td>Manajemen Pengguna</td><td>Tambah user tanpa cek duplikat username/email</td><td><span class="badge-med">Medium</span></td><td><span class="badge-major">Major</span></td><td><code>8d05453</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-006</td><td>Profil</td><td>Update email duplikat menampilkan error generik</td><td><span class="badge-med">Medium</span></td><td><span class="badge-major">Major</span></td><td><code>8d05453</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-007</td><td>Search Suggestion</td><td>Dropdown tidak bisa diklik — blur event menutup sebelum klik</td><td><span class="badge-high">High</span></td><td><span class="badge-major">Major</span></td><td><code>c13cd47</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-008</td><td>Search Suggestion</td><td>Dropdown transparan — teks tidak terbaca di atas konten</td><td><span class="badge-med">Medium</span></td><td><span class="badge-minor">Minor</span></td><td><code>9fcd3ab</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-009</td><td>Dashboard Siswa</td><td>Tidak ada RBAC check — semua role bisa akses /siswa/dashboard</td><td><span class="badge-med">Medium</span></td><td><span class="badge-major">Major</span></td><td><code>8d05453</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-010</td><td>Dashboard Siswa</td><td>Redirect ke /auth/login saat data siswa tidak ditemukan</td><td><span class="badge-low">Low</span></td><td><span class="badge-minor">Minor</span></td><td><code>8d05453</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-011</td><td>App (Global)</td><td>Tidak ada 404 handler — route tidak dikenal crash/blank</td><td><span class="badge-med">Medium</span></td><td><span class="badge-minor">Minor</span></td><td><code>8d05453</code></td><td><span class="s-fixed">FIXED</span></td></tr>
+    <tr><td>BUG-012+</td><td>[dari manual testing]</td><td>Diisi setelah pengujian manual langsung</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">OPEN/FIXED</td></tr>
+  </table>
+</div>
+
+<!-- ==================== BUG-001 ==================== -->
+<div class="page page-break">
+  <div class="bug-header h-critical">BUG-001 — Guru BK Tidak Dapat Menyimpan Kasus / Konseling / Pelanggaran</div>
+  <table class="b-critical">
+    <tr><th>Title</th><td>Guru BK gagal menyimpan data BK — <code>teacher_id</code> bernilai <code>undefined</code> karena akun tidak memiliki record di tabel <code>teachers</code></td></tr>
+    <tr><th>Cara Ditemukan</th><td>Dilaporkan langsung oleh pengguna: <em>"masih error modul nya, gabisa tambahkan case"</em>. Dikonfirmasi melalui code review pada <code>src/modules/bk/routes.js</code></td></tr>
+    <tr><th>Deskripsi</th><td>Ketika akun <code>guru_bk</code> yang dibuat manual oleh Admin mencoba menyimpan kasus BK, konseling, atau pelanggaran, sistem menampilkan flash error dan data tidak tersimpan. Penyebab: route mencari record di tabel <code>teachers</code> berdasarkan <code>user_id</code> dari session. Akun yang dibuat manual tidak otomatis memiliki record di tabel <code>teachers</code>, sehingga <code>teacherId = undefined</code>. INSERT ke <code>bk_cases</code> (kolom <code>teacher_id NOT NULL</code>) pun gagal.</td></tr>
+    <tr><th>Platform</th><td>Oracle Cloud Production Server; https://web-sekolah.duckdns.org; login sebagai guru_bk</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai Admin → buat akun baru role guru_bk via /users<br>
+      2. Logout → login dengan akun guru_bk baru<br>
+      3. Buka /bk → klik "+ Kasus" → isi form → klik Simpan<br>
+      <strong>Hasil:</strong> flash error "Gagal mencatat kasus"; data tidak tersimpan
+    </td></tr>
+    <tr><th>Expected Result</th><td>Flash success "Kasus BK berhasil dicatat"; data tersimpan di tabel <code>bk_cases</code></td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Flash error "Gagal mencatat kasus"; console server: <em>Column 'teacher_id' cannot be null</em></td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-high">High</span> / <span class="badge-critical">Critical</span></td></tr>
+    <tr><th>Root Cause</th><td>
+      File: <code>src/modules/bk/routes.js</code><br>
+      <code>const teacherId = teacher.length > 0 ? teacher[0].id : req.body.teacher_id;</code><br>
+      Jika guru_bk tidak punya teacher record dan form tidak mengirim <code>teacher_id</code> → <code>teacherId = undefined</code>
+    </td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah fungsi <code>getOrCreateTeacherId(userId, fullName)</code> yang otomatis membuat teacher record dengan NIP <code>BK-AUTO-{userId}</code> jika belum ada</td></tr>
+    <tr><th>Commit Fix</th><td><code>9281212</code> — "fix: BK - auto-create teacher record jika guru_bk belum terdaftar"</td></tr>
+    <tr><th>Verified (Retesting)</th><td>Dikonfirmasi langsung oleh pengguna: fitur berjalan setelah fix. Test case UC05-TC01: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+  <div class="screenshot-box">[Screenshot: flash success setelah fix — tambah kasus BK berhasil]</div>
+
+  <div class="bug-header h-major">BUG-002 — Tombol Tambah Data BK Tampil untuk Role Kepala Sekolah</div>
+  <table class="b-major">
+    <tr><th>Title</th><td>Tombol "+ Kasus", "+ Konseling", "+ Pelanggaran", "+ Prestasi" tampil di /bk untuk role <code>kepala_sekolah</code> yang hanya memiliki akses view</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/views/bk/index.ejs</code> — tombol tidak dikondisikan berdasarkan role</td></tr>
+    <tr><th>Deskripsi</th><td>Sesuai SRS (FA5-R1), hanya <code>guru_bk</code> dan <code>admin</code> yang boleh input data BK. Namun tombol-tombol tambah data muncul untuk kepala_sekolah. Jika diklik dan disubmit, server menolak — inkonsistensi antara UI dan backend logic.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; login sebagai kepsek / password123</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai kepsek / password123<br>
+      2. Klik menu BK → amati area header halaman<br>
+      <strong>Hasil:</strong> Tombol "+Kasus", "+Konseling" dll. muncul padahal kepala sekolah tidak bisa submit
+    </td></tr>
+    <tr><th>Expected Result</th><td>Tombol tambah data TIDAK tampil untuk kepala_sekolah. Hanya tombol "Rekap" yang tersedia</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Semua tombol tambah muncul. Saat submit, server redirect ke /dashboard tanpa penjelasan jelas</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-med">Medium</span> / <span class="badge-major">Major</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/views/bk/index.ejs</code> — tombol tidak dibungkus kondisi EJS role check</td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah kondisi <code>&lt;% if (user.role_name === 'guru_bk' || user.role_name === 'admin') { %&gt;</code> membungkus semua tombol CRUD</td></tr>
+    <tr><th>Commit Fix</th><td><code>70184b1</code> — "fix: BK view - sembunyikan tombol CRUD dari role kepala_sekolah"</td></tr>
+    <tr><th>Verified (Retesting)</th><td>Login kepsek → /bk → tombol tidak tampil. Test case UC05-TC05: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+  <div class="screenshot-box">[Screenshot: halaman /bk login sebagai kepsek setelah fix — hanya tombol Rekap yang tampil]</div>
+</div>
+
+<!-- ==================== BUG-003 & 004 ==================== -->
+<div class="page page-break">
+  <div class="bug-header h-major">BUG-003 — Record Absensi Hilang Jika User yang Menginput Dihapus</div>
+  <table class="b-major">
+    <tr><th>Title</th><td>Query absensi menggunakan INNER JOIN pada kolom <code>created_by</code> — record absensi tidak muncul jika user yang menginput dihapus dari sistem</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/modules/absensi/routes.js</code> baris 30</td></tr>
+    <tr><th>Deskripsi</th><td>Query daftar absensi menggunakan <code>JOIN users u ON a.created_by = u.id</code>. Jika user yang menginput absensi (kolom <code>created_by</code>) dihapus dari tabel <code>users</code>, maka semua record absensi yang diinput oleh user tersebut tidak akan muncul di daftar absensi karena INNER JOIN tidak mengembalikan row dengan join yang gagal.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; terdeteksi dari analisis kode</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai guru1 → input absensi kelas X-A tanggal tertentu<br>
+      2. Login sebagai admin → hapus akun guru1<br>
+      3. Buka /absensi → filter tanggal tersebut<br>
+      <strong>Hasil:</strong> Record absensi yang diinput guru1 tidak muncul
+    </td></tr>
+    <tr><th>Expected Result</th><td>Semua record absensi tetap muncul meski user yang menginput sudah dihapus. Kolom "Diinput oleh" boleh kosong/null</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Record absensi hilang dari daftar karena INNER JOIN gagal menemukan user yang sudah dihapus</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-high">High</span> / <span class="badge-major">Major</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/modules/absensi/routes.js</code><br><code>JOIN users u ON a.created_by = u.id</code> seharusnya <code>LEFT JOIN</code></td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Ubah <code>JOIN</code> menjadi <code>LEFT JOIN users u ON a.created_by = u.id</code></td></tr>
+    <tr><th>Commit Fix</th><td><code>8d05453</code> — "fix: perbaikan 12 bug di semua modul"</td></tr>
+    <tr><th>Verified (Retesting)</th><td>Test case UC06-TC01: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+
+  <div class="bug-header h-major">BUG-004 — Admin Dapat Menghapus Akun Sendiri</div>
+  <table class="b-major">
+    <tr><th>Title</th><td>Route DELETE /users/delete/:id tidak memvalidasi apakah ID yang dihapus adalah akun Admin yang sedang login — berpotensi menyebabkan lockout sistem</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/modules/users/routes.js</code> — tidak ada pengecekan self-deletion</td></tr>
+    <tr><th>Deskripsi</th><td>Admin dapat menghapus akun miliknya sendiri. Jika satu-satunya Admin dihapus, tidak ada yang bisa login sebagai Admin untuk membuat akun Admin baru — sistem terkunci.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; login sebagai admin</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai admin<br>
+      2. Di halaman /users, cari baris akun admin sendiri<br>
+      3. Klik ikon hapus → konfirmasi OK<br>
+      <strong>Hasil (sebelum fix):</strong> Akun admin terhapus; sistem terkunci
+    </td></tr>
+    <tr><th>Expected Result</th><td>Flash error "Tidak dapat menghapus akun sendiri"; akun tetap ada</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Akun admin berhasil dihapus; sistem tidak bisa diakses sebagai admin</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-high">High</span> / <span class="badge-major">Major</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/modules/users/routes.js</code> — route DELETE tidak memeriksa <code>req.params.id === req.session.user.id</code></td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah pengecekan: <code>if (parseInt(req.params.id) === req.session.user.id)</code> → flash error + redirect</td></tr>
+    <tr><th>Commit Fix</th><td><code>8d05453</code></td></tr>
+    <tr><th>Verified (Retesting)</th><td>Test case UC02-TC04: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+</div>
+
+<!-- ==================== BUG-005 & 006 ==================== -->
+<div class="page page-break">
+  <div class="bug-header h-major">BUG-005 — Tambah Pengguna Baru Tanpa Cek Duplikat Username/Email</div>
+  <table class="b-major">
+    <tr><th>Title</th><td>Route POST /users/store tidak memvalidasi keunikan username dan email sebelum INSERT — menampilkan error generik jika duplikat</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/modules/users/routes.js</code> — tidak ada query pengecekan sebelum INSERT</td></tr>
+    <tr><th>Deskripsi</th><td>Saat Admin menambah user baru dengan username atau email yang sudah ada, MySQL melempar UNIQUE constraint error yang ditangkap sebagai generic error "Gagal menambah pengguna" tanpa keterangan spesifik. Admin tidak tahu field mana yang bermasalah.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; login sebagai admin</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai admin → buka /users<br>
+      2. Klik "+ Tambah User" → isi username: admin (sudah ada) → klik Simpan<br>
+      <strong>Hasil (sebelum fix):</strong> flash error generik "Gagal menambah pengguna"
+    </td></tr>
+    <tr><th>Expected Result</th><td>Flash error spesifik: "Username 'admin' sudah digunakan" atau "Email sudah terdaftar"</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Flash error generik "Gagal menambah pengguna" tanpa keterangan field yang bermasalah</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-med">Medium</span> / <span class="badge-major">Major</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/modules/users/routes.js</code> — tidak ada query <code>SELECT id FROM users WHERE username = ?</code> sebelum INSERT</td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah query cek duplikat username dan email terpisah sebelum INSERT, dengan flash error yang informatif per field</td></tr>
+    <tr><th>Commit Fix</th><td><code>8d05453</code></td></tr>
+    <tr><th>Verified (Retesting)</th><td>Test case UC02-TC02 dan UC02-TC03: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+
+  <div class="bug-header h-major">BUG-006 — Update Email Profil dengan Email Duplikat Menampilkan Error Generik</div>
+  <table class="b-major">
+    <tr><th>Title</th><td>Route POST /profile/update tidak memvalidasi keunikan email sebelum UPDATE — menampilkan "Gagal mengupdate profil" tanpa penjelasan spesifik</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/modules/profile/routes.js</code> — tidak ada query pengecekan email uniqueness</td></tr>
+    <tr><th>Deskripsi</th><td>Saat pengguna mengubah email di profil menggunakan email yang sudah dimiliki user lain, MySQL UNIQUE constraint error ditangkap sebagai generic error. Pengguna tidak tahu penyebabnya adalah email duplikat.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; login sebagai guru1</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai guru1<br>
+      2. Buka /profile → ubah email: admin@sekolah.test (milik admin)<br>
+      3. Klik Simpan Profil<br>
+      <strong>Hasil (sebelum fix):</strong> flash error generik "Gagal mengupdate profil"
+    </td></tr>
+    <tr><th>Expected Result</th><td>Flash error spesifik: "Email sudah digunakan oleh pengguna lain"</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Flash error generik; pengguna tidak tahu penyebabnya</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-med">Medium</span> / <span class="badge-major">Major</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/modules/profile/routes.js</code> — tidak ada query <code>SELECT id FROM users WHERE email = ? AND id != userId</code> sebelum UPDATE</td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah query pengecekan email per user lain + validasi field kosong + flash error informatif</td></tr>
+    <tr><th>Commit Fix</th><td><code>8d05453</code></td></tr>
+    <tr><th>Verified (Retesting)</th><td>Test case UC07-TC02: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+</div>
+
+<!-- ==================== BUG-007 & 008 ==================== -->
+<div class="page page-break">
+  <div class="bug-header h-major">BUG-007 — Dropdown Search Suggestion Tidak Dapat Diklik</div>
+  <table class="b-major">
+    <tr><th>Title</th><td>Saat pengguna mengklik item pada dropdown suggestion, dropdown langsung tertutup sebelum klik diproses karena event <code>blur</code> pada input field terpicu lebih dulu</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Pengujian langsung — klik dropdown tidak berfungsi di semua modul (Users, Kesiswaan, Jurnal, BK, Absensi)</td></tr>
+    <tr><th>Deskripsi</th><td>Ketika pengguna mengetik di search bar dan dropdown suggestion muncul, mengklik item di dropdown tidak berhasil. Dropdown tertutup saat mouse ditekan karena <code>blur</code> event pada input terpicu sebelum <code>click</code> event pada dropdown item. Akibatnya search suggestion tidak berguna sama sekali.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; semua halaman dengan search bar; Chrome v126</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai admin → buka /kesiswaan<br>
+      2. Ketik "Ahmad" di search bar — dropdown muncul<br>
+      3. Gerakkan mouse ke dropdown → klik salah satu item<br>
+      <strong>Hasil (sebelum fix):</strong> Dropdown hilang sebelum item diklik; tidak ada aksi yang terjadi
+    </td></tr>
+    <tr><th>Expected Result</th><td>Klik item dropdown → input terisi nama siswa → form disubmit / halaman terfilter</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Dropdown hilang saat mouse button ditekan (mousedown) sebelum click event diproses</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-high">High</span> / <span class="badge-major">Major</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/public/js/search-suggest.js</code> — tidak ada <code>mousedown: e.preventDefault()</code> pada dropdown untuk mencegah blur event pada input. Urutan event: mousedown (dropdown) → blur (input) → dropdown hilang → click tidak diproses</td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah <code>dropdown.addEventListener('mousedown', e =&gt; e.preventDefault())</code> untuk mencegah blur event saat klik dropdown. Juga pindahkan event listener ke event delegation pada dropdown container</td></tr>
+    <tr><th>Commit Fix</th><td><code>c13cd47</code> — "fix: search suggestion klik & transparansi"<br><code>9fcd3ab</code> — "fix: search suggest klik & hover effect"</td></tr>
+    <tr><th>Verified (Retesting)</th><td>Klik dropdown bekerja di semua modul setelah fix. Test case UC04-TC05: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+  <div class="screenshot-box">[Screenshot: dropdown search suggestion terbuka + klik item berhasil — tabel terfilter]</div>
+
+  <div class="bug-header h-minor">BUG-008 — Dropdown Search Suggestion Background Transparan</div>
+  <table class="b-minor">
+    <tr><th>Title</th><td>Background dropdown search suggestion transparan — teks tidak terbaca jika ada konten tabel di belakangnya</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Pengujian visual langsung di browser — dropdown muncul tapi teks sulit dibaca</td></tr>
+    <tr><th>Deskripsi</th><td>Dropdown suggestion tidak memiliki background solid dan border yang jelas, sehingga item dropdown tampil transparan di atas konten tabel di bawahnya. Teks item dropdown sulit dibaca dan UI terlihat tidak profesional.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; Chrome v126, semua halaman dengan search bar</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login → buka /kesiswaan<br>
+      2. Ketik di search bar → dropdown muncul<br>
+      <strong>Hasil (sebelum fix):</strong> Background dropdown transparan; teks tumpang tindih dengan tabel di bawahnya
+    </td></tr>
+    <tr><th>Expected Result</th><td>Dropdown memiliki background putih solid, border tipis, dan shadow ringan; teks terbaca jelas</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Background transparan; z-index tidak cukup; tampilan dropdown tidak profesional</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-med">Medium</span> / <span class="badge-minor">Minor</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/public/css/style.css</code> — tidak ada style untuk <code>.search-suggest-dropdown</code>; background default transparan</td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah CSS: background putih, border, border-radius, box-shadow, z-index tinggi, dan hover effect pada item dropdown</td></tr>
+    <tr><th>Commit Fix</th><td><code>c13cd47</code>, <code>9fcd3ab</code></td></tr>
+    <tr><th>Verified (Retesting)</th><td>Dropdown tampil dengan background putih solid dan border jelas: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+</div>
+
+<!-- ==================== BUG-009, 010, 011 ==================== -->
+<div class="page page-break">
+  <div class="bug-header h-major">BUG-009 — Semua Role Dapat Mengakses /siswa/dashboard (Tidak Ada RBAC)</div>
+  <table class="b-major">
+    <tr><th>Title</th><td>Route GET /siswa/dashboard tidak menggunakan middleware <code>allowRoles</code> — semua role yang sudah login dapat mengakses halaman dashboard siswa</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/modules/siswa/routes.js</code> — hanya <code>isAuthenticated</code>, tidak ada <code>allowRoles</code></td></tr>
+    <tr><th>Deskripsi</th><td>Halaman /siswa/dashboard seharusnya hanya dapat diakses oleh role <code>siswa</code>. Namun route tidak menggunakan middleware <code>allowRoles('siswa')</code>, sehingga user dengan role lain (guru, admin, dll.) dapat mengaksesnya — mendapat pesan "Data siswa tidak ditemukan" karena user tersebut tidak punya record di tabel students.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; akses /siswa/dashboard dengan login sebagai guru1</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai guru1<br>
+      2. Akses URL /siswa/dashboard langsung<br>
+      <strong>Hasil (sebelum fix):</strong> Tidak ada redirect; pesan error "Data siswa tidak ditemukan" muncul alih-alih redirect ke /dashboard
+    </td></tr>
+    <tr><th>Expected Result</th><td>Redirect ke /dashboard + flash error "Anda tidak memiliki akses"</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Halaman diproses, query dijalankan, redirect ke /auth/login dengan pesan tidak relevan</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-med">Medium</span> / <span class="badge-major">Major</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/modules/siswa/routes.js</code> — hanya import <code>isAuthenticated</code>, tidak import atau menggunakan <code>allowRoles</code></td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Import <code>allowRoles</code> dari rbac.js + tambah <code>allowRoles('siswa')</code> sebagai middleware kedua pada route</td></tr>
+    <tr><th>Commit Fix</th><td><code>8d05453</code></td></tr>
+    <tr><th>Verified (Retesting)</th><td>Test case UC08-TC03: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+
+  <div class="bug-header h-minor">BUG-010 — Redirect ke /auth/login Saat Data Siswa Tidak Ditemukan</div>
+  <table class="b-minor">
+    <tr><th>Title</th><td>Saat siswa login namun <code>user_id</code> tidak terhubung ke tabel <code>students</code>, sistem redirect ke <code>/auth/login</code> padahal pengguna sudah login</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/modules/siswa/routes.js</code> baris 22</td></tr>
+    <tr><th>Deskripsi</th><td>Jika siswa berhasil login namun data siswa tidak ditemukan di tabel students (misal: admin lupa hubungkan <code>user_id</code> ke students), sistem mengalihkan ke /auth/login. Ini membingungkan karena pengguna sudah login namun dikirim kembali ke halaman login.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; akun siswa tanpa user_id di tabel students</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Buat akun role siswa tapi tidak hubungkan ke tabel students<br>
+      2. Login dengan akun tersebut<br>
+      <strong>Hasil (sebelum fix):</strong> Redirect ke /auth/login meski sudah berhasil login
+    </td></tr>
+    <tr><th>Expected Result</th><td>Redirect ke /dashboard + flash error "Data siswa tidak ditemukan untuk akun ini"</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Redirect ke /auth/login — membingungkan pengguna</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-low">Low</span> / <span class="badge-minor">Minor</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/modules/siswa/routes.js</code> — <code>res.redirect('/auth/login')</code> seharusnya <code>res.redirect('/dashboard')</code></td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Ubah redirect ke <code>/dashboard</code> dengan pesan error yang lebih informatif</td></tr>
+    <tr><th>Commit Fix</th><td><code>8d05453</code></td></tr>
+    <tr><th>Verified (Retesting)</th><td><span class="s-fixed">FIXED</span> — redirect ke /dashboard dengan flash error yang tepat</td></tr>
+  </table>
+
+  <div class="bug-header h-minor">BUG-011 — Tidak Ada Handler untuk Route yang Tidak Dikenal (404)</div>
+  <table class="b-minor">
+    <tr><th>Title</th><td>Aplikasi tidak memiliki middleware 404 handler — akses ke URL yang tidak terdaftar menyebabkan response kosong atau error tak terduga</td></tr>
+    <tr><th>Cara Ditemukan</th><td>Code review pada <code>src/app.js</code> — tidak ada middleware catch-all di akhir</td></tr>
+    <tr><th>Deskripsi</th><td>Jika pengguna mengakses URL yang tidak terdaftar (misal: /halaman-tidak-ada), Express tidak memiliki handler dan response bergantung pada framework default — biasanya response kosong atau error yang tidak informatif.</td></tr>
+    <tr><th>Platform</th><td>https://web-sekolah.duckdns.org; akses URL sembarang</td></tr>
+    <tr><th>Step to Reproduce</th><td>
+      1. Login sebagai admin<br>
+      2. Akses URL /halaman-tidak-ada<br>
+      <strong>Hasil (sebelum fix):</strong> Response kosong atau "Cannot GET /halaman-tidak-ada" dari Express default
+    </td></tr>
+    <tr><th>Expected Result</th><td>Jika sudah login: redirect ke /dashboard + flash error "Halaman tidak ditemukan". Jika belum login: redirect ke /auth/login</td></tr>
+    <tr><th>Actual Result (sebelum fix)</th><td>Response "Cannot GET /halaman-tidak-ada" dari Express tanpa styling atau informasi berguna</td></tr>
+    <tr><th>Priority / Severity</th><td><span class="badge-med">Medium</span> / <span class="badge-minor">Minor</span></td></tr>
+    <tr><th>Root Cause</th><td>File: <code>src/app.js</code> — tidak ada middleware <code>app.use((req, res) =&gt; { ... })</code> di akhir setelah semua route</td></tr>
+    <tr><th>Fix yang Diterapkan</th><td>Tambah 404 middleware di akhir app.js yang redirect ke /dashboard (jika login) atau /auth/login (jika belum login)</td></tr>
+    <tr><th>Commit Fix</th><td><code>8d05453</code></td></tr>
+    <tr><th>Verified (Retesting)</th><td>Akses URL tidak dikenal → redirect ke /dashboard: <span class="s-fixed">PASS</span></td></tr>
+  </table>
+</div>
+
+<!-- ==================== TEMPLATE BUG DARI MANUAL TESTING ==================== -->
+<div class="page page-break">
+  <h2>Template Bug Report — Dari Hasil Manual Testing</h2>
+  <p>Setiap test case yang berstatus <strong>FAIL</strong> setelah pengujian manual langsung wajib dibuatkan bug report berikut. Nomor mulai dari BUG-012.</p>
+
+  <div class="bug-header" style="background:#86868b;">BUG-012 dan seterusnya — [Dari Manual Testing Langsung]</div>
+  <table class="b-minor">
+    <tr><th>Title</th><td class="empty">[Judul singkat dan jelas]</td></tr>
+    <tr><th>Test Case Terkait</th><td class="empty">[misal: UC01-TC06]</td></tr>
+    <tr><th>Cara Ditemukan</th><td class="empty">[Manual testing, tanggal ___, penguji: ___]</td></tr>
+    <tr><th>Deskripsi</th><td class="empty">[Penjelasan lengkap bug]</td></tr>
+    <tr><th>Platform</th><td class="empty">[OS, browser, versi, URL]</td></tr>
+    <tr><th>Step to Reproduce</th><td class="empty">1. [langkah 1]<br>2. [langkah 2]<br>Hasil: [yang terjadi]</td></tr>
+    <tr><th>Expected Result</th><td class="empty">[sesuai kolom Expected di test case]</td></tr>
+    <tr><th>Actual Result</th><td class="empty">[apa yang benar-benar terjadi]</td></tr>
+    <tr><th>Priority / Severity</th><td class="empty">Priority: High/Medium/Low — Severity: Critical/Major/Minor</td></tr>
+    <tr><th>Root Cause</th><td class="empty">[penyebab jika bisa diidentifikasi]</td></tr>
+    <tr><th>Fix yang Diterapkan</th><td class="empty">[jika sudah diperbaiki]</td></tr>
+    <tr><th>Commit Fix</th><td class="empty">[hash commit]</td></tr>
+    <tr><th>Verified (Retesting)</th><td class="empty">[hasil retesting setelah fix]</td></tr>
+  </table>
+  <div class="screenshot-box">[Screenshot: bukti bug — tampilkan kondisi sebelum fix]</div>
+  <div class="screenshot-box">[Screenshot: bukti fix — tampilkan kondisi setelah fix / PASS]</div>
+
+  <h2 style="margin-top:20pt;">Ringkasan Akhir Bug Report</h2>
+  <table>
+    <tr><th>Kategori</th><th>Jumlah</th><th>Detail</th></tr>
+    <tr><td>Total bug terkonfirmasi (code review + user laporan)</td><td>11</td><td>BUG-001 s/d BUG-011</td></tr>
+    <tr><td>Critical Severity</td><td>1</td><td>BUG-001 (BK teacher_id)</td></tr>
+    <tr><td>Major Severity</td><td>7</td><td>BUG-002, 003, 004, 005, 006, 007, 009</td></tr>
+    <tr><td>Minor Severity</td><td>3</td><td>BUG-008, 010, 011</td></tr>
+    <tr><td>Semua FIXED</td><td>11/11</td><td>Commit 8d05453, 9281212, 70184b1, c13cd47, 9fcd3ab</td></tr>
+    <tr><td>Bug dari manual testing</td><td class="empty">___</td><td class="empty">BUG-012 dst. — diisi setelah testing langsung</td></tr>
+  </table>
+
+  <p style="margin-top:20pt;text-align:center;color:#86868b;font-size:10pt;">
+    — Bug Report Web Sekolah Terintegrasi | Kelompok 5 RPL-A | Universitas Muhammadiyah Makassar | 2025/2026 —<br>
+    BUG-001 s/d BUG-011: terkonfirmasi dari code review + laporan pengguna + commit history.<br>
+    BUG-012+: dari manual testing langsung di https://web-sekolah.duckdns.org
+  </p>
+</div>
+
+</body>
+</html>

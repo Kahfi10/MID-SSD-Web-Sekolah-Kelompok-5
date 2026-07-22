@@ -1,0 +1,683 @@
+﻿{
+  "info": {
+    "_postman_id": "ws-kelompok2-2026",
+    "name": "Web Sekolah Terintegrasi - API Testing",
+    "description": "Koleksi API testing untuk UAS SQA - Kelompok 5 RPL-A\nBase URL: https://web-sekolah.duckdns.org\n\nPetunjuk:\n1. Set environment variable: base_url = https://web-sekolah.duckdns.org\n2. Jalankan LOGIN dulu untuk mendapat session cookie\n3. Jalankan request lainnya\n4. Screenshot hasil setiap request untuk laporan",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://web-sekolah.duckdns.org",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Autentikasi",
+      "item": [
+        {
+          "name": "1.1 Login (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 or 302', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});",
+                  "pm.test('Response tidak error server', function () {",
+                  "    pm.expect(pm.response.code).to.not.equal(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/x-www-form-urlencoded"}
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "username", "value": "admin", "type": "text"},
+                {"key": "password", "value": "password123", "type": "text"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login sebagai admin. Pastikan cookies tersimpan untuk request selanjutnya."
+          }
+        },
+        {
+          "name": "1.2 Login (Guru BK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 or 302', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/x-www-form-urlencoded"}
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "username", "value": "guru_bk", "type": "text"},
+                {"key": "password", "value": "password123", "type": "text"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "1.3 Login (Siswa)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 or 302', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/x-www-form-urlencoded"}
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "username", "value": "siswa1", "type": "text"},
+                {"key": "password", "value": "password123", "type": "text"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Search Suggestion API - Users",
+      "item": [
+        {
+          "name": "2.1 Search Users - Keyword valid (min 2 char)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is JSON array', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});",
+                  "pm.test('Response time < 500ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "pm.test('Array berisi objek user', function () {",
+                  "    var json = pm.response.json();",
+                  "    if (json.length > 0) {",
+                  "        pm.expect(json[0]).to.have.property('username');",
+                  "        pm.expect(json[0]).to.have.property('full_name');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/api/search?q=admin",
+              "host": ["{{base_url}}"],
+              "path": ["users", "api", "search"],
+              "query": [{"key": "q", "value": "admin"}]
+            },
+            "description": "Login sebagai admin dulu. Cari user dengan keyword 'admin'."
+          }
+        },
+        {
+          "name": "2.2 Search Users - Keyword kurang dari 2 char",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response adalah array kosong untuk keyword < 2 char', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "    pm.expect(json.length).to.equal(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/api/search?q=a",
+              "host": ["{{base_url}}"],
+              "path": ["users", "api", "search"],
+              "query": [{"key": "q", "value": "a"}]
+            },
+            "description": "Keyword hanya 1 karakter — harus mengembalikan array kosong."
+          }
+        },
+        {
+          "name": "2.3 Search Users - Keyword tidak ada hasil",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response adalah array (boleh kosong)', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/api/search?q=zzzznotexist",
+              "host": ["{{base_url}}"],
+              "path": ["users", "api", "search"],
+              "query": [{"key": "q", "value": "zzzznotexist"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Search Suggestion API - Kesiswaan",
+      "item": [
+        {
+          "name": "3.1 Search Siswa - Keyword nama",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is JSON array', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});",
+                  "pm.test('Response time < 500ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "pm.test('Setiap item memiliki field nis dan full_name', function () {",
+                  "    var json = pm.response.json();",
+                  "    if (json.length > 0) {",
+                  "        pm.expect(json[0]).to.have.property('nis');",
+                  "        pm.expect(json[0]).to.have.property('full_name');",
+                  "        pm.expect(json[0]).to.have.property('_href');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/kesiswaan/api/search?q=Ahmad",
+              "host": ["{{base_url}}"],
+              "path": ["kesiswaan", "api", "search"],
+              "query": [{"key": "q", "value": "Ahmad"}]
+            },
+            "description": "Cari siswa dengan nama 'Ahmad'. Login admin dulu."
+          }
+        },
+        {
+          "name": "3.2 Search Siswa - Keyword NIS",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is JSON array', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/kesiswaan/api/search?q=2025",
+              "host": ["{{base_url}}"],
+              "path": ["kesiswaan", "api", "search"],
+              "query": [{"key": "q", "value": "2025"}]
+            },
+            "description": "Cari siswa menggunakan NIS (2025...)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Search Suggestion API - Jurnal",
+      "item": [
+        {
+          "name": "4.1 Search Jurnal - Keyword materi",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is JSON array', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});",
+                  "pm.test('Response time < 500ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "pm.test('Setiap item memiliki field material dan teaching_date', function () {",
+                  "    var json = pm.response.json();",
+                  "    if (json.length > 0) {",
+                  "        pm.expect(json[0]).to.have.property('material');",
+                  "        pm.expect(json[0]).to.have.property('teaching_date');",
+                  "        pm.expect(json[0]).to.have.property('class_name');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/jurnal/api/search?q=Mate",
+              "host": ["{{base_url}}"],
+              "path": ["jurnal", "api", "search"],
+              "query": [{"key": "q", "value": "Mate"}]
+            },
+            "description": "Cari jurnal dengan keyword 'Mate' (Matematika). Login admin/guru dulu."
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Search Suggestion API - BK",
+      "item": [
+        {
+          "name": "5.1 Search BK - Keyword nama siswa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is JSON array', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});",
+                  "pm.test('Response time < 500ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "pm.test('Setiap item memiliki field student_name dan total_cases', function () {",
+                  "    var json = pm.response.json();",
+                  "    if (json.length > 0) {",
+                  "        pm.expect(json[0]).to.have.property('student_name');",
+                  "        pm.expect(json[0]).to.have.property('total_cases');",
+                  "        pm.expect(json[0]).to.have.property('_href');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bk/api/search?q=Ahmad",
+              "host": ["{{base_url}}"],
+              "path": ["bk", "api", "search"],
+              "query": [{"key": "q", "value": "Ahmad"}]
+            },
+            "description": "Login sebagai guru_bk dulu. Cari siswa BK dengan nama 'Ahmad'."
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Search Suggestion API - Absensi",
+      "item": [
+        {
+          "name": "6.1 Search Absensi - Keyword nama siswa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is JSON array', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.be.an('array');",
+                  "});",
+                  "pm.test('Response time < 500ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});",
+                  "pm.test('Setiap item memiliki field student_name dan _href', function () {",
+                  "    var json = pm.response.json();",
+                  "    if (json.length > 0) {",
+                  "        pm.expect(json[0]).to.have.property('student_name');",
+                  "        pm.expect(json[0]).to.have.property('_href');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/absensi/api/search?q=Nurul",
+              "host": ["{{base_url}}"],
+              "path": ["absensi", "api", "search"],
+              "query": [{"key": "q", "value": "Nurul"}]
+            },
+            "description": "Login admin/guru dulu. Cari siswa absensi dengan nama 'Nurul'."
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Halaman Utama (Akses GET)",
+      "item": [
+        {
+          "name": "7.1 GET Dashboard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});",
+                  "pm.test('Response berisi HTML dashboard', function () {",
+                  "    pm.expect(pm.response.text()).to.include('Dashboard');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard"]
+            },
+            "description": "Akses halaman dashboard. Butuh login dulu."
+          }
+        },
+        {
+          "name": "7.2 GET Kesiswaan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/kesiswaan",
+              "host": ["{{base_url}}"],
+              "path": ["kesiswaan"]
+            }
+          }
+        },
+        {
+          "name": "7.3 GET BK",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/bk",
+              "host": ["{{base_url}}"],
+              "path": ["bk"]
+            },
+            "description": "Login guru_bk dulu."
+          }
+        },
+        {
+          "name": "7.4 GET Absensi",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/absensi",
+              "host": ["{{base_url}}"],
+              "path": ["absensi"]
+            }
+          }
+        },
+        {
+          "name": "7.5 GET Jurnal",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/jurnal",
+              "host": ["{{base_url}}"],
+              "path": ["jurnal"]
+            }
+          }
+        },
+        {
+          "name": "7.6 GET Profil",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/profile",
+              "host": ["{{base_url}}"],
+              "path": ["profile"]
+            }
+          }
+        },
+        {
+          "name": "7.7 GET Siswa Dashboard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 or 302', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "pm.test('Response time < 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/siswa/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["siswa", "dashboard"]
+            },
+            "description": "Login siswa1 dulu."
+          }
+        },
+        {
+          "name": "7.8 GET Akses /users tanpa login (RBAC test)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Redirect ke login (302) atau dashboard', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "pm.test('Response time < 2000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            },
+            "description": "Jalankan SETELAH login sebagai guru1 (bukan admin) — harusnya redirect karena RBAC."
+          }
+        }
+      ]
+    }
+  ]
+}

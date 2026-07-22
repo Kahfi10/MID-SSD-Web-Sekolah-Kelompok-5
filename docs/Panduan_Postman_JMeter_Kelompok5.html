@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Panduan API Testing Postman & Performance Testing JMeter - Kelompok 5</title>
+<style>
+  @page { size: A4; margin: 2.5cm 2cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 11pt; line-height: 1.6; color: #1d1d1f; }
+  .page { width: 21cm; padding: 2.5cm 2cm; margin: 0 auto; }
+  .page-break { page-break-before: always; }
+  h1 { font-size: 18pt; text-align: center; margin-bottom: 8pt; }
+  h2 { font-size: 14pt; margin: 20pt 0 8pt; border-bottom: 2px solid #1d1d1f; padding-bottom: 4pt; }
+  h3 { font-size: 12pt; margin: 14pt 0 6pt; color: #0071e3; }
+  h4 { font-size: 11pt; margin: 10pt 0 4pt; }
+  p  { margin-bottom: 8pt; text-align: justify; }
+  ol, ul { margin: 6pt 0 8pt 22pt; }
+  li { margin-bottom: 4pt; }
+  table { width: 100%; border-collapse: collapse; margin: 8pt 0; font-size: 10pt; }
+  th, td { border: 1px solid #86868b; padding: 5pt 8pt; text-align: left; vertical-align: top; }
+  th { background: #f5f5f7; font-weight: 600; }
+  code { font-family: 'Courier New', monospace; font-size: 9pt; background: #f5f5f7; padding: 1pt 5pt; border-radius: 3pt; }
+  .step-box { border: 1px solid #0071e3; border-radius: 6pt; padding: 10pt 14pt; margin: 8pt 0; }
+  .step-box h4 { color: #0071e3; margin-top: 0; }
+  .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 8pt 12pt; margin: 8pt 0; font-size: 10pt; }
+  .screenshot-box { border: 2px dashed #86868b; border-radius: 6pt; padding: 14pt; margin: 8pt 0; text-align: center; color: #86868b; font-style: italic; font-size: 10pt; min-height: 60pt; }
+  .pass { color: #34c759; font-weight: bold; }
+  .fail { color: #ff3b30; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="page" style="text-align:center; padding-top:4cm;">
+  <h1>PANDUAN & HASIL<br>API TESTING + PERFORMANCE TESTING</h1>
+  <div style="font-size:13pt;margin:10pt 0;color:#3a3a3c;">Web Sekolah Terintegrasi — UAS SQA Kelompok 5 RPL-A</div>
+  <hr style="width:50%;border:1px solid #1d1d1f;margin:14pt auto;">
+  <table style="width:65%;margin:16pt auto;font-size:11pt;">
+    <tr><td><strong>Proyek</strong></td><td>Web Sekolah Terintegrasi</td></tr>
+    <tr><td><strong>URL Target</strong></td><td>https://web-sekolah.duckdns.org</td></tr>
+    <tr><td><strong>Tools</strong></td><td>Postman (API Testing) + Apache JMeter (Performance)</td></tr>
+    <tr><td><strong>Tanggal Pengujian</strong></td><td>_________________ (isi saat pelaksanaan)</td></tr>
+    <tr><td><strong>Penguji</strong></td><td>Kelompok 5 RPL-A</td></tr>
+  </table>
+  <div class="note" style="width:70%;margin:16pt auto;text-align:left;">
+    <strong>PENTING:</strong> Isi kolom "Actual Result" dan tempel screenshot setelah menjalankan pengujian langsung.
+    Jangan mengisi dengan perkiraan atau asumsi.
+  </div>
+</div>
+
+<!-- ==================== BAGIAN A: POSTMAN ==================== -->
+<div class="page page-break">
+  <h1>BAGIAN A — API TESTING DENGAN POSTMAN</h1>
+
+  <h2>A1. Persiapan</h2>
+
+  <div class="step-box">
+    <h4>Langkah 1: Import Collection</h4>
+    <ol>
+      <li>Buka aplikasi Postman</li>
+      <li>Klik <strong>Import</strong> (pojok kiri atas)</li>
+      <li>Pilih file <code>docs/WebSekolah_Postman_Collection.json</code></li>
+      <li>Klik <strong>Import</strong> — collection "Web Sekolah Terintegrasi - API Testing" muncul di sidebar</li>
+    </ol>
+  </div>
+
+  <div class="step-box">
+    <h4>Langkah 2: Buat Environment</h4>
+    <ol>
+      <li>Klik ikon <strong>Environment</strong> (gear icon kanan atas)</li>
+      <li>Klik <strong>Add</strong> → beri nama: <code>Web Sekolah Production</code></li>
+      <li>Tambah variable:
+        <ul>
+          <li>Variable: <code>base_url</code></li>
+          <li>Initial Value: <code>https://web-sekolah.duckdns.org</code></li>
+          <li>Current Value: <code>https://web-sekolah.duckdns.org</code></li>
+        </ul>
+      </li>
+      <li>Klik <strong>Save</strong></li>
+      <li>Pilih environment "Web Sekolah Production" dari dropdown kanan atas</li>
+    </ol>
+    <div class="screenshot-box">[Screenshot: tampilan environment dengan base_url terisi]</div>
+  </div>
+
+  <div class="step-box">
+    <h4>Langkah 3: Aktifkan Cookie Jar</h4>
+    <ol>
+      <li>Di Postman, buka <strong>Settings</strong> → <strong>General</strong></li>
+      <li>Pastikan <strong>"Automatically follow redirects"</strong> = ON</li>
+      <li>Pastikan <strong>"Send cookies"</strong> = ON (agar session cookie tersimpan setelah login)</li>
+    </ol>
+  </div>
+
+  <h2>A2. Urutan Pengujian</h2>
+  <div class="note">
+    Jalankan request DALAM URUTAN BERIKUT. Login harus dilakukan dulu sebelum request lain karena aplikasi menggunakan session-based auth.
+  </div>
+
+  <h3>Skenario 1: Login sebagai Admin → Test semua endpoint admin</h3>
+  <ol>
+    <li>Jalankan <strong>1.1 Login (Admin)</strong> → cek status 200/302 → <span class="pass">PASS</span></li>
+    <li>Jalankan <strong>2.1 Search Users - Keyword valid</strong></li>
+    <li>Jalankan <strong>2.2 Search Users - Keyword &lt; 2 char</strong></li>
+    <li>Jalankan <strong>2.3 Search Users - Keyword tidak ada hasil</strong></li>
+    <li>Jalankan <strong>3.1 Search Siswa - Keyword nama</strong></li>
+    <li>Jalankan <strong>3.2 Search Siswa - Keyword NIS</strong></li>
+    <li>Jalankan <strong>4.1 Search Jurnal - Keyword materi</strong></li>
+    <li>Jalankan <strong>7.1 GET Dashboard</strong> s/d <strong>7.6 GET Profil</strong></li>
+  </ol>
+
+  <h3>Skenario 2: Login sebagai Guru BK → Test endpoint BK</h3>
+  <ol>
+    <li>Jalankan <strong>1.2 Login (Guru BK)</strong></li>
+    <li>Jalankan <strong>5.1 Search BK - Keyword nama siswa</strong></li>
+    <li>Jalankan <strong>7.3 GET BK</strong></li>
+  </ol>
+
+  <h3>Skenario 3: Login sebagai Guru → Test RBAC</h3>
+  <ol>
+    <li>Jalankan request login manual dengan username: guru1, password: password123</li>
+    <li>Jalankan <strong>7.8 GET /users (RBAC test)</strong> → harus redirect (302) atau HTML dashboard</li>
+  </ol>
+
+  <h3>Skenario 4: Login sebagai Siswa → Test dashboard siswa</h3>
+  <ol>
+    <li>Jalankan <strong>1.3 Login (Siswa)</strong></li>
+    <li>Jalankan <strong>7.7 GET Siswa Dashboard</strong></li>
+  </ol>
+</div>
+
+<!-- ==================== TABEL HASIL POSTMAN ==================== -->
+<div class="page page-break">
+  <h2>A3. Tabel Hasil API Testing Postman</h2>
+  <p>Isi kolom "Actual Result" dan "Status" setelah menjalankan setiap request. Tempel screenshot di bawah tabel.</p>
+
+  <table>
+    <tr>
+      <th style="width:8%">No</th>
+      <th style="width:22%">Request</th>
+      <th style="width:12%">Method</th>
+      <th style="width:20%">Endpoint</th>
+      <th style="width:20%">Expected Result</th>
+      <th style="width:10%">Actual Result</th>
+      <th style="width:8%">Status</th>
+    </tr>
+    <tr>
+      <td>1</td><td>Login Admin</td><td>POST</td><td>/auth/login</td>
+      <td>Status 200/302; session cookie tersimpan</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>2</td><td>Search Users - valid (≥2 char)</td><td>GET</td><td>/users/api/search?q=admin</td>
+      <td>Status 200; JSON array; ada property username, full_name; response &lt;500ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>3</td><td>Search Users - &lt;2 char</td><td>GET</td><td>/users/api/search?q=a</td>
+      <td>Status 200; JSON array kosong []</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>4</td><td>Search Users - tidak ada hasil</td><td>GET</td><td>/users/api/search?q=zzzznotexist</td>
+      <td>Status 200; JSON array kosong []</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>5</td><td>Search Siswa - nama</td><td>GET</td><td>/kesiswaan/api/search?q=Ahmad</td>
+      <td>Status 200; JSON array; ada nis, full_name, _href; &lt;500ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>6</td><td>Search Siswa - NIS</td><td>GET</td><td>/kesiswaan/api/search?q=2025</td>
+      <td>Status 200; JSON array berisi siswa dengan NIS 2025xxx</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>7</td><td>Search Jurnal - materi</td><td>GET</td><td>/jurnal/api/search?q=Mate</td>
+      <td>Status 200; JSON array; ada material, teaching_date, class_name; &lt;500ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>8</td><td>Search BK - nama siswa</td><td>GET</td><td>/bk/api/search?q=Ahmad</td>
+      <td>Status 200; JSON array; ada student_name, total_cases, _href; &lt;500ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>9</td><td>Search Absensi - nama</td><td>GET</td><td>/absensi/api/search?q=Nurul</td>
+      <td>Status 200; JSON array; ada student_name, _href; &lt;500ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>10</td><td>GET Dashboard</td><td>GET</td><td>/dashboard</td>
+      <td>Status 200; HTML berisi "Dashboard"; response &lt;3000ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>11</td><td>GET BK (sebagai guru_bk)</td><td>GET</td><td>/bk</td>
+      <td>Status 200; HTML halaman BK; response &lt;3000ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>12</td><td>GET /users (sebagai guru - RBAC)</td><td>GET</td><td>/users</td>
+      <td>Status 302 redirect atau HTML dashboard (akses ditolak)</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+    <tr>
+      <td>13</td><td>GET Siswa Dashboard</td><td>GET</td><td>/siswa/dashboard</td>
+      <td>Status 200; HTML dashboard siswa; response &lt;3000ms</td>
+      <td style="color:#888;font-style:italic;">[isi]</td><td style="color:#888;font-style:italic;">[P/F]</td>
+    </tr>
+  </table>
+
+  <h3>Screenshot Hasil Postman</h3>
+  <p>Tempel screenshot berikut (ambil dari Postman setelah menjalankan setiap request):</p>
+
+  <h4>Screenshot 1 — Environment dan Collection</h4>
+  <div class="screenshot-box">[Screenshot: sidebar Postman dengan collection terbuka + environment "Web Sekolah Production" aktif]</div>
+
+  <h4>Screenshot 2 — Login Admin (request + response)</h4>
+  <div class="screenshot-box">[Screenshot: request POST /auth/login dengan body username/password + response status + Test Results tab menampilkan PASS]</div>
+
+  <h4>Screenshot 3 — Search Suggestion API (JSON response)</h4>
+  <div class="screenshot-box">[Screenshot: request GET /users/api/search?q=admin + response JSON array + Test Results PASS]</div>
+
+  <h4>Screenshot 4 — Search Siswa API</h4>
+  <div class="screenshot-box">[Screenshot: request GET /kesiswaan/api/search?q=Ahmad + response JSON array dengan data siswa]</div>
+
+  <h4>Screenshot 5 — Search BK API</h4>
+  <div class="screenshot-box">[Screenshot: request GET /bk/api/search?q=Ahmad + response JSON array]</div>
+
+  <h4>Screenshot 6 — Test Runner (Collection Runner)</h4>
+  <div class="screenshot-box">[Screenshot: klik Run Collection → jalankan semua request → tampilkan ringkasan Pass/Fail di Collection Runner]</div>
+</div>
+
+<!-- ==================== BAGIAN B: JMETER ==================== -->
+<div class="page page-break">
+  <h1>BAGIAN B — PERFORMANCE TESTING DENGAN APACHE JMETER</h1>
+
+  <h2>B1. Persiapan JMeter</h2>
+  <ol>
+    <li>Download Apache JMeter dari <code>https://jmeter.apache.org/download_jmeter.cgi</code> (versi 5.6+)</li>
+    <li>Extract ZIP → jalankan <code>bin/jmeter.bat</code> (Windows)</li>
+    <li>JMeter GUI terbuka</li>
+  </ol>
+
+  <h2>B2. Load Testing — Skenario Normal</h2>
+  <p><strong>Tujuan:</strong> Mengukur performa halaman /dashboard dan /bk saat diakses oleh beberapa pengguna bersamaan dalam kondisi normal.</p>
+
+  <div class="step-box">
+    <h4>Setup Thread Group (Load Test)</h4>
+    <ol>
+      <li>Klik kanan pada <strong>Test Plan</strong> → Add → Threads → <strong>Thread Group</strong></li>
+      <li>Set parameter:
+        <ul>
+          <li>Number of Threads (users): <strong>50</strong></li>
+          <li>Ramp-up Period: <strong>10</strong> detik</li>
+          <li>Loop Count: <strong>3</strong></li>
+        </ul>
+      </li>
+      <li>Klik kanan Thread Group → Add → Sampler → <strong>HTTP Request</strong></li>
+      <li>Isi HTTP Request:
+        <ul>
+          <li>Server Name: <code>web-sekolah.duckdns.org</code></li>
+          <li>Protocol: <code>https</code></li>
+          <li>Path: <code>/dashboard</code></li>
+          <li>Method: <code>GET</code></li>
+        </ul>
+      </li>
+      <li>Tambah HTTP Request kedua untuk path <code>/bk</code></li>
+      <li>Klik kanan Thread Group → Add → Listener → <strong>Summary Report</strong></li>
+      <li>Klik kanan Thread Group → Add → Listener → <strong>View Results Tree</strong></li>
+    </ol>
+    <div class="screenshot-box">[Screenshot: JMeter Thread Group dengan 50 users, ramp-up 10 detik, loop 3]</div>
+  </div>
+
+  <div class="step-box">
+    <h4>Jalankan Load Test</h4>
+    <ol>
+      <li>Klik tombol <strong>Run</strong> (segitiga hijau) di toolbar</li>
+      <li>Tunggu hingga selesai (~30 detik)</li>
+      <li>Klik <strong>Summary Report</strong> untuk melihat hasil</li>
+      <li>Catat nilai: # Samples, Average, Min, Max, Error%, Throughput</li>
+    </ol>
+  </div>
+
+  <h3>Tabel Hasil Load Testing (50 users, ramp-up 10s, loop 3)</h3>
+  <table>
+    <tr>
+      <th>Label</th><th># Samples</th><th>Average (ms)</th><th>Min (ms)</th><th>Max (ms)</th><th>Std. Dev.</th><th>Error %</th><th>Throughput /s</th>
+    </tr>
+    <tr>
+      <td>GET /dashboard</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+    </tr>
+    <tr>
+      <td>GET /bk</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+    </tr>
+    <tr>
+      <td><strong>TOTAL</strong></td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+    </tr>
+  </table>
+  <div class="screenshot-box">[Screenshot: JMeter Summary Report setelah load test 50 users selesai]</div>
+
+  <h2>B3. Stress Testing — Temukan Batas Server</h2>
+  <p><strong>Tujuan:</strong> Menemukan titik di mana server mulai menunjukkan error (Error% naik signifikan).</p>
+
+  <div class="step-box">
+    <h4>Skenario Stress Test Bertahap</h4>
+    <p>Ulangi test dengan jumlah user yang meningkat, catat hasilnya:</p>
+    <ol>
+      <li><strong>Tahap 1:</strong> 100 users, ramp-up 10s, loop 2 → catat Error%</li>
+      <li><strong>Tahap 2:</strong> 200 users, ramp-up 10s, loop 2 → catat Error%</li>
+      <li><strong>Tahap 3:</strong> 500 users, ramp-up 10s, loop 2 → catat Error%</li>
+      <li>Jika Error% masih &lt;5%, naikkan lagi sampai Error% meningkat signifikan (&gt;10%)</li>
+      <li>Catat jumlah user di mana Error% mulai &gt;10% — itu batas kapasitas server</li>
+    </ol>
+  </div>
+
+  <h3>Tabel Hasil Stress Testing</h3>
+  <table>
+    <tr>
+      <th>Jumlah Users</th><th>Ramp-up</th><th>Loop</th><th>Average (ms)</th><th>Max (ms)</th><th>Error %</th><th>Throughput /s</th><th>Keterangan</th>
+    </tr>
+    <tr>
+      <td>50</td><td>10s</td><td>3</td>
+      <td style="color:#888;font-style:italic;">[dari load test]</td>
+      <td style="color:#888;font-style:italic;">[dari load test]</td>
+      <td style="color:#888;font-style:italic;">[dari load test]</td>
+      <td style="color:#888;font-style:italic;">[dari load test]</td>
+      <td style="color:#888;font-style:italic;">[Stabil/Tidak Stabil]</td>
+    </tr>
+    <tr>
+      <td>100</td><td>10s</td><td>2</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+    </tr>
+    <tr>
+      <td>200</td><td>10s</td><td>2</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+    </tr>
+    <tr>
+      <td>500</td><td>10s</td><td>2</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+      <td style="color:#888;font-style:italic;">[isi]</td>
+    </tr>
+  </table>
+
+  <h3>Kesimpulan Performance Testing</h3>
+  <p>Isi setelah pengujian selesai:</p>
+  <table>
+    <tr><th>Aspek</th><th>Hasil</th></tr>
+    <tr><td>Jumlah user maksimum stabil (Error% &lt;5%)</td><td style="color:#888;font-style:italic;">[isi: ___ users]</td></tr>
+    <tr><td>Rata-rata response time pada beban normal (50 user)</td><td style="color:#888;font-style:italic;">[isi: ___ ms]</td></tr>
+    <tr><td>Titik kegagalan pertama (Error% &gt;10%)</td><td style="color:#888;font-style:italic;">[isi: ___ users]</td></tr>
+    <tr><td>Throughput maksimum</td><td style="color:#888;font-style:italic;">[isi: ___ req/s]</td></tr>
+    <tr><td>Rekomendasi kapasitas server</td><td style="color:#888;font-style:italic;">[isi berdasarkan data]</td></tr>
+  </table>
+
+  <div class="screenshot-box">[Screenshot: JMeter Summary Report stress test 200 users]</div>
+  <div class="screenshot-box">[Screenshot: JMeter Summary Report stress test 500 users — tunjukkan Error% meningkat]</div>
+
+  <p style="margin-top:20pt;text-align:center;color:#86868b;font-size:10pt;">
+    — Panduan API Testing + Performance Testing — Web Sekolah Terintegrasi | Kelompok 5 RPL-A | 2025/2026 —<br>
+    Isi semua [isi] dan tempel screenshot setelah pengujian langsung dilaksanakan.
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SDD - Web Sekolah Terintegrasi - Kelompok 5 RPL-A</title>
+<style>
+  @page { size: A4; margin: 2.5cm 2cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 12pt; line-height: 1.6; color: #1d1d1f; }
+  .page { width: 21cm; min-height: 29.7cm; padding: 2.5cm 2cm; margin: 0 auto; }
+  .page-break { page-break-before: always; }
+  h1 { font-size: 18pt; margin-bottom: 6pt; }
+  h2 { font-size: 14pt; margin: 20pt 0 10pt; border-bottom: 2px solid #1d1d1f; padding-bottom: 4pt; }
+  h3 { font-size: 12pt; margin: 14pt 0 6pt; }
+  h4 { font-size: 11pt; margin: 10pt 0 4pt; font-style: italic; }
+  p  { margin-bottom: 8pt; text-align: justify; }
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 10pt; }
+  th, td { border: 1px solid #86868b; padding: 5pt 7pt; text-align: left; vertical-align: top; }
+  th { background: #f5f5f7; font-weight: 600; }
+  ul, ol { margin: 6pt 0 6pt 24pt; }
+  li { margin-bottom: 3pt; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 27cm; text-align: center; }
+  .cover h1 { font-size: 20pt; margin-bottom: 10pt; }
+  code { font-family: 'Courier New', monospace; font-size: 9pt; background: #f5f5f7; padding: 1pt 4pt; border-radius: 3pt; }
+  pre  { font-family: 'Courier New', monospace; font-size: 9pt; background: #f5f5f7; border: 1px solid #e5e5ea; border-radius: 4pt; padding: 8pt 10pt; margin: 8pt 0; overflow-x: auto; white-space: pre-wrap; }
+  .note { background: #f5f5f7; border-left: 3px solid #0071e3; padding: 8pt 12pt; margin: 8pt 0; font-size: 10pt; }
+  .toc-item { margin: 3pt 0; }
+  .toc-sub  { margin: 2pt 0 2pt 20pt; font-size: 11pt; }
+  .toc-sub2 { margin: 2pt 0 2pt 38pt; font-size: 10pt; color: #3a3a3c; }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="page cover">
+  <h1>SOFTWARE DESIGN DOCUMENT</h1>
+  <div style="font-size:14pt;margin-bottom:20pt;color:#3a3a3c;">Web Sekolah Terintegrasi<br>Berbasis Scalable System Design</div>
+  <hr style="width:60%;border:1px solid #1d1d1f;margin:10pt auto;">
+  <table style="width:70%;margin:20pt auto;font-size:11pt;">
+    <tr><td><strong>Mata Kuliah</strong></td><td>RPL-A Scalable System Design</td></tr>
+    <tr><td><strong>Dosen Pengampu</strong></td><td>Pak Runal</td></tr>
+    <tr><td><strong>Kelompok</strong></td><td>Kelompok 5 | RPL-A</td></tr>
+    <tr><td><strong>Versi Dokumen</strong></td><td>1.0</td></tr>
+    <tr><td><strong>Tanggal</strong></td><td>Juli 2026</td></tr>
+    <tr><td><strong>Acuan Standar</strong></td><td>IEEE 1016-1998</td></tr>
+  </table>
+  <div style="margin-top:20pt;font-size:11pt;">
+    <strong>Disusun Oleh:</strong><br><br>
+    Ashabul Kahfi (105841108523) — System Analyst / Project Lead<br>
+    Marhepi Rahmadani (105841109523) — System Architect<br>
+    Muh. Eka Andri Setiawan (105841110723) — Database Designer<br>
+    Afra Muawiya (105841108423) — UI/UX &amp; Documentation Designer<br>
+    Alyah Saputri Bakri (105841107723) — Security &amp; Access Control Designer
+  </div>
+  <p style="margin-top:30pt;font-size:10pt;color:#86868b;">Universitas Muhammadiyah Makassar — Tahun Akademik 2025/2026</p>
+</div>
+
+<!-- ==================== DAFTAR ISI ==================== -->
+<div class="page page-break">
+  <h2>Daftar Isi</h2>
+  <div class="toc-item">1. Pendahuluan</div>
+  <div class="toc-sub">1.1 Tujuan Dokumen</div>
+  <div class="toc-sub">1.2 Ruang Lingkup</div>
+  <div class="toc-sub">1.3 Definisi dan Akronim</div>
+  <div class="toc-sub">1.4 Referensi</div>
+  <br>
+  <div class="toc-item">2. Arsitektur Sistem (System Architecture)</div>
+  <div class="toc-sub">2.1 Gambaran Arsitektur</div>
+  <div class="toc-sub">2.2 Komponen Arsitektur</div>
+  <div class="toc-sub">2.3 Pembagian vCPU</div>
+  <div class="toc-sub">2.4 Alur Request-Response</div>
+  <div class="toc-sub">2.5 Strategi Scaling</div>
+  <br>
+  <div class="toc-item">3. Desain Perangkat Lunak (Software Design)</div>
+  <div class="toc-sub">3.1 Struktur Folder (Domain Decomposition)</div>
+  <div class="toc-sub">3.2 Use Case Diagram</div>
+  <div class="toc-sub">3.3 Class Diagram</div>
+  <div class="toc-sub">3.4 Sequence Diagram</div>
+  <div class="toc-sub2">3.4.1 Login</div>
+  <div class="toc-sub2">3.4.2 Input Jurnal Mengajar</div>
+  <div class="toc-sub2">3.4.3 Catat Kasus BK</div>
+  <div class="toc-sub2">3.4.4 Input Absensi</div>
+  <div class="toc-sub">3.5 Komponen Perangkat Lunak</div>
+  <br>
+  <div class="toc-item">4. Desain Data (Data Design)</div>
+  <div class="toc-sub">4.1 Entity Relationship Diagram (ERD)</div>
+  <div class="toc-sub">4.2 Kamus Data (Data Dictionary)</div>
+  <div class="toc-sub">4.3 Desain Data Persisten</div>
+  <div class="toc-sub">4.4 Optimasi Database</div>
+  <br>
+  <div class="toc-item">5. Desain Antarmuka Pengguna (UI Design)</div>
+  <div class="toc-sub">5.1 Prinsip Desain</div>
+  <div class="toc-sub">5.2 Hierarki Navigasi</div>
+  <div class="toc-sub">5.3 Mockup Halaman Utama</div>
+  <div class="toc-sub">5.4 Tabel Field Antarmuka</div>
+  <br>
+  <div class="toc-item">6. Ketertelusuran (Traceability)</div>
+  <div class="toc-sub">6.1 Requirements Traceability Matrix (RTM)</div>
+</div>
+
+<!-- ==================== BAB 1 ==================== -->
+<div class="page page-break">
+  <h2>1. Pendahuluan</h2>
+
+  <h3>1.1 Tujuan Dokumen</h3>
+  <p>Dokumen <em>Software Design Document</em> (SDD) ini mendeskripsikan desain teknis sistem <strong>Web Sekolah Terintegrasi</strong>. Dokumen ini mencakup arsitektur sistem, desain perangkat lunak (use case, class diagram, sequence diagram), desain database, desain antarmuka pengguna, dan matriks ketertelusuran kebutuhan.</p>
+  <p>SDD ini merupakan turunan langsung dari dokumen SRS v1.0 dan menjadi acuan implementasi bagi tim pengembang. Dokumen mengacu pada standar <strong>IEEE 1016-1998</strong>.</p>
+
+  <h3>1.2 Ruang Lingkup</h3>
+  <p>SDD ini mencakup desain untuk 5 modul utama sistem: Autentikasi, Manajemen Pengguna, Kesiswaan, Jurnal Mengajar, Bimbingan Konseling, dan Absensi Siswa beserta fitur lintas modul (Dashboard, Profil, Pagination, Search).</p>
+
+  <h3>1.3 Definisi dan Akronim</h3>
+  <table>
+    <tr><th style="width:20%">Istilah</th><th>Definisi</th></tr>
+    <tr><td>SDD</td><td>Software Design Document — Dokumen desain perangkat lunak</td></tr>
+    <tr><td>MVC</td><td>Model-View-Controller — Pola arsitektur yang memisahkan logika, tampilan, dan kontrol</td></tr>
+    <tr><td>ERD</td><td>Entity Relationship Diagram — Diagram hubungan antar entitas database</td></tr>
+    <tr><td>RTM</td><td>Requirements Traceability Matrix — Matriks ketertelusuran kebutuhan ke desain</td></tr>
+    <tr><td>AJAX</td><td>Asynchronous JavaScript and XML — Teknik request HTTP tanpa reload halaman</td></tr>
+    <tr><td>FK</td><td>Foreign Key — Kunci asing penghubung antar tabel database</td></tr>
+    <tr><td>PK</td><td>Primary Key — Kunci utama identifikasi unik setiap baris tabel</td></tr>
+    <tr><td>vCPU</td><td>Virtual CPU — Unit prosesor virtual pada cloud server</td></tr>
+    <tr><td>PM2</td><td>Process Manager 2 — Tool manajemen proses Node.js di production</td></tr>
+  </table>
+
+  <h3>1.4 Referensi</h3>
+  <ul>
+    <li>SRS Web Sekolah Terintegrasi v1.0, Kelompok 5 RPL-A, 2026</li>
+    <li>IEEE 1016-1998, IEEE Recommended Practice for Software Design Descriptions</li>
+    <li>Express.js Documentation — https://expressjs.com</li>
+    <li>MySQL 8.0 Reference Manual — https://dev.mysql.com/doc</li>
+    <li>Source Code Repository — https://github.com/Kahfi10/MID-SSD-Web-Sekolah-Kelompok-5</li>
+  </ul>
+</div>
+
+<!-- ==================== BAB 2: ARSITEKTUR ==================== -->
+<div class="page page-break">
+  <h2>2. Arsitektur Sistem</h2>
+
+  <h3>2.1 Gambaran Arsitektur</h3>
+  <p>Sistem menggunakan pendekatan <strong>Modular Monolith Architecture</strong>. Seluruh modul berjalan dalam satu proses Node.js Express.js, namun setiap modul dipisahkan dalam direktori dan router masing-masing. Pendekatan ini dipilih karena memudahkan pengembangan awal sekaligus membuka jalan migrasi ke microservices di masa depan.</p>
+
+  <div class="note">
+    <strong>Diagram Arsitektur Sistem:</strong><br>
+    Lihat docs/arsitektur.jpg di repository GitHub.<br>
+    Menampilkan 3 layer: Client Layer → Application Layer → Data Layer beserta 6 vCPU.
+  </div>
+
+  <h3>2.2 Komponen Arsitektur</h3>
+  <table>
+    <tr><th style="width:18%">Layer</th><th style="width:25%">Komponen</th><th style="width:25%">Teknologi</th><th>Fungsi</th></tr>
+    <tr>
+      <td><strong>Client Layer</strong></td>
+      <td>Browser Pengguna</td>
+      <td>HTML5, CSS3, JavaScript ES6, Bootstrap 5.3, Chart.js 4.4</td>
+      <td>Rendering tampilan, interaksi pengguna, AJAX request</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>Application Layer</strong></td>
+      <td>Web Server</td>
+      <td>Node.js v16+, Express.js v4.18</td>
+      <td>Handle HTTP request, routing, session management</td>
+    </tr>
+    <tr>
+      <td>Template Engine</td>
+      <td>EJS + express-ejs-layouts</td>
+      <td>Server-side HTML rendering dengan layout</td>
+    </tr>
+    <tr>
+      <td>Middleware</td>
+      <td>auth.js, rbac.js, multer, connect-flash</td>
+      <td>Autentikasi, otorisasi, upload file, flash messages</td>
+    </tr>
+    <tr>
+      <td rowspan="2"><strong>Data Layer</strong></td>
+      <td>Database</td>
+      <td>MySQL 5.7+ (mysql2/promise)</td>
+      <td>Penyimpanan data relasional dengan connection pool</td>
+    </tr>
+    <tr>
+      <td>Cache (rencana)</td>
+      <td>Redis</td>
+      <td>Cache data yang sering diakses (kelas, mapel, guru)</td>
+    </tr>
+    <tr>
+      <td><strong>Infrastructure</strong></td>
+      <td>Reverse Proxy + SSL</td>
+      <td>Nginx + Certbot (Let's Encrypt)</td>
+      <td>Port 443/80 → 3000, HTTPS termination</td>
+    </tr>
+  </table>
+
+  <h3>2.3 Pembagian vCPU</h3>
+  <table>
+    <tr><th>vCPU</th><th>Layanan</th><th>Alasan Pemisahan</th><th>Scaling Strategy</th></tr>
+    <tr><td>vCPU 1</td><td>Web Server (Aplikasi Utama)</td><td>Handle seluruh HTTP request, routing, rendering view EJS</td><td>Horizontal: tambah instance di belakang load balancer</td></tr>
+    <tr><td>vCPU 2</td><td>Database Server (MySQL)</td><td>Penyimpanan data terpusat, performa query stabil</td><td>Vertical: tingkatkan RAM/CPU; read-replica untuk SELECT</td></tr>
+    <tr><td>vCPU 3</td><td>Modul Jurnal Mengajar</td><td>Beban akses harian tertinggi (puluhan guru setiap hari)</td><td>Horizontal: scale-out instance saat peak hours</td></tr>
+    <tr><td>vCPU 4</td><td>Modul BK &amp; Kesiswaan</td><td>Data sensitif (privasi siswa) dipisahkan untuk keamanan</td><td>Vertical: tambah RAM untuk query JOIN kompleks</td></tr>
+    <tr><td>vCPU 5</td><td>Load Balancer &amp; Monitoring</td><td>Distribusi request dan pemantauan performa real-time</td><td>Nginx dengan round-robin atau least-connection</td></tr>
+    <tr><td>vCPU 6</td><td>Backup &amp; Cache (Redis)</td><td>Cache data sering diakses + backup database periodik</td><td>Redis cluster jika kebutuhan cache meningkat</td></tr>
+  </table>
+
+  <h3>2.4 Alur Request-Response</h3>
+  <p>Berikut alur umum setiap request dari browser pengguna hingga response dikembalikan:</p>
+  <ol>
+    <li><strong>Browser</strong> mengirim HTTP/HTTPS request ke URL (misal: POST /bk/cases/store)</li>
+    <li><strong>Nginx</strong> menerima request di port 443, melakukan SSL termination, dan meneruskan ke port 3000</li>
+    <li><strong>Express.js</strong> mencocokkan route dengan router yang terdaftar di app.js</li>
+    <li><strong>Middleware</strong> <code>isAuthenticated</code> memeriksa session — jika tidak ada, redirect ke /auth/login</li>
+    <li><strong>Middleware</strong> <code>allowRoles()</code> memeriksa role pengguna — jika tidak sesuai, redirect ke /dashboard</li>
+    <li><strong>Route Handler</strong> memproses logika bisnis, melakukan query ke MySQL via connection pool</li>
+    <li><strong>MySQL</strong> mengembalikan data hasil query</li>
+    <li><strong>Route Handler</strong> merender view EJS dengan data yang diterima, atau redirect dengan flash message</li>
+    <li><strong>Browser</strong> menerima HTML response dan merender tampilan</li>
+  </ol>
+
+  <h3>2.5 Strategi Scaling</h3>
+  <table>
+    <tr><th>Jenis Scaling</th><th>Target</th><th>Implementasi</th><th>Kapan Digunakan</th></tr>
+    <tr><td>Horizontal Scaling</td><td>vCPU 1 &amp; 3</td><td>Tambah instance Node.js di belakang Nginx load balancer (round-robin)</td><td>Saat jumlah pengguna meningkat signifikan</td></tr>
+    <tr><td>Vertical Scaling</td><td>vCPU 2</td><td>Tingkatkan spesifikasi server database (RAM, CPU, storage)</td><td>Saat data semakin besar dan query melambat</td></tr>
+    <tr><td>Caching</td><td>vCPU 6</td><td>Redis cache untuk data statis: daftar kelas, mapel, guru, roles</td><td>Implementasi fase berikutnya</td></tr>
+    <tr><td>Read Replica</td><td>vCPU 2</td><td>MySQL master-slave replication untuk query SELECT</td><td>Saat read traffic jauh lebih tinggi dari write</td></tr>
+  </table>
+</div>
+
+<!-- ==================== BAB 3: SOFTWARE DESIGN ==================== -->
+<div class="page page-break">
+  <h2>3. Desain Perangkat Lunak</h2>
+
+  <h3>3.1 Struktur Folder (Domain Decomposition)</h3>
+  <p>Sistem menggunakan pendekatan <strong>domain-based decomposition</strong> di mana setiap modul bisnis memiliki folder sendiri di <code>src/modules/</code>:</p>
+  <pre>MID-SSD-Web-Sekolah-kelompok5/
+├── database/
+│   ├── schema.sql          # DDL: CREATE TABLE, INDEX, FK constraints
+│   ├── seed.js             # Seeder dengan bcrypt password hash
+│   └── seed.sql            # Data dummy referensi
+├── src/
+│   ├── app.js              # Entry point: middleware, route mounting, 404 handler
+│   ├── config/
+│   │   └── database.js     # MySQL connection pool (mysql2/promise)
+│   ├── middleware/
+│   │   ├── auth.js         # isAuthenticated, isNotAuthenticated
+│   │   └── rbac.js         # allowRoles(...roles) — RBAC middleware
+│   ├── modules/
+│   │   ├── auth/routes.js       # Login, logout
+│   │   ├── dashboard/routes.js  # Dashboard + grafik Chart.js
+│   │   ├── users/routes.js      # CRUD users, reset password, search API
+│   │   ├── kesiswaan/routes.js  # CRUD siswa, wali kelas, import/export CSV
+│   │   ├── jurnal/routes.js     # Input jurnal, rekap, search API
+│   │   ├── bk/routes.js         # Kasus, konseling, pelanggaran, prestasi, rekap
+│   │   ├── absensi/routes.js    # Input absensi, rekap, quick filter
+│   │   ├── profile/routes.js    # Ubah profil, ganti password
+│   │   └── siswa/routes.js      # Dashboard siswa (role: siswa)
+│   ├── public/
+│   │   ├── css/style.css        # Apple-inspired monochrome theme
+│   │   ├── js/script.js         # Auto-hide alert, quick date range
+│   │   └── js/search-suggest.js # AJAX search suggestion (debounce 300ms)
+│   └── views/
+│       ├── layouts/
+│       │   ├── main.ejs         # Layout utama (navbar + flash messages)
+│       │   └── guest.ejs        # Layout login (tanpa navbar)
+│       ├── auth/login.ejs
+│       ├── dashboard/index.ejs
+│       ├── users/{index,edit}.ejs
+│       ├── kesiswaan/{index,edit,kelas}.ejs
+│       ├── jurnal/{index,rekap}.ejs
+│       ├── bk/{index,rekap}.ejs
+│       ├── absensi/{index,create,rekap}.ejs
+│       ├── profile/index.ejs
+│       └── siswa/index.ejs
+├── .env.example
+└── package.json</pre>
+
+  <h3>3.2 Use Case Diagram</h3>
+  <div class="note">
+    <strong>Diagram Use Case:</strong> Lihat docs/usecase.jpeg di repository GitHub.<br>
+    Menampilkan 7 aktor (Admin, Kepala Sekolah, Guru, Guru BK, Wali Kelas, Siswa, Orang Tua) dan seluruh use case sistem.
+  </div>
+  <table>
+    <tr><th>Aktor</th><th>Use Case Utama</th></tr>
+    <tr><td>Admin</td><td>UC01 Login, UC02 Kelola User, UC03 Reset Password, UC04 Kelola Siswa, UC05 Import/Export CSV, UC06 Kelola Wali Kelas, UC07 Input Jurnal, UC08 Input Absensi, UC09 Kelola BK, UC10 Dashboard</td></tr>
+    <tr><td>Kepala Sekolah</td><td>UC01 Login, UC10 Dashboard, UC11 View Kesiswaan, UC12 Rekap Jurnal, UC13 Rekap BK, UC14 Rekap Absensi</td></tr>
+    <tr><td>Guru</td><td>UC01 Login, UC07 Input Jurnal, UC08 Input Absensi, UC10 Dashboard, UC15 Kelola Profil</td></tr>
+    <tr><td>Guru BK</td><td>UC01 Login, UC09 Kelola BK, UC10 Dashboard, UC15 Kelola Profil</td></tr>
+    <tr><td>Wali Kelas</td><td>UC01 Login, UC11 View Kesiswaan, UC12 Rekap Jurnal, UC08 Input Absensi, UC10 Dashboard, UC15 Kelola Profil</td></tr>
+    <tr><td>Siswa</td><td>UC01 Login, UC16 Dashboard Siswa, UC15 Kelola Profil</td></tr>
+  </table>
+</div>
+
+<div class="page page-break">
+  <h3>3.3 Class Diagram</h3>
+  <p>Berikut representasi class utama dalam sistem (berdasarkan struktur route dan tabel database):</p>
+  <table>
+    <tr><th>Class / Module</th><th>Atribut Utama</th><th>Method / Operasi</th><th>Relasi</th></tr>
+    <tr>
+      <td><strong>User</strong></td>
+      <td>id, username, email, password (hash), full_name, role_id, is_active, last_login</td>
+      <td>login(), logout(), updateProfile(), changePassword(), resetPassword()</td>
+      <td>belongs to Role; has many ActivityLog</td>
+    </tr>
+    <tr>
+      <td><strong>Role</strong></td>
+      <td>id, name, description</td>
+      <td>getPermissions()</td>
+      <td>has many User</td>
+    </tr>
+    <tr>
+      <td><strong>Student</strong></td>
+      <td>id, nis, full_name, gender, birth_date, class_id, user_id, status</td>
+      <td>getAttendanceSummary(), getViolations(), getAchievements(), getCases()</td>
+      <td>belongs to Class; belongs to User; has many Attendance, BKCase, Violation, Achievement</td>
+    </tr>
+    <tr>
+      <td><strong>Teacher</strong></td>
+      <td>id, user_id, nip, full_name, phone, address</td>
+      <td>getJournals(), getClasses()</td>
+      <td>belongs to User; has many TeachingJournal, BKCase</td>
+    </tr>
+    <tr>
+      <td><strong>Class</strong></td>
+      <td>id, class_name, grade_level, homeroom_teacher_id</td>
+      <td>getStudents(), getAttendances()</td>
+      <td>has many Student; belongs to Teacher (homeroom)</td>
+    </tr>
+    <tr>
+      <td><strong>TeachingJournal</strong></td>
+      <td>id, teacher_id, class_id, subject_id, teaching_date, material, method, notes, semester_id</td>
+      <td>store(), delete(), getRecap()</td>
+      <td>belongs to Teacher, Class, Subject, Semester</td>
+    </tr>
+    <tr>
+      <td><strong>BKCase</strong></td>
+      <td>id, student_id, teacher_id, case_date, case_type, description, status</td>
+      <td>store(), updateStatus(), delete()</td>
+      <td>belongs to Student, Teacher</td>
+    </tr>
+    <tr>
+      <td><strong>Attendance</strong></td>
+      <td>id, student_id, class_id, attendance_date, status, notes, created_by</td>
+      <td>storeByClass(), getRecap(), delete()</td>
+      <td>belongs to Student, Class, User (created_by)</td>
+    </tr>
+    <tr>
+      <td><strong>ActivityLog</strong></td>
+      <td>id, user_id, action, description, ip_address, created_at</td>
+      <td>record()</td>
+      <td>belongs to User</td>
+    </tr>
+  </table>
+
+  <h3>3.4 Sequence Diagram</h3>
+
+  <h4>3.4.1 UC01 — Login</h4>
+  <table>
+    <tr><th>Step</th><th>Aktor</th><th>Sistem</th><th>Database</th></tr>
+    <tr><td>1</td><td>User mengisi username + password, klik Login</td><td>POST /auth/login diterima Express.js</td><td>—</td></tr>
+    <tr><td>2</td><td>—</td><td>isNotAuthenticated middleware: cek session → tidak ada, lanjut</td><td>—</td></tr>
+    <tr><td>3</td><td>—</td><td>Query: SELECT users JOIN roles WHERE username = ? AND is_active = 1</td><td>Return: row user atau empty</td></tr>
+    <tr><td>4</td><td>—</td><td>Jika empty: flash error, redirect /auth/login. Lanjut jika ada.</td><td>—</td></tr>
+    <tr><td>5</td><td>—</td><td>bcrypt.compare(password_input, password_hash)</td><td>—</td></tr>
+    <tr><td>6</td><td>—</td><td>Jika tidak cocok: flash error, redirect /auth/login</td><td>—</td></tr>
+    <tr><td>7</td><td>—</td><td>Buat session: {id, username, full_name, email, role_id, role_name}</td><td>UPDATE users SET last_login = NOW()</td></tr>
+    <tr><td>8</td><td>—</td><td>—</td><td>INSERT activity_logs (login)</td></tr>
+    <tr><td>9</td><td>—</td><td>flash success, redirect /dashboard</td><td>—</td></tr>
+    <tr><td>10</td><td>Browser menerima redirect → GET /dashboard</td><td>—</td><td>—</td></tr>
+  </table>
+
+  <h4>3.4.2 UC07 — Input Jurnal Mengajar (Guru)</h4>
+  <table>
+    <tr><th>Step</th><th>Aktor</th><th>Sistem</th><th>Database</th></tr>
+    <tr><td>1</td><td>Guru klik "Input Jurnal", isi form (kelas, mapel, tanggal, materi, metode, catatan)</td><td>POST /jurnal/store</td><td>—</td></tr>
+    <tr><td>2</td><td>—</td><td>isAuthenticated: cek session → ada, lanjut</td><td>—</td></tr>
+    <tr><td>3</td><td>—</td><td>allowRoles('guru','admin'): role = 'guru' → allowed</td><td>—</td></tr>
+    <tr><td>4</td><td>—</td><td>SELECT id FROM teachers WHERE user_id = {session.id}</td><td>Return: teacher_id</td></tr>
+    <tr><td>5</td><td>—</td><td>Jika teacher tidak ditemukan: flash error, redirect /jurnal</td><td>—</td></tr>
+    <tr><td>6</td><td>—</td><td>INSERT teaching_journals (teacher_id, class_id, subject_id, ...)</td><td>Insert berhasil</td></tr>
+    <tr><td>7</td><td>—</td><td>INSERT activity_logs (create_journal)</td><td>Insert log</td></tr>
+    <tr><td>8</td><td>—</td><td>flash success, redirect /jurnal</td><td>—</td></tr>
+  </table>
+
+  <h4>3.4.3 UC09 — Catat Kasus BK (Guru BK)</h4>
+  <table>
+    <tr><th>Step</th><th>Aktor</th><th>Sistem</th><th>Database</th></tr>
+    <tr><td>1</td><td>Guru BK klik "+ Kasus", isi form (siswa, tanggal, jenis, deskripsi)</td><td>POST /bk/cases/store</td><td>—</td></tr>
+    <tr><td>2</td><td>—</td><td>isAuthenticated + allowRoles('guru_bk','admin')</td><td>—</td></tr>
+    <tr><td>3</td><td>—</td><td>getOrCreateTeacherId(session.id, session.full_name)</td><td>SELECT teachers WHERE user_id = ?; jika tidak ada → INSERT teachers</td></tr>
+    <tr><td>4</td><td>—</td><td>INSERT bk_cases (student_id, teacher_id, case_date, case_type, description)</td><td>Insert berhasil, status default 'open'</td></tr>
+    <tr><td>5</td><td>—</td><td>INSERT activity_logs (create_case)</td><td>Insert log</td></tr>
+    <tr><td>6</td><td>—</td><td>flash success, redirect /bk</td><td>—</td></tr>
+  </table>
+
+  <h4>3.4.4 UC08 — Input Absensi (Guru/Wali Kelas)</h4>
+  <table>
+    <tr><th>Step</th><th>Aktor</th><th>Sistem</th><th>Database</th></tr>
+    <tr><td>1</td><td>Guru pilih kelas + tanggal, klik "Tampilkan Siswa"</td><td>GET /absensi/create?class_id=X&amp;attendance_date=Y</td><td>SELECT students WHERE class_id = X AND status = 'aktif'</td></tr>
+    <tr><td>2</td><td>—</td><td>Render form absensi dengan daftar siswa; isi status existing jika sudah ada</td><td>SELECT attendances WHERE class_id=X AND date=Y</td></tr>
+    <tr><td>3</td><td>Guru isi status tiap siswa (H/S/I/A), klik Simpan</td><td>POST /absensi/store</td><td>—</td></tr>
+    <tr><td>4</td><td>—</td><td>DELETE existing attendances WHERE class_id=X AND date=Y</td><td>Delete lama</td></tr>
+    <tr><td>5</td><td>—</td><td>INSERT attendances VALUES (batch insert semua siswa)</td><td>Insert bulk</td></tr>
+    <tr><td>6</td><td>—</td><td>INSERT activity_logs; flash success; redirect /absensi</td><td>—</td></tr>
+  </table>
+
+  <h3>3.5 Komponen Perangkat Lunak</h3>
+  <table>
+    <tr><th>Komponen</th><th>Bahasa/Framework</th><th>Library yang Digunakan</th></tr>
+    <tr><td>Backend Web Server</td><td>Node.js + Express.js</td><td>express, express-session, connect-flash, express-ejs-layouts</td></tr>
+    <tr><td>Database Driver</td><td>Node.js</td><td>mysql2/promise (connection pool, parameterized query)</td></tr>
+    <tr><td>Password Hashing</td><td>Node.js</td><td>bcryptjs (salt rounds: 10)</td></tr>
+    <tr><td>File Upload</td><td>Node.js</td><td>multer (storage: temp folder, max size default)</td></tr>
+    <tr><td>CSV Parser</td><td>Node.js</td><td>csv-parse/sync (delimiter: koma atau titik koma)</td></tr>
+    <tr><td>Frontend Framework</td><td>HTML/CSS/JS</td><td>Bootstrap 5.3, Bootstrap Icons 1.11</td></tr>
+    <tr><td>Charting Library</td><td>JavaScript</td><td>Chart.js 4.4.1 (bar, line, doughnut, pie)</td></tr>
+    <tr><td>Search Suggestion</td><td>JavaScript</td><td>Custom AJAX (fetch API, debounce 300ms, highlight match)</td></tr>
+    <tr><td>Environment Config</td><td>Node.js</td><td>dotenv (.env file)</td></tr>
+  </table>
+</div>
+
+<!-- ==================== BAB 4: DATA DESIGN ==================== -->
+<div class="page page-break">
+  <h2>4. Desain Data</h2>
+
+  <h3>4.1 Entity Relationship Diagram (ERD)</h3>
+  <div class="note">
+    <strong>Diagram ERD:</strong> Lihat docs/erd.jpeg di repository GitHub.<br>
+    Menampilkan 16 tabel lengkap dengan kolom PK/FK dan relasi antar tabel.
+  </div>
+
+  <h3>4.2 Kamus Data (Data Dictionary)</h3>
+  <h4>Tabel: users</h4>
+  <table>
+    <tr><th>Kolom</th><th>Tipe</th><th>Constraint</th><th>Deskripsi</th><th>Contoh</th></tr>
+    <tr><td>id</td><td>INT</td><td>PK, AUTO_INCREMENT</td><td>ID unik pengguna</td><td>1</td></tr>
+    <tr><td>username</td><td>VARCHAR(100)</td><td>NOT NULL, UNIQUE</td><td>Username login</td><td>admin</td></tr>
+    <tr><td>email</td><td>VARCHAR(100)</td><td>NOT NULL, UNIQUE</td><td>Email pengguna</td><td>admin@sekolah.test</td></tr>
+    <tr><td>password</td><td>VARCHAR(255)</td><td>NOT NULL</td><td>Password ter-hash bcrypt</td><td>$2a$10$...</td></tr>
+    <tr><td>full_name</td><td>VARCHAR(150)</td><td>NOT NULL</td><td>Nama lengkap</td><td>Admin Sekolah</td></tr>
+    <tr><td>role_id</td><td>INT</td><td>NOT NULL, FK → roles.id</td><td>Peran pengguna</td><td>1 (admin)</td></tr>
+    <tr><td>is_active</td><td>TINYINT(1)</td><td>DEFAULT 1</td><td>Status aktif (1=aktif, 0=nonaktif)</td><td>1</td></tr>
+    <tr><td>last_login</td><td>TIMESTAMP</td><td>NULL</td><td>Waktu login terakhir</td><td>2026-07-14 08:00:00</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP</td><td>Waktu pembuatan akun</td><td>2026-07-01 00:00:00</td></tr>
+  </table>
+
+  <h4>Tabel: students</h4>
+  <table>
+    <tr><th>Kolom</th><th>Tipe</th><th>Constraint</th><th>Deskripsi</th><th>Contoh</th></tr>
+    <tr><td>id</td><td>INT</td><td>PK, AUTO_INCREMENT</td><td>ID unik siswa</td><td>1</td></tr>
+    <tr><td>nis</td><td>VARCHAR(20)</td><td>NOT NULL, UNIQUE</td><td>Nomor Induk Siswa</td><td>2025001</td></tr>
+    <tr><td>full_name</td><td>VARCHAR(150)</td><td>NOT NULL</td><td>Nama lengkap siswa</td><td>Ahmad Fauzi</td></tr>
+    <tr><td>gender</td><td>ENUM('L','P')</td><td>NOT NULL</td><td>Jenis kelamin</td><td>L</td></tr>
+    <tr><td>birth_place</td><td>VARCHAR(100)</td><td>NULL</td><td>Tempat lahir</td><td>Makassar</td></tr>
+    <tr><td>birth_date</td><td>DATE</td><td>NULL</td><td>Tanggal lahir</td><td>2008-05-12</td></tr>
+    <tr><td>class_id</td><td>INT</td><td>NULL, FK → classes.id</td><td>ID kelas</td><td>1</td></tr>
+    <tr><td>user_id</td><td>INT</td><td>NULL, FK → users.id</td><td>ID akun login siswa</td><td>8</td></tr>
+    <tr><td>status</td><td>ENUM('aktif','pindah','lulus','keluar')</td><td>DEFAULT 'aktif'</td><td>Status keaktifan siswa</td><td>aktif</td></tr>
+  </table>
+
+  <h4>Tabel: bk_cases</h4>
+  <table>
+    <tr><th>Kolom</th><th>Tipe</th><th>Constraint</th><th>Deskripsi</th><th>Contoh</th></tr>
+    <tr><td>id</td><td>INT</td><td>PK, AUTO_INCREMENT</td><td>ID kasus BK</td><td>1</td></tr>
+    <tr><td>student_id</td><td>INT</td><td>NOT NULL, FK → students.id</td><td>ID siswa yang bersangkutan</td><td>1</td></tr>
+    <tr><td>teacher_id</td><td>INT</td><td>NOT NULL, FK → teachers.id</td><td>ID guru BK pencatat</td><td>4</td></tr>
+    <tr><td>case_date</td><td>DATE</td><td>NOT NULL</td><td>Tanggal kejadian kasus</td><td>2026-07-14</td></tr>
+    <tr><td>case_type</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>Jenis kasus (teks bebas)</td><td>Keterlambatan</td></tr>
+    <tr><td>description</td><td>TEXT</td><td>NOT NULL</td><td>Deskripsi detail kasus</td><td>Terlambat masuk 3x dalam seminggu</td></tr>
+    <tr><td>status</td><td>ENUM('open','proses','selesai')</td><td>DEFAULT 'open'</td><td>Status penanganan kasus</td><td>open</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP</td><td>Waktu pencatatan</td><td>2026-07-14 09:00:00</td></tr>
+  </table>
+
+  <h4>Tabel: attendances</h4>
+  <table>
+    <tr><th>Kolom</th><th>Tipe</th><th>Constraint</th><th>Deskripsi</th><th>Contoh</th></tr>
+    <tr><td>id</td><td>INT</td><td>PK, AUTO_INCREMENT</td><td>ID absensi</td><td>1</td></tr>
+    <tr><td>student_id</td><td>INT</td><td>NOT NULL, FK → students.id</td><td>ID siswa</td><td>1</td></tr>
+    <tr><td>class_id</td><td>INT</td><td>NOT NULL, FK → classes.id</td><td>ID kelas</td><td>1</td></tr>
+    <tr><td>attendance_date</td><td>DATE</td><td>NOT NULL</td><td>Tanggal absensi</td><td>2026-07-14</td></tr>
+    <tr><td>status</td><td>ENUM('hadir','sakit','izin','alpa')</td><td>NOT NULL, DEFAULT 'hadir'</td><td>Status kehadiran</td><td>hadir</td></tr>
+    <tr><td>notes</td><td>TEXT</td><td>NULL</td><td>Keterangan tambahan</td><td>Demam</td></tr>
+    <tr><td>created_by</td><td>INT</td><td>NOT NULL, FK → users.id</td><td>ID user yang menginput</td><td>1</td></tr>
+  </table>
+
+  <h3>4.3 Desain Data Persisten</h3>
+  <p>Sistem menggunakan <strong>16 tabel relasional</strong> di database <code>db_sekolah_ssd</code>. Semua tabel menggunakan engine InnoDB untuk mendukung foreign key constraints dan ACID transactions.</p>
+  <table>
+    <tr><th>No</th><th>Tabel</th><th>Jumlah Kolom</th><th>Relasi Utama</th></tr>
+    <tr><td>1</td><td>roles</td><td>4</td><td>—</td></tr>
+    <tr><td>2</td><td>users</td><td>9</td><td>FK: role_id → roles</td></tr>
+    <tr><td>3</td><td>academic_years</td><td>4</td><td>—</td></tr>
+    <tr><td>4</td><td>semesters</td><td>5</td><td>FK: academic_year_id → academic_years</td></tr>
+    <tr><td>5</td><td>teachers</td><td>7</td><td>FK: user_id → users</td></tr>
+    <tr><td>6</td><td>classes</td><td>5</td><td>FK: homeroom_teacher_id → teachers</td></tr>
+    <tr><td>7</td><td>subjects</td><td>4</td><td>—</td></tr>
+    <tr><td>8</td><td>students</td><td>11</td><td>FK: class_id → classes, user_id → users</td></tr>
+    <tr><td>9</td><td>schedules</td><td>9</td><td>FK: class_id, subject_id, teacher_id, semester_id</td></tr>
+    <tr><td>10</td><td>teaching_journals</td><td>9</td><td>FK: teacher_id, class_id, subject_id, semester_id</td></tr>
+    <tr><td>11</td><td>bk_cases</td><td>8</td><td>FK: student_id → students, teacher_id → teachers</td></tr>
+    <tr><td>12</td><td>bk_counseling_notes</td><td>8</td><td>FK: student_id, teacher_id</td></tr>
+    <tr><td>13</td><td>student_violations</td><td>8</td><td>FK: student_id, teacher_id</td></tr>
+    <tr><td>14</td><td>student_achievements</td><td>7</td><td>FK: student_id → students</td></tr>
+    <tr><td>15</td><td>attendances</td><td>8</td><td>FK: student_id, class_id, created_by → users</td></tr>
+    <tr><td>16</td><td>activity_logs</td><td>6</td><td>FK: user_id → users</td></tr>
+  </table>
+
+  <h3>4.4 Optimasi Database</h3>
+  <ul>
+    <li><strong>Index:</strong> Dibuat pada kolom yang sering di-query: <code>student_id</code>, <code>teacher_id</code>, <code>class_id</code>, <code>attendance_date</code>, <code>created_at</code></li>
+    <li><strong>Normalisasi:</strong> Database dinormalisasi hingga 3NF — tidak ada data redundan, setiap atribut bergantung penuh pada primary key</li>
+    <li><strong>ENUM:</strong> Kolom dengan nilai tetap menggunakan ENUM: <code>gender</code>, <code>status</code> (students), <code>status</code> (bk_cases), <code>status</code> (attendances), <code>day_of_week</code></li>
+    <li><strong>Connection Pool:</strong> mysql2/promise pool dengan <code>connectionLimit: 10</code> untuk efisiensi koneksi</li>
+    <li><strong>Parameterized Query:</strong> Semua query menggunakan placeholder <code>?</code> untuk mencegah SQL Injection</li>
+  </ul>
+</div>
+
+<!-- ==================== BAB 5: UI DESIGN ==================== -->
+<div class="page page-break">
+  <h2>5. Desain Antarmuka Pengguna</h2>
+
+  <h3>5.1 Prinsip Desain</h3>
+  <p>Antarmuka menggunakan tema <strong>Apple-inspired Monochrome</strong> dengan prinsip desain:</p>
+  <table>
+    <tr><th>Elemen</th><th>Spesifikasi</th><th>Nilai</th></tr>
+    <tr><td>Background utama</td><td>Warna latar halaman</td><td>#f5f5f7 (abu-abu terang)</td></tr>
+    <tr><td>Teks utama</td><td>Warna teks konten</td><td>#1d1d1f (hitam pekat)</td></tr>
+    <tr><td>Teks sekunder</td><td>Warna teks pendukung</td><td>#86868b (abu-abu)</td></tr>
+    <tr><td>Aksen biru</td><td>Tombol, link, highlight</td><td>#0071e3</td></tr>
+    <tr><td>Card background</td><td>Latar kartu konten</td><td>#ffffff (putih)</td></tr>
+    <tr><td>Border radius card</td><td>Sudut melengkung card</td><td>12px (rounded-4)</td></tr>
+    <tr><td>Card shadow</td><td>Bayangan halus</td><td>box-shadow: 0 2px 8px rgba(0,0,0,0.08)</td></tr>
+    <tr><td>Font</td><td>Tipografi sistem</td><td>Calibri, Segoe UI, Arial, sans-serif</td></tr>
+    <tr><td>Navbar</td><td>Posisi dan tampilan</td><td>Fixed-top, background putih, border-bottom</td></tr>
+  </table>
+
+  <h3>5.2 Hierarki Navigasi</h3>
+  <p>Navigasi utama berada di navbar fixed-top. Menu yang tampil disesuaikan dengan role pengguna:</p>
+  <table>
+    <tr><th>Role</th><th>Menu yang Tampil</th></tr>
+    <tr><td>Admin</td><td>Dashboard → Pengguna → Kesiswaan → Jurnal → BK → Absensi → [Profil Dropdown]</td></tr>
+    <tr><td>Kepala Sekolah</td><td>Dashboard → Kesiswaan → Jurnal → BK → Absensi → [Profil Dropdown]</td></tr>
+    <tr><td>Guru</td><td>Dashboard → Jurnal → Absensi → [Profil Dropdown]</td></tr>
+    <tr><td>Guru BK</td><td>Dashboard → BK → [Profil Dropdown]</td></tr>
+    <tr><td>Wali Kelas</td><td>Dashboard → Kesiswaan → Jurnal → Absensi → [Profil Dropdown]</td></tr>
+    <tr><td>Siswa</td><td>Dashboard → Dashboard Saya → [Profil Dropdown]</td></tr>
+  </table>
+  <p>Hierarki halaman:</p>
+  <ul>
+    <li>/ → redirect ke /dashboard (login) atau /auth/login (belum login)</li>
+    <li>/auth/login → Form login (layout guest)</li>
+    <li>/dashboard → Halaman utama dengan statistik dan grafik</li>
+    <li>/users → List pengguna (admin only)</li>
+    <li>/users/edit/:id → Form edit pengguna</li>
+    <li>/kesiswaan → List siswa; /kesiswaan/kelas → Wali kelas</li>
+    <li>/jurnal → List jurnal; /jurnal/rekap → Rekap jurnal</li>
+    <li>/bk → Halaman BK (4 tabel + modal); /bk/rekap → Rekap BK</li>
+    <li>/absensi → List absensi; /absensi/create → Input absensi; /absensi/rekap → Rekap</li>
+    <li>/profile → Profil pengguna + ganti password</li>
+    <li>/siswa/dashboard → Dashboard pribadi siswa</li>
+  </ul>
+
+  <h3>5.3 Mockup Halaman Utama</h3>
+  <div class="note">
+    <strong>Screenshot Aplikasi:</strong> Lihat tampilan live di https://web-sekolah.duckdns.org<br>
+    Login: admin / password123 untuk akses penuh
+  </div>
+  <p>Struktur layout halaman Dashboard (setelah login sebagai admin):</p>
+  <table>
+    <tr><th>Area</th><th>Konten</th><th>Komponen</th></tr>
+    <tr><td>Navbar (fixed-top)</td><td>Logo, menu navigasi berdasarkan role, dropdown profil (nama, role, link profil, logout)</td><td>Bootstrap navbar, dropdown</td></tr>
+    <tr><td>Flash Messages</td><td>Alert sukses/error yang auto-dismiss setelah 5 detik</td><td>Bootstrap alert dismissible</td></tr>
+    <tr><td>Stat Cards (6 buah)</td><td>Jumlah siswa aktif, guru, jurnal, kasus BK aktif, kelas, pengguna</td><td>Bootstrap card, CSS custom stat-card</td></tr>
+    <tr><td>Grafik Row 1</td><td>Bar chart jurnal/bulan (6 bulan), Line chart (opsional)</td><td>Chart.js bar + line</td></tr>
+    <tr><td>Grafik Row 2</td><td>Doughnut status siswa, Pie gender, Bar kasus BK per jenis</td><td>Chart.js doughnut + pie + bar</td></tr>
+    <tr><td>Activity Log Table</td><td>8 aktivitas terbaru: user, aksi, deskripsi, waktu</td><td>Bootstrap table-hover</td></tr>
+  </table>
+
+  <h3>5.4 Tabel Field Antarmuka</h3>
+  <h4>Form Login (/auth/login)</h4>
+  <table>
+    <tr><th>Field</th><th>Tipe Input</th><th>Validasi</th><th>Keterangan</th></tr>
+    <tr><td>Username</td><td>text</td><td>required</td><td>Username akun yang terdaftar</td></tr>
+    <tr><td>Password</td><td>password</td><td>required</td><td>Password akun (tidak ditampilkan)</td></tr>
+    <tr><td>Tombol Login</td><td>submit</td><td>—</td><td>POST /auth/login</td></tr>
+  </table>
+
+  <h4>Form Tambah Kasus BK (Modal #modalCase)</h4>
+  <table>
+    <tr><th>Field</th><th>Tipe Input</th><th>Validasi</th><th>Keterangan</th></tr>
+    <tr><td>Siswa</td><td>select</td><td>required</td><td>Dropdown siswa aktif (nis - nama)</td></tr>
+    <tr><td>Guru BK</td><td>select</td><td>required (admin only)</td><td>Hanya tampil jika role = admin</td></tr>
+    <tr><td>Tanggal</td><td>date</td><td>required</td><td>Tanggal kejadian kasus</td></tr>
+    <tr><td>Jenis Kasus</td><td>text</td><td>required</td><td>Isian bebas jenis kasus</td></tr>
+    <tr><td>Deskripsi</td><td>textarea</td><td>required</td><td>Detail penjelasan kasus</td></tr>
+  </table>
+
+  <h4>Form Input Absensi (/absensi/create)</h4>
+  <table>
+    <tr><th>Field</th><th>Tipe Input</th><th>Validasi</th><th>Keterangan</th></tr>
+    <tr><td>Kelas</td><td>select</td><td>required</td><td>Pilih kelas yang akan diabsen</td></tr>
+    <tr><td>Tanggal</td><td>date</td><td>required</td><td>Tanggal absensi</td></tr>
+    <tr><td>Status (per siswa)</td><td>select</td><td>—</td><td>Hadir/Sakit/Izin/Alpa; default Hadir</td></tr>
+    <tr><td>Keterangan (per siswa)</td><td>text</td><td>—</td><td>Catatan tambahan (opsional)</td></tr>
+  </table>
+</div>
+
+<!-- ==================== BAB 6: TRACEABILITY ==================== -->
+<div class="page page-break">
+  <h2>6. Ketertelusuran (Traceability)</h2>
+  <h3>6.1 Requirements Traceability Matrix (RTM)</h3>
+  <p>Tabel berikut menunjukkan ketertelusuran setiap kebutuhan fungsional dari SRS ke elemen desain dalam SDD ini.</p>
+
+  <table>
+    <tr>
+      <th style="width:10%">ID FR (SRS)</th>
+      <th style="width:22%">Deskripsi Kebutuhan</th>
+      <th style="width:15%">Route / Endpoint</th>
+      <th style="width:18%">View / Komponen</th>
+      <th style="width:18%">Tabel DB</th>
+      <th style="width:17%">Elemen Desain SDD</th>
+    </tr>
+    <tr><td>FA1-R1</td><td>Login dengan kredensial valid</td><td>POST /auth/login</td><td>auth/login.ejs</td><td>users, roles</td><td>Sequence Diagram 3.4.1</td></tr>
+    <tr><td>FA1-R2</td><td>Tolak login salah</td><td>POST /auth/login</td><td>auth/login.ejs (flash error)</td><td>users</td><td>Sequence Diagram 3.4.1 Step 4,6</td></tr>
+    <tr><td>FA1-R3</td><td>Tolak akun nonaktif</td><td>POST /auth/login</td><td>auth/login.ejs</td><td>users (is_active=0)</td><td>Sequence Diagram 3.4.1 Step 3</td></tr>
+    <tr><td>FA1-R4</td><td>Logout hapus session</td><td>GET /auth/logout</td><td>Redirect /auth/login</td><td>—</td><td>Class Diagram User.logout()</td></tr>
+    <tr><td>FA1-R5</td><td>Redirect ke login jika belum auth</td><td>Semua route</td><td>Semua view</td><td>—</td><td>Middleware auth.js isAuthenticated</td></tr>
+    <tr><td>FA2-R1</td><td>Lihat daftar pengguna</td><td>GET /users</td><td>users/index.ejs</td><td>users, roles</td><td>Struktur Folder 3.1</td></tr>
+    <tr><td>FA2-R2</td><td>Tambah pengguna baru</td><td>POST /users/store</td><td>Modal #modalTambah</td><td>users</td><td>Class Diagram User; Data Dictionary users</td></tr>
+    <tr><td>FA2-R3</td><td>Tolak username/email duplikat</td><td>POST /users/store</td><td>users/index.ejs (flash)</td><td>users (UNIQUE)</td><td>Data Dictionary users (UNIQUE constraint)</td></tr>
+    <tr><td>FA2-R5</td><td>Hapus user (bukan diri sendiri)</td><td>POST /users/delete/:id</td><td>users/index.ejs</td><td>users</td><td>Class Diagram User; rbac.js</td></tr>
+    <tr><td>FA2-R6</td><td>Reset password ke default</td><td>POST /users/reset-password/:id</td><td>users/index.ejs</td><td>users</td><td>Komponen bcryptjs (3.5)</td></tr>
+    <tr><td>FA3-R1</td><td>Tambah data siswa</td><td>POST /kesiswaan/store</td><td>kesiswaan/index.ejs</td><td>students</td><td>Data Dictionary students</td></tr>
+    <tr><td>FA3-R4</td><td>Tetapkan wali kelas</td><td>POST /kesiswaan/kelas/update/:id</td><td>kesiswaan/kelas.ejs</td><td>classes</td><td>Class Diagram Class.homeroom_teacher_id</td></tr>
+    <tr><td>FA3-R5</td><td>Import CSV siswa</td><td>POST /kesiswaan/import</td><td>kesiswaan/index.ejs</td><td>students</td><td>Komponen multer + csv-parse (3.5)</td></tr>
+    <tr><td>FA3-R6</td><td>Export CSV siswa</td><td>GET /kesiswaan/export</td><td>Download response</td><td>students, classes</td><td>Komponen 3.5</td></tr>
+    <tr><td>FA4-R1</td><td>Input jurnal mengajar</td><td>POST /jurnal/store</td><td>jurnal/index.ejs</td><td>teaching_journals</td><td>Sequence Diagram 3.4.2; Data Dictionary</td></tr>
+    <tr><td>FA4-R2</td><td>Guru lihat jurnal sendiri</td><td>GET /jurnal</td><td>jurnal/index.ejs</td><td>teaching_journals, teachers</td><td>Sequence Diagram 3.4.2 Step 4</td></tr>
+    <tr><td>FA4-R4</td><td>Rekap jurnal dengan filter</td><td>GET /jurnal/rekap</td><td>jurnal/rekap.ejs</td><td>teaching_journals</td><td>Class Diagram TeachingJournal.getRecap()</td></tr>
+    <tr><td>FA5-R1</td><td>Catat kasus BK</td><td>POST /bk/cases/store</td><td>bk/index.ejs modal</td><td>bk_cases, teachers</td><td>Sequence Diagram 3.4.3; getOrCreateTeacherId()</td></tr>
+    <tr><td>FA5-R2</td><td>Update status kasus</td><td>POST /bk/cases/update-status/:id</td><td>bk/index.ejs select</td><td>bk_cases</td><td>Class Diagram BKCase.updateStatus()</td></tr>
+    <tr><td>FA5-R3</td><td>Catat konseling/pelanggaran/prestasi</td><td>POST /bk/counseling,violations,achievements/store</td><td>bk/index.ejs modal</td><td>bk_counseling_notes, student_violations, student_achievements</td><td>Sequence Diagram 3.4.3; Data Dictionary</td></tr>
+    <tr><td>FA5-R4</td><td>Hapus data BK</td><td>POST /bk/cases,counseling,violations,achievements/delete/:id</td><td>bk/index.ejs tombol hapus</td><td>bk_cases, dll</td><td>Class Diagram BKCase.delete()</td></tr>
+    <tr><td>FA6-R1</td><td>Input absensi per kelas</td><td>POST /absensi/store</td><td>absensi/create.ejs</td><td>attendances</td><td>Sequence Diagram 3.4.4; Data Dictionary attendances</td></tr>
+    <tr><td>FA6-R3</td><td>Quick filter tanggal</td><td>GET /absensi (query param)</td><td>absensi/index.ejs</td><td>—</td><td>Komponen script.js quick-range (3.5)</td></tr>
+    <tr><td>FA6-R5</td><td>Rekap absensi %</td><td>GET /absensi/rekap</td><td>absensi/rekap.ejs</td><td>attendances, students</td><td>Class Diagram Attendance.getRecap()</td></tr>
+    <tr><td>FA7-R1</td><td>Update profil</td><td>POST /profile/update</td><td>profile/index.ejs</td><td>users</td><td>Class Diagram User.updateProfile()</td></tr>
+    <tr><td>FA7-R2</td><td>Ganti password</td><td>POST /profile/change-password</td><td>profile/index.ejs</td><td>users</td><td>Komponen bcryptjs; Class Diagram User.changePassword()</td></tr>
+    <tr><td>FA7-R3</td><td>Dashboard siswa</td><td>GET /siswa/dashboard</td><td>siswa/index.ejs</td><td>students, attendances, student_achievements, student_violations, bk_cases</td><td>Class Diagram Student.getAttendanceSummary()</td></tr>
+    <tr><td>FA7-R5</td><td>Audit trail</td><td>Semua operasi data</td><td>—</td><td>activity_logs</td><td>Class Diagram ActivityLog.record()</td></tr>
+    <tr><td>NFR1-R1</td><td>RBAC 7 role</td><td>Semua route</td><td>—</td><td>roles, users</td><td>Middleware rbac.js allowRoles()</td></tr>
+    <tr><td>NFR1-R2</td><td>Password hashing</td><td>POST /auth/login, /users/store</td><td>—</td><td>users.password</td><td>Komponen bcryptjs (3.5)</td></tr>
+    <tr><td>NFR1-R4</td><td>SQL Injection prevention</td><td>Semua route</td><td>—</td><td>Semua tabel</td><td>Parameterized query mysql2 (4.4)</td></tr>
+    <tr><td>NFR7-R1</td><td>Responsive design</td><td>Semua halaman</td><td>Semua view</td><td>—</td><td>Bootstrap 5.3 responsive grid (5.1)</td></tr>
+  </table>
+
+  <p style="margin-top:30pt;text-align:center;color:#86868b;font-size:10pt;">
+    — Akhir Dokumen SDD v1.0 —<br>
+    Web Sekolah Terintegrasi | Kelompok 5 RPL-A | Universitas Muhammadiyah Makassar | 2025/2026
+  </p>
+</div>
+
+</body>
+</html>

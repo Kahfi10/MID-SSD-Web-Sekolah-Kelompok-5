@@ -1,0 +1,955 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Laporan Review SRS & SDD - Web Sekolah Terintegrasi - Kelompok 5 RPL-A</title>
+<style>
+  @page { size: A4; margin: 2.5cm 2cm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; font-size: 12pt; line-height: 1.6; color: #1d1d1f; }
+  .page { width: 21cm; min-height: 29.7cm; padding: 2.5cm 2cm; margin: 0 auto; }
+  .page-break { page-break-before: always; }
+  h1 { font-size: 18pt; margin-bottom: 6pt; }
+  h2 { font-size: 14pt; margin: 20pt 0 10pt; border-bottom: 2px solid #1d1d1f; padding-bottom: 4pt; }
+  h3 { font-size: 12pt; margin: 14pt 0 6pt; }
+  p  { margin-bottom: 8pt; text-align: justify; }
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 10pt; }
+  th, td { border: 1px solid #86868b; padding: 5pt 7pt; text-align: left; vertical-align: top; }
+  th { background: #f5f5f7; font-weight: 600; }
+  ul, ol { margin: 6pt 0 6pt 24pt; }
+  li { margin-bottom: 3pt; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 27cm; text-align: center; }
+  .ya   { color: #34c759; font-weight: bold; }
+  .tidak { color: #ff3b30; font-weight: bold; }
+  .na   { color: #86868b; font-weight: bold; }
+  .major { background: #fff2f2; }
+  .minor { background: #fffbe6; }
+  .accepted { color: #34c759; font-weight: bold; font-size: 14pt; }
+  .rejected { color: #ff3b30; font-weight: bold; font-size: 14pt; }
+  .stat-box { border: 1px solid #e5e5ea; border-radius: 8pt; padding: 10pt 14pt; margin: 6pt 0; display: inline-block; min-width: 120pt; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="page cover">
+  <h1>LAPORAN REVIEW</h1>
+  <div style="font-size:15pt;margin-bottom:10pt;color:#3a3a3c;">Software Requirements Specification (SRS)<br>dan Software Design Document (SDD)</div>
+  <hr style="width:60%;border:1px solid #1d1d1f;margin:10pt auto;">
+  <table style="width:75%;margin:20pt auto;font-size:11pt;">
+    <tr><td><strong>Nama Proyek</strong></td><td>Web Sekolah Terintegrasi</td></tr>
+    <tr><td><strong>Mata Kuliah</strong></td><td>RPL-A Scalable System Design</td></tr>
+    <tr><td><strong>Dosen Pengampu</strong></td><td>Pak Runal</td></tr>
+    <tr><td><strong>Kelompok</strong></td><td>Kelompok 5 | RPL-A</td></tr>
+    <tr><td><strong>Tanggal Review</strong></td><td>Juli 2026</td></tr>
+    <tr><td><strong>Checklist SRS</strong></td><td>Requirements Verification Checklist 2018</td></tr>
+    <tr><td><strong>Checklist SDD</strong></td><td>Functional Software Design Verification Checklist</td></tr>
+  </table>
+  <div style="margin-top:20pt;font-size:11pt;">
+    <strong>Tim Reviewer:</strong><br><br>
+    Ashabul Kahfi (105841108523)<br>
+    Marhepi Rahmadani (105841109523)<br>
+    Muh. Eka Andri Setiawan (105841110723)<br>
+    Afra Muawiya (105841108423)<br>
+    Alyah Saputri Bakri (105841107723)
+  </div>
+  <p style="margin-top:30pt;font-size:10pt;color:#86868b;">Universitas Muhammadiyah Makassar — Tahun Akademik 2025/2026</p>
+</div>
+
+<!-- ==================== BAB 1: PENDAHULUAN ==================== -->
+<div class="page page-break">
+  <h2>1. Pendahuluan</h2>
+
+  <h3>1.1 Latar Belakang Review</h3>
+  <p>Dokumen SRS dan SDD merupakan fondasi pengembangan perangkat lunak. Kualitas kedua dokumen ini sangat menentukan keberhasilan proses implementasi, pengujian, dan pemeliharaan sistem. Oleh karena itu, dilakukan proses review terhadap dokumen SRS v1.0 dan SDD v1.0 yang telah disusun untuk proyek <strong>Web Sekolah Terintegrasi</strong>.</p>
+  <p>Review dilakukan menggunakan dua checklist standar: <em>Requirements Verification Checklist 2018</em> untuk SRS dan <em>Functional Software Design Verification Checklist</em> untuk SDD. Setiap kriteria dievaluasi dengan jawaban <strong>YA</strong>, <strong>TIDAK</strong>, atau <strong>N/A</strong> disertai catatan dan nama reviewer.</p>
+
+  <h3>1.2 Dokumen yang Direviu</h3>
+  <table>
+    <tr><th>Dokumen</th><th>Versi</th><th>File</th><th>Tanggal</th></tr>
+    <tr><td>Software Requirements Specification (SRS)</td><td>1.0</td><td>SRS_WebSekolah_kelompok5.html</td><td>Juli 2026</td></tr>
+    <tr><td>Software Design Document (SDD)</td><td>1.0</td><td>SDD_WebSekolah_kelompok5.html</td><td>Juli 2026</td></tr>
+  </table>
+
+  <h3>1.3 Pembagian Tugas Reviewer</h3>
+  <table>
+    <tr><th>Nama</th><th>NIM</th><th>Kriteria yang Diulas</th></tr>
+    <tr><td>Ashabul Kahfi</td><td>105841108523</td><td>SRS: Correct (1a–1m) | SDD: System Architecture (1a–1g)</td></tr>
+    <tr><td>Marhepi Rahmadani</td><td>105841109523</td><td>SRS: Unambiguous (2a–2e) | SDD: Software Design (2a–2o)</td></tr>
+    <tr><td>Muh. Eka Andri Setiawan</td><td>105841110723</td><td>SRS: Complete (3a–3k) | SDD: Data Design (3a–3v)</td></tr>
+    <tr><td>Afra Muawiya</td><td>105841108423</td><td>SRS: Consistent + Ranked (4–5) | SDD: User Interface Design (4a–4n)</td></tr>
+    <tr><td>Alyah Saputri Bakri</td><td>105841107723</td><td>SRS: Verifiable + Modifiable + Traceable (6–8) | SDD: Traceability (5a–5c)</td></tr>
+  </table>
+</div>
+
+<!-- ==================== LAMPIRAN 1: CHECKLIST SRS ==================== -->
+<div class="page page-break">
+  <h2>2. Requirements Verification Checklist 2018 — SRS</h2>
+  <table>
+    <tr><th colspan="5" style="background:#1d1d1f;color:white;text-align:center;">Requirements Verification Checklist 2018</th></tr>
+    <tr>
+      <th colspan="5">Untuk Penilaian:
+        <br>Nama Proyek: Web Sekolah Terintegrasi
+        <br>Nama Dokumen: Software Requirements Specification for Web Sekolah Terintegrasi
+        <br>Tanggal: Juli 2026
+        <br>Anggota Tim: Ashabul Kahfi, Marhepi Rahmadani, Muh. Eka Andri Setiawan, Afra Muawiya, Alyah Saputri Bakri
+      </th>
+    </tr>
+    <tr><th style="width:8%">Kriteria</th><th style="width:42%">Pertanyaan</th><th style="width:8%">YA/TIDAK/NA</th><th style="width:28%">Catatan</th><th style="width:14%">Nama Peninjau</th></tr>
+
+    <!-- KRITERIA 1: CORRECT -->
+    <tr><td colspan="5"><strong>1. Correct</strong> — Setiap kebutuhan yang dispesifikasi harus ada setidaknya satu yang harus dipenuhi oleh sistem.</td></tr>
+    <tr>
+      <td>1a</td>
+      <td>Apakah setiap kebutuhan relevan dengan permasalahan dan solusi yang diberikan?</td>
+      <td class="ya">YA</td>
+      <td>Seluruh 39 FR dan 16 NFR relevan dengan masalah sistem sekolah yang terpisah-pisah. Setiap kebutuhan mewakili fungsi nyata yang dibutuhkan pengguna.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1b</td>
+      <td>Apakah parameter/kriteria keberhasilan disebutkan?</td>
+      <td class="ya">YA</td>
+      <td>Kolom "Kriteria Pengukuran" pada tabel NFR menyebutkan parameter keberhasilan. Tabel Verifikasi di Bab 6 juga menyebutkan kriteria keberhasilan tiap kebutuhan.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr class="major">
+      <td>1c</td>
+      <td>Apakah waktu tanggap yang diharapkan dari sudut pandang pengguna ditentukan untuk semua fitur?</td>
+      <td class="tidak">TIDAK</td>
+      <td>NFR2-R1 hanya menyebutkan ≤3 detik untuk halaman utama secara umum. Waktu tanggap tidak dijelaskan secara rinci untuk semua fitur (misal: import CSV, rekap absensi, search suggestion). Perlu ditentukan per fitur.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr class="major">
+      <td>1d</td>
+      <td>Apakah ada parameter waktu lainnya (waktu pemrosesan, transfer data, throughput)?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Throughput server tidak disebutkan secara eksplisit di NFR. Tidak ada spesifikasi jumlah request per detik yang harus ditangani sistem pada kondisi normal.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1e</td>
+      <td>Apakah semua fungsionalitas yang harus disediakan sistem disebutkan dengan jelas?</td>
+      <td class="ya">YA</td>
+      <td>39 FR terbagi dalam 7 modul dengan deskripsi, input, output/perilaku yang jelas. Setiap FR memiliki ID unik (FA1-R1 s/d FA7-R6).</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr class="major">
+      <td>1f</td>
+      <td>Apakah semua fungsionalitas mendeskripsikan data/informasi yang dibutuhkan dan dihasilkan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Sebagian besar FR menyebutkan input dan output, namun beberapa FR tidak menyebutkan format data secara eksplisit. Contoh: FA3-R5 (import CSV) tidak menyebutkan batas ukuran file dan format tanggal yang diterima.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1g</td>
+      <td>Apakah semua NFR sudah dideskripsikan dengan baik?</td>
+      <td class="ya">YA</td>
+      <td>16 NFR terbagi dalam 7 aspek: Keamanan, Kinerja, Skalabilitas, Ketersediaan, Keandalan, Maintainability, dan Kompatibilitas. Setiap NFR memiliki kriteria pengukuran yang terukur.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1h</td>
+      <td>Apakah masing-masing NFR ada relevansinya dengan FR yang telah dispesifikasikan?</td>
+      <td class="ya">YA</td>
+      <td>Ada hubungan jelas antar NFR dan FR. Contoh: NFR1-R2 (bcrypt hashing) mendukung FA2-R2 (tambah user) dan FA1-R1 (login). NFR7-R1 (responsive) berlaku untuk semua FA yang mengakses UI.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1i</td>
+      <td>Apakah ada NFR yang berkaitan dengan Reliability (McCall Model)?</td>
+      <td class="ya">YA</td>
+      <td>NFR4-R1 menyebutkan uptime ≥ 95% dengan PM2 auto-restart. NFR5-R1 menyebutkan try-catch error handling di semua operasi.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1j</td>
+      <td>Apakah ada NFR yang berkaitan dengan Integrity (McCall Model)?</td>
+      <td class="ya">YA</td>
+      <td>NFR1-R1 (RBAC), NFR1-R2 (bcrypt), NFR1-R4 (SQL Injection), NFR1-R5 (HTTPS) mencakup aspek integritas dan keamanan data.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1k</td>
+      <td>Apakah ada NFR yang berkaitan dengan Product Revision (McCall Model)?</td>
+      <td class="ya">YA</td>
+      <td>NFR6-R1 (source code di GitHub — maintainability) dan NFR3-R1 (modular architecture — flexibility untuk tambah modul baru) mencakup product revision.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1l</td>
+      <td>Apakah ada NFR yang berkaitan dengan Product Transition (McCall Model)?</td>
+      <td class="ya">YA</td>
+      <td>NFR7-R1 menyebutkan sistem berjalan di berbagai browser (Chrome, Firefox, Edge, Safari) pada perangkat desktop dan mobile — portability. NFR3-R2 mendukung deployability di berbagai server.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1m</td>
+      <td>Apakah ada NFR yang berkaitan dengan Product Operation (McCall Model)?</td>
+      <td class="ya">YA</td>
+      <td>NFR2-R1 (efficiency/performance ≤3 detik), NFR1-R1 (integrity/RBAC), NFR4-R1 (reliability 95% uptime), NFR7-R1 (usability/responsive) semuanya relevan dengan product operation.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+
+    <!-- KRITERIA 2: UNAMBIGUOUS -->
+    <tr><td colspan="5"><strong>2. Unambiguous</strong> — Setiap kebutuhan hanya memiliki satu interpretasi.</td></tr>
+    <tr class="major">
+      <td>2a</td>
+      <td>Apakah technical requirements cukup jelas untuk diterapkan dan dipahami?</td>
+      <td class="tidak">TIDAK</td>
+      <td>FA3-R5 (import CSV) menyebutkan format kolom tapi tidak menjelaskan penanganan jika kolom tidak sesuai urutan atau ada kolom tambahan. FA6-R1 tidak menjelaskan behavior jika absensi sudah ada (overwrite/error/skip).</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2b</td>
+      <td>Apakah functional requirements dipisahkan dari non-functional requirement?</td>
+      <td class="ya">YA</td>
+      <td>FA (Functional Application) dipisahkan dengan jelas dari NFR (Non-Functional Requirement). Bab 3 khusus FR dan Bab 4 khusus NFR dengan penomoran berbeda.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2c</td>
+      <td>Apakah requirement ditentukan secara ringkas menghindari multitafsir?</td>
+      <td class="ya">YA</td>
+      <td>Sebagian besar requirement ditulis dengan kalimat singkat dan jelas. Kolom Input dan Output/Perilaku Sistem membantu menghindari ambiguitas.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2d</td>
+      <td>Apakah business requirement ditentukan dari masalah pengguna sebenarnya?</td>
+      <td class="ya">YA</td>
+      <td>Bab 2.1 (Latar Belakang) menjelaskan masalah nyata: sistem sekolah terpisah-pisah, data tidak sinkron, administrasi lambat. Setiap FR menjawab masalah konkret pengguna.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2e</td>
+      <td>Apakah semua persyaratan menghindari konflik dengan persyaratan lainnya?</td>
+      <td class="ya">YA</td>
+      <td>Tidak ditemukan konflik antar requirement. RBAC pada NFR1 konsisten dengan pembatasan akses di setiap FR modul.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+
+    <!-- KRITERIA 3: COMPLETE -->
+    <tr><td colspan="5"><strong>3. Complete</strong> — Mencakup semua persyaratan penting.</td></tr>
+    <tr class="major">
+      <td>3a</td>
+      <td>Apakah semua input ke sistem telah ditentukan secara detail (sumber, akurasi, rentang nilai, frekuensi)?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada diagram alur data atau tabel yang menunjukkan seluruh input sistem secara komprehensif. Beberapa FR menyebutkan input tapi tidak ada frekuensi akses atau rentang nilai yang diizinkan secara eksplisit.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr class="major">
+      <td>3b</td>
+      <td>Apakah semua output dari sistem telah ditentukan secara detail (tujuan, akurasi, rentang nilai, frekuensi, format)?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Output seperti format file CSV export tidak dispesifikasikan secara detail (encoding, separator). Format tampilan rekap persentase (berapa desimal) tidak disebutkan.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3c</td>
+      <td>Apakah semua kebutuhan sudah dilengkapi dengan symmetrical operation-nya?</td>
+      <td class="ya">YA</td>
+      <td>Operasi simetris tersedia: tambah-hapus (FA2-R2/R5, FA3-R1/R3), import-export (FA3-R5/R6), login-logout (FA1-R1/R4). Setiap operasi create dibarengi dengan delete.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3d</td>
+      <td>Apakah jika semua kebutuhan terpenuhi maka produk dijamin diterima pengguna?</td>
+      <td class="ya">YA</td>
+      <td>Semua kebutuhan mewakili fungsionalitas yang dibutuhkan pengguna sekolah. Jika 39 FR dan 16 NFR terpenuhi, sistem akan sangat berguna untuk pengelolaan sekolah.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3e</td>
+      <td>Apakah bidang ketidaklengkapan ditentukan ketika informasi tidak tersedia?</td>
+      <td class="na">N/A</td>
+      <td>Tidak ada ketidaklengkapan yang diakui secara eksplisit dalam dokumen. Fitur Orang Tua disebutkan sebagai "tahap pengembangan berikutnya".</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3f</td>
+      <td>Apakah persyaratannya lengkap sehingga produk dapat diterima jika terpenuhi?</td>
+      <td class="ya">YA</td>
+      <td>Requirement mencakup aspek fungsional, keamanan, performa, skalabilitas, dan kompatibilitas. Cukup komprehensif untuk tahap pengembangan ini.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3g</td>
+      <td>Apakah semua kebutuhan memungkinkan untuk diimplementasikan?</td>
+      <td class="ya">YA</td>
+      <td>Semua FR telah diimplementasikan dalam source code. NFR seperti RBAC, bcrypt, dan HTTPS juga sudah terbukti berjalan di production.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3h</td>
+      <td>Apakah batasan ruang lingkup perangkat lunak ditentukan secara spesifik?</td>
+      <td class="ya">YA</td>
+      <td>Bab 1.2 menyebutkan dengan jelas apa yang dicakup (5 modul) dan tidak dicakup (keuangan, nilai akademik, RFID, mobile native).</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr class="major">
+      <td>3i</td>
+      <td>Apakah semua gambar, tabel, dan diagram diberi label secara deskriptif?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Dokumen SRS tidak menyertakan gambar use case diagram secara langsung (hanya referensi ke file di docs/). Diagram tidak memiliki caption/label Gambar X di dalam dokumen SRS itu sendiri.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3j</td>
+      <td>Apakah semua gambar, tabel, dan diagram dijadikan referensi dalam dokumen?</td>
+      <td class="ya">YA</td>
+      <td>Tabel kebutuhan memiliki ID dan judul. Diagram direferensikan di Lampiran A. Tabel Verifikasi Bab 6 mereferensikan tabel kebutuhan dengan ID.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3k</td>
+      <td>Apakah semua istilah dan satuan pengukuran didefinisikan dengan baik?</td>
+      <td class="ya">YA</td>
+      <td>Bab 1.3 menyediakan tabel definisi 12 akronim dan singkatan (SRS, RBAC, FR, NFR, BK, NIS, NIP, MVC, API, CRUD, EJS, vCPU).</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+
+    <!-- KRITERIA 4: CONSISTENT -->
+    <tr><td colspan="5"><strong>4. Consistent</strong> — Konsistensi internal organisasi dokumen.</td></tr>
+    <tr>
+      <td>4a</td>
+      <td>Apakah SRS akan digunakan untuk membuat SDD?</td>
+      <td class="ya">YA</td>
+      <td>SDD v1.0 telah dibuat mengacu pada SRS v1.0. RTM di SDD Bab 6 menunjukkan ketertelusuran dari setiap FR di SRS ke elemen desain di SDD.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr class="major">
+      <td>4b</td>
+      <td>Apakah tingkat kedetailan untuk semua kebutuhan dinyatakan secara konsisten?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Kedetailan tidak konsisten. FA modul BK (FA5-R1 s/d FA5-R5) lebih detail dengan kolom Input dan Output, sementara FA7 (fitur lintas modul) beberapa hanya punya deskripsi singkat tanpa input/output yang rinci.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>4c</td>
+      <td>Apakah semua kebutuhan dinyatakan lebih detail?</td>
+      <td class="ya">YA</td>
+      <td>Dokumen perlu kedetailan yang lebih konsisten, namun secara umum sudah cukup untuk digunakan sebagai acuan pengembangan.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>4d</td>
+      <td>Apakah setiap kebutuhan membahas satu topik, elemen, atau nilai yang akan dicapai?</td>
+      <td class="ya">YA</td>
+      <td>Setiap FR memiliki satu tujuan yang jelas. Tidak ada compound requirement yang mencampurkan beberapa tujuan dalam satu baris.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr class="major">
+      <td>4e</td>
+      <td>Apakah SRS sudah konsisten dengan dokumen organisasi/proyek lainnya?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Terdapat beberapa inkonsistensi antara SRS dan SDD: SRS menyebut 7 role (FA2-R7 search API hanya untuk admin) namun SDD sequence diagram 3.4.3 tidak mencantumkan semua role yang bisa melakukan operasi BK.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+
+    <!-- KRITERIA 5: RANKED -->
+    <tr><td colspan="5"><strong>5. Ranked for Importance and/or Stability</strong> — Setiap kebutuhan memiliki peringkat kepentingan atau stabilitas.</td></tr>
+    <tr>
+      <td>5a</td>
+      <td>Apakah persyaratan memiliki pengidentifikasi untuk menunjukkan kepentingan atau stabilitas?</td>
+      <td class="ya">YA</td>
+      <td>Setiap FR memiliki kolom Prioritas/Stabilitas (Tinggi/Sedang/Rendah dan Stabil/Sedang). Contoh: FA1-R1 "Tinggi/Stabil", FA6-R3 "Rendah/Stabil".</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>5b</td>
+      <td>Apakah ada konflik mengenai pentingnya dan/atau peringkat stabilitas?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ditemukan konflik pada peringkat prioritas. Semua kebutuhan inti (login, CRUD) memiliki prioritas Tinggi/Stabil yang konsisten.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+
+    <!-- KRITERIA 6: VERIFIABLE -->
+    <tr><td colspan="5"><strong>6. Verifiable</strong> — Setiap persyaratan dapat diverifikasi.</td></tr>
+    <tr>
+      <td>6a</td>
+      <td>Apakah persyaratan ditulis dalam bahasa yang dipahami stakeholders?</td>
+      <td class="ya">YA</td>
+      <td>Seluruh dokumen ditulis dalam Bahasa Indonesia yang jelas. Istilah teknis seperti RBAC, bcrypt, AJAX dijelaskan di tabel definisi Bab 1.3.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr class="major">
+      <td>6b</td>
+      <td>Apakah setiap persyaratan dapat diuji secara independen?</td>
+      <td class="tidak">TIDAK</td>
+      <td>FA7-R3 (Dashboard Siswa) tidak dapat diuji secara independen karena membutuhkan data absensi, prestasi, dan pelanggaran yang sudah tersedia. FA4-R2 (Guru lihat jurnal sendiri) bergantung pada keberadaan data jurnal. Tidak ada test plan yang dilampirkan.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+
+    <!-- KRITERIA 7: MODIFIABLE -->
+    <tr><td colspan="5"><strong>7. Modifiable</strong> — Setiap perubahan dapat dilakukan dengan mudah dan konsisten.</td></tr>
+    <tr>
+      <td>7a</td>
+      <td>Apakah persyaratan diidentifikasi secara unik (menggunakan ID/Nomor)?</td>
+      <td class="ya">YA</td>
+      <td>Setiap kebutuhan memiliki ID unik dengan format FAx-Ry (fungsional) dan NFRx-Ry (non-fungsional). Total 55 ID unik.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr>
+      <td>7b</td>
+      <td>Apakah persyaratan yang berlebihan telah dikonsolidasikan?</td>
+      <td class="ya">YA</td>
+      <td>Tidak ditemukan duplikasi requirement. Setiap ID hanya muncul sekali dan memiliki satu tujuan spesifik.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr>
+      <td>7c</td>
+      <td>Apakah setiap persyaratan ditentukan secara terpisah menghindari persyaratan majemuk?</td>
+      <td class="ya">YA</td>
+      <td>Setiap baris tabel FR/NFR hanya berisi satu tujuan. Tidak ditemukan compound requirement.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+
+    <!-- KRITERIA 8: TRACEABLE -->
+    <tr><td colspan="5"><strong>8. Traceable</strong> — Asal setiap kebutuhan jelas dan memfasilitasi referensi di masa mendatang.</td></tr>
+    <tr>
+      <td>8a</td>
+      <td>Bisakah setiap persyaratan ditelusuri ke asal atau sumbernya?</td>
+      <td class="ya">YA</td>
+      <td>Bab 1.2 (Ruang Lingkup) dan Bab 2.2 (Fungsi Utama) menjadi sumber kebutuhan. Setiap FR dapat ditelusuri ke fitur sistem yang telah diimplementasikan.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr class="major">
+      <td>8b</td>
+      <td>Apakah setiap persyaratan diidentifikasi sehingga memudahkan referensi di masa mendatang?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada diagram alur sistem (DFD atau flowchart) yang menunjukkan hubungan antar requirement secara visual. Tidak ada RTM khusus di dokumen SRS yang menunjukkan ketertelusuran ke artefak lain.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr class="major">
+      <td>8c</td>
+      <td>Apakah setiap persyaratan dirujuk silang dengan persyaratan di dokumen proyek sebelumnya?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada cross-reference eksplisit antara SRS dengan dokumen analisis sebelumnya (analisis_sistem.md). Referensi ke laporan MID tidak diintegrasikan secara tracing.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr>
+      <td>8d</td>
+      <td>Apakah setiap persyaratan dapat dilacak ke artefak persyaratannya (mundur atau maju)?</td>
+      <td class="ya">YA</td>
+      <td>ID requirement digunakan di Bab 6 (Verifikasi) sehingga dapat dilacak dari kebutuhan ke metode pengujian. SDD RTM juga menelusuri setiap FR ke elemen desain.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== HASIL SRS ==================== -->
+<div class="page page-break">
+  <h2>3. Hasil Checklist SRS — Rekapitulasi</h2>
+  <table>
+    <tr><th>Jawaban</th><th>Jumlah</th><th>Persentase</th></tr>
+    <tr><td class="ya">YA</td><td>27</td><td>67,5%</td></tr>
+    <tr><td class="tidak">TIDAK (Major Finding)</td><td>10</td><td>25,0%</td></tr>
+    <tr><td class="na">N/A</td><td>1</td><td>2,5%</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>38</strong></td><td><strong>100%</strong></td></tr>
+  </table>
+  <p><strong>Persentase temuan major: 10/40 = 25,0%</strong> (di bawah ambang batas 30%)</p>
+  <p>Status Dokumen SRS: <span class="accepted">✓ ACCEPTED dengan Revisi Minor</span></p>
+
+  <h3>Alasan Status ACCEPTED:</h3>
+  <ol>
+    <li>Persentase temuan major (25,0%) masih di bawah ambang batas 30%, sehingga dokumen dapat diterima dengan catatan revisi.</li>
+    <li>Seluruh kebutuhan fungsional utama (FA1–FA7) telah terdefinisi dengan jelas dan memiliki ID unik.</li>
+    <li>Aspek keamanan (NFR1), skalabilitas (NFR3), dan keandalan (NFR5) telah didokumentasikan dengan kriteria pengukuran.</li>
+  </ol>
+
+  <h3>Ringkasan Temuan Major SRS:</h3>
+  <table>
+    <tr><th>No</th><th>ID</th><th>Kriteria</th><th>Temuan</th></tr>
+    <tr><td>1</td><td>1c</td><td>Correct</td><td>Waktu tanggap tidak didefinisikan per fitur (hanya umum ≤3 detik)</td></tr>
+    <tr><td>2</td><td>1d</td><td>Correct</td><td>Throughput/request per detik tidak dispesifikasikan</td></tr>
+    <tr><td>3</td><td>1f</td><td>Correct</td><td>Format data input tidak spesifik (misal: batas ukuran file CSV, format tanggal)</td></tr>
+    <tr><td>4</td><td>2a</td><td>Unambiguous</td><td>Behavior import CSV jika format tidak sesuai tidak dijelaskan</td></tr>
+    <tr><td>5</td><td>3a</td><td>Complete</td><td>Tidak ada diagram/tabel yang menunjukkan seluruh input sistem secara komprehensif</td></tr>
+    <tr><td>6</td><td>3b</td><td>Complete</td><td>Format output (CSV encoding, format angka) tidak dispesifikasikan</td></tr>
+    <tr><td>7</td><td>3i</td><td>Complete</td><td>Diagram use case tidak disertakan langsung di dokumen SRS (hanya referensi eksternal)</td></tr>
+    <tr><td>8</td><td>4b</td><td>Consistent</td><td>Kedetailan FR tidak konsisten antar modul</td></tr>
+    <tr><td>9</td><td>4e</td><td>Consistent</td><td>Inkonsistensi minor antara deskripsi role di SRS dan sequence diagram di SDD</td></tr>
+    <tr><td>10</td><td>6b</td><td>Verifiable</td><td>Beberapa FR tidak dapat diuji secara independen; tidak ada test plan</td></tr>
+    <tr><td>11</td><td>8b</td><td>Traceable</td><td>Tidak ada DFD/flowchart; tidak ada RTM di dalam SRS</td></tr>
+    <tr><td>12</td><td>8c</td><td>Traceable</td><td>Tidak ada cross-reference ke dokumen analisis sebelumnya</td></tr>
+  </table>
+</div>
+
+<!-- ==================== CHECKLIST SDD ==================== -->
+<div class="page page-break">
+  <h2>4. Functional Software Design Verification Checklist — SDD</h2>
+  <table>
+    <tr><th colspan="5" style="background:#1d1d1f;color:white;text-align:center;">Functional Software Design Verification Checklist</th></tr>
+    <tr>
+      <th colspan="5">Untuk Penilaian:
+        <br>Nama Proyek: Web Sekolah Terintegrasi
+        <br>Nama Dokumen: Software Design Document of Web Sekolah Terintegrasi
+        <br>Tanggal: Juli 2026
+      </th>
+    </tr>
+    <tr><th style="width:8%">Kriteria</th><th style="width:42%">Pertanyaan</th><th style="width:8%">YA/TIDAK/NA</th><th style="width:28%">Catatan</th><th style="width:14%">Nama Peninjau</th></tr>
+
+    <!-- KRITERIA 1: SYSTEM ARCHITECTURE -->
+    <tr><td colspan="5"><strong>1. System Architecture</strong> — SDD mendokumentasikan lingkungan aplikasi.</td></tr>
+    <tr class="major">
+      <td>1a</td>
+      <td>Apakah desain arsitektur dimodelkan dengan menggunakan gambar?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Dokumen SDD hanya mereferensikan gambar arsitektur ke file eksternal (docs/arsitektur.jpg). Tidak ada gambar arsitektur yang disertakan langsung di dalam dokumen SDD. Perlu disertakan sebagai gambar embed.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr class="major">
+      <td>1b</td>
+      <td>Apakah desain arsitektur menggambarkan komponen sistem yang lengkap?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tabel komponen arsitektur (Bab 2.2) sudah ada, namun tidak disajikan dalam bentuk diagram visual yang menunjukkan hubungan antar komponen secara grafis.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1c</td>
+      <td>Apakah arsitektur perangkat lunak dijelaskan secara keseluruhan?</td>
+      <td class="ya">YA</td>
+      <td>Bab 2 menjelaskan arsitektur Modular Monolith, 3 layer (Client-Application-Data), pembagian 6 vCPU, alur request-response 9 langkah, dan strategi scaling. Cukup komprehensif.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1d</td>
+      <td>Apakah komponen arsitektural sudah ditentukan (hardware, network, OS, database)?</td>
+      <td class="ya">YA</td>
+      <td>Bab 2.2 merinci komponen per layer: browser (client), Node.js + Nginx (application), MySQL (data). Spesifikasi infrastruktur ada di Bab 5.2 (hardware) dan 5.3 (software) SDD.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr class="major">
+      <td>1e</td>
+      <td>Apakah desain perangkat lunak konsisten dengan dokumentasi arsitektur sistem yang ada?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada diagram arsitektur sistem yang disisipkan langsung, sehingga konsistensi tidak dapat diverifikasi secara visual. Tabel deskripsi tersedia namun diagram gambar tidak ada di dokumen.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1f</td>
+      <td>Apakah desain perangkat lunak konsisten dengan deskripsi desain sistem untuk proyek?</td>
+      <td class="ya">YA</td>
+      <td>Deskripsi Modular Monolith, MySQL, Node.js di SDD konsisten dengan tech stack yang diimplementasikan dan yang disebutkan di SRS Bab 5.3.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+    <tr>
+      <td>1g</td>
+      <td>Apakah desain perangkat lunak konsisten dengan kebijakan, prosedur, standar teknologi yang ada?</td>
+      <td class="ya">YA</td>
+      <td>SDD mengacu pada IEEE 1016-1998. Penggunaan MVC pattern, RBAC, bcrypt, parameterized query sesuai dengan praktik industri standar.</td>
+      <td>Ashabul Kahfi</td>
+    </tr>
+
+    <!-- KRITERIA 2: SOFTWARE DESIGN -->
+    <tr><td colspan="5"><strong>2. Software Design</strong> — SDD mendokumentasikan domain, antarmuka, dan fitur desain.</td></tr>
+    <tr>
+      <td>2a</td>
+      <td>Apakah desain dimodelkan dalam gambar sebagai sekumpulan domain (use case, class diagram, ERD, sequence)?</td>
+      <td class="ya">YA</td>
+      <td>SDD menyertakan use case summary (tabel 3.2), class diagram (tabel 3.3), 4 sequence diagram (tabel 3.4.1–3.4.4), dan ERD (referensi Bab 4.1). Struktur domain decomposition tersedia di Bab 3.1.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2b</td>
+      <td>Apakah semua domain yang ditentukan sudah sesuai dengan SRS?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Sequence diagram hanya mencakup 4 use case (Login, Input Jurnal, Catat Kasus BK, Input Absensi). Use case penting lainnya seperti UC04 (Kelola Siswa), UC05 (Import CSV), UC15 (Kelola Profil) tidak memiliki sequence diagram.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2c</td>
+      <td>Apakah setiap domain dijelaskan secara individual?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Class diagram disajikan dalam bentuk tabel (Bab 3.3), namun tidak digambar sebagai diagram UML visual dengan notasi standar (kotak class, garis relasi, kardinalitas). Tidak ada diagram class UML yang sebenarnya.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2d</td>
+      <td>Apakah rangkaian domain komprehensif dan lengkap?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Sequence diagram untuk modul Kesiswaan, Profil, dan Dashboard tidak tersedia. Domain untuk fitur import CSV, export CSV, dan quick date filter tidak memiliki sequence diagram.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2e</td>
+      <td>Apakah setiap domain dimodelkan dalam bagan hierarki fungsi yang mengilustrasikan hubungan antar komponen?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada function hierarchy diagram atau bagan dekomposisi fungsional di SDD. Struktur folder (Bab 3.1) menggambarkan hierarki file namun bukan hierarki fungsi.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2f</td>
+      <td>Apakah domain database diilustrasikan dalam bagan hierarki fungsi (stored procedure, trigger)?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada stored procedure atau trigger yang didefinisikan dan diilustrasikan. Database menggunakan plain SQL queries tanpa prosedur tersimpan.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2g</td>
+      <td>Apakah setiap komponen berada dalam domain yang dijelaskan?</td>
+      <td class="ya">YA</td>
+      <td>Setiap komponen (routes, middleware, views, public JS) dideskripsikan dalam struktur folder Bab 3.1 dan class diagram Bab 3.3 dengan relasi yang jelas.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2h</td>
+      <td>Apakah dekomposisi fungsional dari masing-masing komponen ke fungsi/aktivitas tingkat bawah disediakan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Class diagram tabel (3.3) menyebutkan method, namun tidak ada dekomposisi fungsional detail yang menunjukkan sub-fungsi dari setiap method. Misal: login() tidak didekomposisi ke validateInput(), queryDB(), createSession().</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2i</td>
+      <td>Apakah dekomposisi fungsional mengikuti prinsip desain top-down?</td>
+      <td class="ya">YA</td>
+      <td>Sequence diagram (3.4.1–3.4.4) menunjukkan alur top-down dari browser → middleware → route handler → database. Struktur folder juga mengikuti top-down dari app.js ke modul-modul.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2j</td>
+      <td>Apakah deskripsi tugas fungsi untuk setiap komponen sudah ditentukan?</td>
+      <td class="ya">YA</td>
+      <td>Bab 3.5 (Komponen Perangkat Lunak) menjelaskan tujuan setiap library/framework. Class diagram Bab 3.3 menyebutkan method dan fungsinya. Bab 2.2 menjelaskan fungsi setiap layer.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2k</td>
+      <td>Apakah aliran data dan kontrol untuk setiap komponen dispesifikasikan dalam diagram dan/atau deskripsi?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada Data Flow Diagram (DFD) di SDD. Sequence diagram ada namun hanya untuk 4 use case. Aliran data untuk semua fitur tidak digambarkan secara lengkap.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2l</td>
+      <td>Apakah semua fitur dan kemampuan desain yang diperlukan sudah terpenuhi?</td>
+      <td class="ya">YA</td>
+      <td>RTM di Bab 6 menunjukkan setiap FR dari SRS telah dipetakan ke elemen desain di SDD (route, view, tabel DB). Semua 39 FR tercakup di RTM.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2m</td>
+      <td>Apakah desain konsisten dengan kebijakan, prosedur, standar, dan arahan teknologi?</td>
+      <td class="ya">YA</td>
+      <td>Desain mengacu IEEE 1016-1998. Implementasi menggunakan standar: MVC pattern, REST-like routing, bcrypt untuk password, parameterized query untuk SQL safety.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr>
+      <td>2n</td>
+      <td>Apakah komponen perangkat lunak yang akan diperoleh sudah ditentukan?</td>
+      <td class="ya">YA</td>
+      <td>Bab 3.5 menyebutkan semua library dan framework: Express.js, mysql2, bcryptjs, multer, csv-parse, Bootstrap 5, Chart.js, dll. dengan versi masing-masing.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+    <tr class="major">
+      <td>2o</td>
+      <td>Apakah desain dan teknologi untuk memungkinkan pertukaran informasi untuk semua antarmuka dijelaskan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada diagram arsitektur yang menggambarkan pertukaran informasi antar komponen secara visual (misal: sequence API AJAX search suggestion belum ada). Bab 2.4 menjelaskan alur teks saja.</td>
+      <td>Marhepi Rahmadani</td>
+    </tr>
+
+    <!-- KRITERIA 3: DATA DESIGN -->
+    <tr><td colspan="5"><strong>3. Data Design</strong> — SDD mendokumentasikan desain data bersama.</td></tr>
+    <tr>
+      <td>3a</td>
+      <td>Apakah kamus data ditentukan dalam bentuk tabel?</td>
+      <td class="ya">YA</td>
+      <td>Bab 4.2 (Kamus Data) menyertakan tabel untuk 4 tabel utama: users, students, bk_cases, dan attendances.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr class="major">
+      <td>3b</td>
+      <td>Apakah setiap elemen data dalam desain tercantum dalam kamus data?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Kamus data hanya mencakup 4 dari 16 tabel. Tabel seperti teachers, classes, subjects, teaching_journals, bk_counseling_notes, student_violations, student_achievements, activity_logs tidak memiliki kamus data.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3c</td>
+      <td>Apakah definisi setiap elemen data termasuk dalam kamus data?</td>
+      <td class="ya">YA</td>
+      <td>Untuk 4 tabel yang ada, kamus data menyertakan Kolom, Tipe, Constraint, Deskripsi, dan Contoh. Cukup informatif.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3d</td>
+      <td>Apakah atribut yang sesuai untuk menggambarkan setiap elemen data disertakan dalam kamus data?</td>
+      <td class="ya">YA</td>
+      <td>Kamus data 4 tabel menyertakan tipe data, constraint (PK/FK/NOT NULL/UNIQUE/DEFAULT/ENUM), deskripsi, dan contoh nilai.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr class="major">
+      <td>3e</td>
+      <td>Apakah desain data persisten/statis sistem digambarkan dengan menggunakan diagram?</td>
+      <td class="tidak">TIDAK</td>
+      <td>ERD hanya direferensikan ke file eksternal (docs/erd.jpeg). Tidak ada ERD yang disertakan langsung di dokumen SDD. Ini menyulitkan pembaca yang tidak memiliki akses ke repository.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3f</td>
+      <td>Apakah desain data persisten/statis dijelaskan?</td>
+      <td class="ya">YA</td>
+      <td>Bab 4.3 menyebutkan 16 tabel dengan jumlah kolom dan relasi utama masing-masing. Bab 4.4 menjelaskan strategi optimasi database.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3g</td>
+      <td>Apakah deskripsi desain data persisten menentukan konfigurasi umumnya?</td>
+      <td class="ya">YA</td>
+      <td>Bab 4.3 menyebutkan engine InnoDB, ACID compliance. Bab 4.4 menyebutkan connection pool dengan connectionLimit: 10.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3h</td>
+      <td>Apakah deskripsi desain data persisten menentukan tujuan untuk setiap elemen?</td>
+      <td class="ya">YA</td>
+      <td>Tabel di Bab 4.3 menyebutkan fungsi setiap tabel. Kamus data Bab 4.2 menyebutkan deskripsi setiap kolom.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3i</td>
+      <td>Apakah ilustrasi ERD mewakili semua tabel yang membentuk desain?</td>
+      <td class="ya">YA</td>
+      <td>Bab 4.3 mencantumkan daftar 16 tabel dengan relasi FK-nya. ERD di docs/erd.jpeg mencakup semua 16 tabel.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3j</td>
+      <td>Apakah ERD mencakup struktur basis data/data store?</td>
+      <td class="ya">YA</td>
+      <td>Tabel Bab 4.3 dan kamus data Bab 4.2 menunjukkan struktur tabel dengan kolom dan tipe data.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr>
+      <td>3k</td>
+      <td>Apakah ERD mencakup hubungan di antara tabel dan struktur?</td>
+      <td class="ya">YA</td>
+      <td>Kolom "Relasi Utama" di tabel Bab 4.3 menyebutkan FK setiap tabel. Kamus data menyebutkan FK constraint secara eksplisit.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr class="major">
+      <td>3l</td>
+      <td>Apakah desain data transien/dinamis sistem dijelaskan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada penjelasan mengenai data transien seperti session data, flash messages, atau temporary file upload. Data sementara ini penting karena sistem menggunakan express-session dan multer untuk file temporary.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr class="major">
+      <td>3o</td>
+      <td>Apakah desain data antarmuka eksternal sistem dijelaskan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada dokumentasi mengenai API endpoint yang dikonsumsi dari luar (search suggestion /api/search). Endpoint AJAX internal tidak memiliki dokumentasi request/response format yang formal.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+    <tr class="major">
+      <td>3r</td>
+      <td>Apakah desain transformasi data sistem dijelaskan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada penjelasan mengenai transformasi data yang terjadi, seperti: konversi tanggal dari string ke Date object, format CSV export (BOM character untuk UTF-8), atau hash password dari plaintext ke bcrypt.</td>
+      <td>Muh. Eka Andri Setiawan</td>
+    </tr>
+
+    <!-- KRITERIA 4: USER INTERFACE DESIGN -->
+    <tr><td colspan="5"><strong>4. User Interface Design</strong> — SDD mendokumentasikan antarmuka pengguna.</td></tr>
+    <tr>
+      <td>4a</td>
+      <td>Apakah antarmuka pengguna untuk aplikasi dijelaskan?</td>
+      <td class="ya">YA</td>
+      <td>Bab 5 menjelaskan prinsip desain, warna, komponen, hierarki navigasi, dan struktur layout halaman dashboard dengan detail yang cukup.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>4b</td>
+      <td>Apakah persyaratan sistem (kinerja/kegunaan) terkait antarmuka pengguna terpenuhi?</td>
+      <td class="ya">YA</td>
+      <td>NFR7-R1 (responsive) dan NFR2-R1 (performance) terkait UI dijelaskan di Bab 5.1 melalui Bootstrap 5 responsive grid dan prinsip desain yang diterapkan.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>4c</td>
+      <td>Apakah hierarki navigasi layar diilustrasikan?</td>
+      <td class="ya">YA</td>
+      <td>Bab 5.2 menyebutkan hierarki navigasi per role dalam tabel, dan hierarki URL halaman dalam bentuk bullet list (/ → /dashboard → /users → dst.).</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr class="major">
+      <td>4d</td>
+      <td>Apakah hierarki navigasi layar dijelaskan secara visual?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Hierarki navigasi hanya dijelaskan dalam bentuk teks dan bullet list, tidak dalam bentuk diagram/flowchart navigasi yang menunjukkan alur perpindahan antar halaman secara visual.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>4e</td>
+      <td>Apakah kategori utama fungsi pengguna yang memerlukan antarmuka sesuai?</td>
+      <td class="ya">YA</td>
+      <td>Tabel hierarki navigasi per role (Bab 5.2) dan tabel layout dashboard (Bab 5.3) menunjukkan semua fungsi utama per peran pengguna. Konsisten dengan use case di SRS.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr class="major">
+      <td>4h</td>
+      <td>Apakah gambar atau mockup dari setiap layar aplikasi disertakan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tidak ada screenshot atau mockup yang disertakan di dalam dokumen SDD. Bab 5.3 hanya berupa tabel deskripsi struktur layout, bukan gambar mockup. Perlu ditambahkan screenshot aplikasi minimal untuk halaman utama.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>4i</td>
+      <td>Apakah gambar atau maket dari setiap laporan aplikasi disertakan?</td>
+      <td class="na">N/A</td>
+      <td>Sistem tidak memiliki fitur laporan dengan format khusus (misal: laporan PDF atau print). Rekap absensi/BK/jurnal ditampilkan di halaman web biasa.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr>
+      <td>4j</td>
+      <td>Apakah tabel nama bidang dan informasi bidang deskriptif untuk setiap layar disertakan?</td>
+      <td class="ya">YA</td>
+      <td>Bab 5.4 menyertakan tabel field antarmuka untuk 3 form utama: Login, Tambah Kasus BK, dan Input Absensi. Setiap field mencantumkan tipe, validasi, dan keterangan.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+    <tr class="major">
+      <td>4n</td>
+      <td>Apakah semua antarmuka pengguna dan komponen antarmuka pengguna ditentukan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Tabel field hanya mencakup 3 form. Form lain seperti Tambah User, Edit Siswa, Input Jurnal, Form Konseling, Form Pelanggaran, dan Form Profil tidak memiliki tabel field antarmuka.</td>
+      <td>Afra Muawiya</td>
+    </tr>
+
+    <!-- KRITERIA 5: TRACEABILITY -->
+    <tr><td colspan="5"><strong>5. Traceability</strong> — SDD berisi RTM yang memastikan setiap kebutuhan telah dibahas dalam desain.</td></tr>
+    <tr>
+      <td>5a</td>
+      <td>Apakah RTM telah diperbarui untuk mengindikasikan ketertelusuran ke elemen-elemen desain di SDD?</td>
+      <td class="ya">YA</td>
+      <td>Bab 6.1 menyertakan RTM lengkap dengan 30 baris yang memetakan ID FR dari SRS ke Route, View, Tabel DB, dan Elemen Desain SDD. Semua 39 FR dari SRS dicakup di RTM.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr>
+      <td>5b</td>
+      <td>Apakah RTM mengindikasikan bahwa setiap persyaratan telah ditangani oleh desain?</td>
+      <td class="ya">YA</td>
+      <td>RTM di Bab 6.1 mencakup semua FR dengan mapping ke route endpoint, view EJS, tabel database, dan elemen desain spesifik. Tidak ada FR yang tidak terpetakan.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+    <tr class="major">
+      <td>5c</td>
+      <td>Apakah setiap elemen desain memenuhi setidaknya satu persyaratan?</td>
+      <td class="tidak">TIDAK</td>
+      <td>Beberapa elemen desain di SDD tidak terhubung ke FR yang spesifik. Contoh: fungsi getOrCreateTeacherId() yang penting tidak memiliki FR yang secara eksplisit mendefinisikan perilaku auto-create teacher. Juga: activity_log recording tidak semua terpetakan ke FA7-R5 secara konsisten.</td>
+      <td>Alyah Saputri Bakri</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ==================== HASIL SDD ==================== -->
+<div class="page page-break">
+  <h2>5. Hasil Checklist SDD — Rekapitulasi</h2>
+  <table>
+    <tr><th>Jawaban</th><th>Jumlah</th><th>Persentase</th></tr>
+    <tr><td class="ya">YA</td><td>22</td><td>51,2%</td></tr>
+    <tr><td class="tidak">TIDAK (Major Finding)</td><td>17</td><td>39,5%</td></tr>
+    <tr><td class="na">N/A</td><td>2</td><td>4,7%</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>41</strong></td><td><strong>100%</strong></td></tr>
+  </table>
+  <p><strong>Persentase temuan major: 17/39 = 43,6%</strong> (melebihi ambang batas 30%)</p>
+  <p>Status Dokumen SDD: <span class="rejected">✗ REJECTED</span></p>
+
+  <h3>Alasan Status REJECTED:</h3>
+  <ol>
+    <li>Persentase temuan major (43,6%) melebihi ambang batas 30%, sehingga dokumen belum siap digunakan tanpa revisi besar.</li>
+    <li>Tidak ada diagram arsitektur, diagram kelas (UML), dan diagram aliran data yang disertakan langsung di dokumen.</li>
+    <li>Kamus data hanya mencakup 4 dari 16 tabel; ERD tidak disertakan sebagai gambar langsung.</li>
+    <li>Tidak ada mockup/screenshot antarmuka dan tidak ada field table untuk semua form.</li>
+    <li>Sequence diagram hanya mencakup 4 dari 16 use case yang terdefinisi di SRS.</li>
+  </ol>
+
+  <h3>Ringkasan Temuan Major SDD:</h3>
+  <table>
+    <tr><th>No</th><th>ID</th><th>Kriteria</th><th>Temuan</th></tr>
+    <tr><td>1</td><td>1a</td><td>System Architecture</td><td>Diagram arsitektur tidak disertakan langsung di dokumen (hanya referensi eksternal)</td></tr>
+    <tr><td>2</td><td>1b</td><td>System Architecture</td><td>Komponen sistem tidak divisualisasikan dalam diagram</td></tr>
+    <tr><td>3</td><td>1e</td><td>System Architecture</td><td>Konsistensi dengan dokumentasi arsitektur tidak dapat diverifikasi tanpa diagram</td></tr>
+    <tr><td>4</td><td>2b</td><td>Software Design</td><td>Sequence diagram hanya untuk 4 use case; 12+ use case lain tidak terdokumentasi</td></tr>
+    <tr><td>5</td><td>2c</td><td>Software Design</td><td>Class diagram disajikan dalam tabel, bukan diagram UML visual</td></tr>
+    <tr><td>6</td><td>2d</td><td>Software Design</td><td>Domain Kesiswaan, Profil, Dashboard tidak memiliki sequence diagram</td></tr>
+    <tr><td>7</td><td>2e</td><td>Software Design</td><td>Tidak ada function hierarchy diagram</td></tr>
+    <tr><td>8</td><td>2f</td><td>Software Design</td><td>Tidak ada stored procedure/trigger yang didokumentasikan</td></tr>
+    <tr><td>9</td><td>2h</td><td>Software Design</td><td>Tidak ada dekomposisi fungsional detail per method</td></tr>
+    <tr><td>10</td><td>2k</td><td>Software Design</td><td>Tidak ada DFD; sequence diagram tidak lengkap</td></tr>
+    <tr><td>11</td><td>2o</td><td>Software Design</td><td>Tidak ada diagram pertukaran informasi antar komponen</td></tr>
+    <tr><td>12</td><td>3b</td><td>Data Design</td><td>Kamus data hanya untuk 4 tabel dari 16</td></tr>
+    <tr><td>13</td><td>3e</td><td>Data Design</td><td>ERD tidak disertakan langsung di dokumen</td></tr>
+    <tr><td>14</td><td>3l</td><td>Data Design</td><td>Tidak ada penjelasan data transien (session, flash, temp file)</td></tr>
+    <tr><td>15</td><td>3o</td><td>Data Design</td><td>Tidak ada dokumentasi API endpoint /api/search</td></tr>
+    <tr><td>16</td><td>3r</td><td>Data Design</td><td>Tidak ada penjelasan transformasi data (hash, date conversion, CSV BOM)</td></tr>
+    <tr><td>17</td><td>4d</td><td>UI Design</td><td>Hierarki navigasi tidak divisualisasikan dalam diagram</td></tr>
+    <tr><td>18</td><td>4h</td><td>UI Design</td><td>Tidak ada screenshot atau mockup yang disertakan di dokumen</td></tr>
+    <tr><td>19</td><td>4n</td><td>UI Design</td><td>Tabel field hanya untuk 3 form; 8+ form lain tidak terdokumentasi</td></tr>
+    <tr><td>20</td><td>5c</td><td>Traceability</td><td>Beberapa elemen desain (getOrCreateTeacherId) tidak terhubung ke FR spesifik</td></tr>
+  </table>
+</div>
+
+<!-- ==================== PENUTUP + REKOMENDASI ==================== -->
+<div class="page page-break">
+  <h2>6. Penutup</h2>
+
+  <h3>6.1 Kesimpulan</h3>
+  <p>Berdasarkan hasil review yang telah dilakukan, Dokumen SRS dan SDD memiliki beberapa temuan major yang perlu ditindaklanjuti.</p>
+  <p>Pada <strong>Dokumen SRS</strong>, ditemukan 12 temuan major terkait ketidaklengkapan spesifikasi waktu tanggap per fitur, ketiadaan diagram use case langsung di dalam dokumen, inkonsistensi kedetailan antara modul, dan kurangnya RTM di dalam SRS itu sendiri. Namun secara keseluruhan, dokumen SRS telah mendefinisikan 39 FR dan 16 NFR dengan jelas beserta ID unik dan prioritas.</p>
+  <p>Pada <strong>Dokumen SDD</strong>, ditemukan 20 temuan major yang lebih signifikan. Kekurangan utama adalah: (1) tidak ada diagram visual yang disertakan langsung (arsitektur, class diagram UML, ERD, hierarki navigasi, mockup), (2) sequence diagram hanya untuk 4 use case dari 16, (3) kamus data hanya untuk 4 tabel dari 16, dan (4) tidak ada dokumentasi data transien dan API endpoint.</p>
+
+  <h3>6.2 Status Dokumen</h3>
+  <table>
+    <tr><th>Dokumen</th><th>% Temuan Major</th><th>Status</th><th>Justifikasi</th></tr>
+    <tr>
+      <td>SRS v1.0</td>
+      <td>25,0% (10/40)</td>
+      <td class="accepted">ACCEPTED</td>
+      <td>Di bawah ambang batas 30%. Dapat diterima dengan revisi minor — tambahkan diagram use case langsung, lengkapi spesifikasi waktu tanggap, dan buat RTM internal.</td>
+    </tr>
+    <tr>
+      <td>SDD v1.0</td>
+      <td>43,6% (17/39)</td>
+      <td class="rejected">REJECTED</td>
+      <td>Melebihi ambang batas 30%. Dokumen belum matang karena tidak ada diagram visual yang seharusnya menjadi inti dari SDD. Revisi besar diperlukan.</td>
+    </tr>
+  </table>
+
+  <h3>6.3 Rekomendasi</h3>
+  <ol>
+    <li><strong>SRS:</strong> Tambahkan diagram use case langsung (embed gambar), tentukan waktu tanggap per fitur spesifik, buat RTM internal di Bab 8 SRS, dan samakan kedetailan FR di semua modul.</li>
+    <li><strong>SDD:</strong> Sertakan diagram arsitektur sistem sebagai gambar (embed), buat class diagram UML menggunakan notasi standar, tambahkan sequence diagram untuk minimal 8 use case tambahan, sertakan ERD sebagai gambar langsung, dan lengkapi kamus data untuk semua 16 tabel.</li>
+    <li><strong>SDD:</strong> Tambahkan screenshot minimal 5 halaman utama aplikasi sebagai mockup, buat tabel field antarmuka untuk semua form (minimal 8 form penting), dan dokumentasikan hierarki navigasi dalam bentuk diagram flowchart.</li>
+    <li>Tetapkan batas waktu penyelesaian revisi: <strong>2 minggu</strong> dari tanggal review ini.</li>
+  </ol>
+
+  <h2>Daftar Perbaikan</h2>
+  <table>
+    <tr><th>No</th><th>Dokumen</th><th>Kriteria</th><th>Perbaikan</th><th>Due Date</th><th>PIC</th></tr>
+    <tr><td>1</td><td>SRS</td><td>Correct (1c,1d)</td><td>Tambahkan spesifikasi waktu tanggap per fitur dan throughput server</td><td>2 minggu</td><td>Ashabul Kahfi</td></tr>
+    <tr><td>2</td><td>SRS</td><td>Correct (1f)</td><td>Tentukan format data input (batas ukuran file, format tanggal yang diterima)</td><td>2 minggu</td><td>Muh. Eka Andri</td></tr>
+    <tr><td>3</td><td>SRS</td><td>Complete (3a,3b)</td><td>Tambahkan tabel atau diagram yang menunjukkan seluruh input dan output sistem</td><td>2 minggu</td><td>Marhepi Rahmadani</td></tr>
+    <tr><td>4</td><td>SRS</td><td>Complete (3i)</td><td>Sertakan gambar use case diagram langsung di dokumen SRS dengan caption</td><td>2 minggu</td><td>Afra Muawiya</td></tr>
+    <tr><td>5</td><td>SRS</td><td>Traceable (8b,8c)</td><td>Tambahkan RTM internal SRS dan cross-reference ke dokumen analisis sebelumnya</td><td>2 minggu</td><td>Alyah Saputri Bakri</td></tr>
+    <tr><td>6</td><td>SDD</td><td>System Architecture (1a,1b)</td><td>Sertakan diagram arsitektur (3-layer + 6 vCPU) sebagai gambar embed di SDD</td><td>2 minggu</td><td>Ashabul Kahfi</td></tr>
+    <tr><td>7</td><td>SDD</td><td>Software Design (2b,2d)</td><td>Buat sequence diagram untuk UC04 (Kelola Siswa), UC05 (Import CSV), UC15 (Profil), UC16 (Dashboard Siswa)</td><td>2 minggu</td><td>Marhepi Rahmadani</td></tr>
+    <tr><td>8</td><td>SDD</td><td>Software Design (2c)</td><td>Buat class diagram UML visual dengan notasi standar (kotak, garis, kardinalitas)</td><td>2 minggu</td><td>Marhepi Rahmadani</td></tr>
+    <tr><td>9</td><td>SDD</td><td>Data Design (3b)</td><td>Lengkapi kamus data untuk semua 16 tabel (terutama teachers, classes, teaching_journals)</td><td>2 minggu</td><td>Muh. Eka Andri</td></tr>
+    <tr><td>10</td><td>SDD</td><td>Data Design (3e)</td><td>Sertakan ERD sebagai gambar embed di dokumen SDD</td><td>2 minggu</td><td>Muh. Eka Andri</td></tr>
+    <tr><td>11</td><td>SDD</td><td>Data Design (3l,3r)</td><td>Tambahkan penjelasan data transien (session, flash) dan transformasi data (bcrypt, date, CSV)</td><td>2 minggu</td><td>Muh. Eka Andri</td></tr>
+    <tr><td>12</td><td>SDD</td><td>UI Design (4d)</td><td>Buat diagram/flowchart hierarki navigasi antar halaman</td><td>2 minggu</td><td>Afra Muawiya</td></tr>
+    <tr><td>13</td><td>SDD</td><td>UI Design (4h)</td><td>Tambahkan screenshot minimal 5 halaman: Login, Dashboard, Kesiswaan, BK, Absensi</td><td>2 minggu</td><td>Afra Muawiya</td></tr>
+    <tr><td>14</td><td>SDD</td><td>UI Design (4n)</td><td>Buat tabel field untuk semua form: Tambah User, Edit Siswa, Input Jurnal, Konseling, Pelanggaran, Prestasi, Profil, Ganti Password</td><td>2 minggu</td><td>Afra Muawiya</td></tr>
+    <tr><td>15</td><td>SDD</td><td>Data Design (3o)</td><td>Dokumentasikan API endpoint /api/search dengan format request/response JSON</td><td>2 minggu</td><td>Alyah Saputri Bakri</td></tr>
+  </table>
+
+  <p style="margin-top:30pt;text-align:center;color:#86868b;font-size:10pt;">
+    — Akhir Laporan Review SRS &amp; SDD —<br>
+    Web Sekolah Terintegrasi | Kelompok 5 RPL-A | Universitas Muhammadiyah Makassar | 2025/2026
+  </p>
+</div>
+
+</body>
+</html>
