@@ -113,16 +113,38 @@ router.post('/update/:id', isAuthenticated, allowRoles('admin'), async (req, res
 
 router.post('/delete/:id', isAuthenticated, allowRoles('admin'), async (req, res) => {
     try {
-        await pool.query('DELETE FROM students WHERE id = ?', [req.params.id]);
+        const studentId = req.params.id;
+
+        // Cek apakah siswa ada
+        const [check] = await pool.query('SELECT nis, full_name FROM students WHERE id = ?', [studentId]);
+        if (check.length === 0) {
+            req.flash('error', 'Data siswa tidak ditemukan');
+            return res.redirect('/kesiswaan');
+        }
+
+        // Hapus semua data terkait dulu (child tables) sebelum hapus siswa
+        // agar tidak melanggar FK constraint
+        await pool.query('DELETE FROM attendances WHERE student_id = ?', [studentId]);
+        await pool.query('DELETE FROM bk_cases WHERE student_id = ?', [studentId]);
+        await pool.query('DELETE FROM bk_counseling_notes WHERE student_id = ?', [studentId]);
+        await pool.query('DELETE FROM student_violations WHERE student_id = ?', [studentId]);
+        await pool.query('DELETE FROM student_achievements WHERE student_id = ?', [studentId]);
+
+        // Baru hapus siswa
+        await pool.query('DELETE FROM students WHERE id = ?', [studentId]);
+
         await pool.query(
             'INSERT INTO activity_logs (user_id, action, description, ip_address) VALUES (?, ?, ?, ?)',
-            [req.session.user.id, 'delete_student', `Menghapus siswa ID ${req.params.id}`, req.ip]
+            [req.session.user.id, 'delete_student',
+             `Menghapus siswa ${check[0].nis} - ${check[0].full_name} beserta seluruh data terkait`,
+             req.ip]
         );
-        req.flash('success', 'Data siswa berhasil dihapus');
+
+        req.flash('success', `Data siswa ${check[0].full_name} berhasil dihapus`);
         res.redirect('/kesiswaan');
     } catch (error) {
         console.error(error);
-        req.flash('error', 'Gagal menghapus data');
+        req.flash('error', 'Gagal menghapus data: ' + error.message);
         res.redirect('/kesiswaan');
     }
 });
